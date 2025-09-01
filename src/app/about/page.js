@@ -14,7 +14,7 @@ export default function AboutPage() {
               
               <p>
                 My work spans digital interfaces, generative systems, audio-visual installations, 
-                and custom creative tools. I'm particularly interested in how emerging technologies 
+                and custom creative tools. I&apos;m particularly interested in how emerging technologies 
                 can enhance rather than replace human creativity.
               </p>
               
