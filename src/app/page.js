@@ -7,11 +7,10 @@ export default function Home() {
       <section className="py-16 border-b border-studio-gray-200">
         <div className="max-w-4xl">
           <h1 className="text-4xl md:text-6xl font-bold mb-6 text-balance">
-            Creative studio for digital experiences, tools & research
+            extrasensory
           </h1>
           <p className="text-lg text-studio-gray-600 mb-8 max-w-2xl">
-            Exploring the intersection of technology and creativity through projects, 
-            custom tools, and experimental research.
+            works - tools - research
           </p>
           <div className="flex gap-4">
             <button className="btn-primary">View Projects</button>
