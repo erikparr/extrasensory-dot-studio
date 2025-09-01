@@ -1,26 +1,59 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  html {
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+  
+  body {
+    @apply bg-studio-white text-studio-black antialiased;
+  }
+  
+  * {
+    @apply border-studio-gray-200;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .nav-link {
+    @apply text-studio-black hover:text-studio-gray-600 transition-colors duration-200 font-medium;
+  }
+  
+  .nav-link.active {
+    @apply text-studio-black;
+  }
+  
+  .project-card {
+    @apply bg-studio-gray-50 border border-studio-gray-200 hover:border-studio-gray-300 transition-all duration-200 cursor-pointer;
+  }
+  
+  .project-card:hover {
+    @apply bg-studio-gray-100;
+  }
+  
+  .filter-button {
+    @apply px-3 py-1 text-sm border border-studio-gray-200 hover:border-studio-gray-300 transition-colors duration-200 cursor-pointer;
+  }
+  
+  .filter-button.active {
+    @apply bg-studio-black text-studio-white border-studio-black;
+  }
+  
+  .btn-primary {
+    @apply bg-studio-black text-studio-white px-6 py-2 hover:bg-studio-gray-800 transition-colors duration-200 font-medium;
+  }
+  
+  .btn-secondary {
+    @apply border border-studio-black text-studio-black px-6 py-2 hover:bg-studio-black hover:text-studio-white transition-all duration-200 font-medium;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }

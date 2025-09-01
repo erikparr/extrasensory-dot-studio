@@ -1,0 +1,116 @@
+(index):1  GET http://localhost:3000/ 500 (Internal Server Error)
+index.js:644 Uncaught ModuleBuildError: Module build failed (from ./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js):
+Error: Cannot find module 'autoprefixer'
+Require stack:
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/index.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack-config.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/router-server.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/start-server.js
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1212:15)
+    at /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/require-hook.js:57:36
+    at Function.resolve (node:internal/modules/helpers:193:19)
+    at loadPlugin (/Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:53:32)
+    at /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:56
+    at Array.map (<anonymous>)
+    at getPostCssPlugins (/Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:47)
+    at async /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/index.js:125:36
+    at async /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js:52:40
+    at async Span.traceAsyncFn (/Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/trace/trace.js:157:20)
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1212:15)
+    at /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/require-hook.js:57:36
+    at Function.resolve (node:internal/modules/helpers:193:19)
+    at loadPlugin (/Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:53:32)
+    at /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:56
+    at Array.map (<anonymous>)
+    at getPostCssPlugins (/Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:47)
+    at async /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/index.js:125:36
+    at async /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js:52:40
+    at async Span.traceAsyncFn (/Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/trace/trace.js:157:20)
+    at Module._resolveFilename (node:internal/modules/cjs/loader:1212:15)
+    at <unknown> (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/require-hook.js:57:36)
+    at Function.resolve (node:internal/modules/helpers:193:19)
+    at loadPlugin (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:53:32)
+    at <unknown> (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:56)
+    at Array.map (<anonymous>)
+    at getPostCssPlugins (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js:185:47)
+    at async (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/index.js:125:36)
+    at async (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js:52:40)
+    at async Span.traceAsyncFn (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/trace/trace.js:157:20)
+    at processResult (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/compiled/webpack/bundle5.js:29:407086)
+    at <unknown> (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/compiled/webpack/bundle5.js:29:408881)
+    at <unknown> (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js:1:8645)
+    at <unknown> (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js:1:5828)
+    at r.callback (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/compiled/loader-runner/LoaderRunner.js:1:4039)
+    at <unknown> (file:///Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js:122:37)
+getServerError @ node-stack-frames.js:41
+eval @ index.js:644
+setTimeout
+hydrate @ index.js:622
+await in hydrate
+pageBootstrap @ page-bootstrap.js:28
+eval @ next-dev.js:24
+Promise.then
+eval @ next-dev.js:22
+(pages-dir-browser)/./node_modules/next/dist/client/next-dev.js @ main.js:314
+options.factory @ webpack.js:1
+__webpack_require__ @ webpack.js:1
+__webpack_exec__ @ main.js:1612
+(anonymous) @ main.js:1613
+webpackJsonpCallback @ webpack.js:1
+(anonymous) @ main.js:9
+websocket.js:46 [HMR] connected
+hook.js:608 ./src/app/globals.css.webpack[javascript/auto]!=!./node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!./node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!./src/app/globals.css
+Error: Cannot find module 'autoprefixer'
+Require stack:
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/index.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack-config.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/router-server.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/start-server.js
+    at Array.map (<anonymous>)
+overrideMethod @ hook.js:608
+nextJsHandleConsoleError @ pages-dev-overlay-setup.js:77
+handleErrors @ hot-reloader-pages.js:164
+processMessage @ hot-reloader-pages.js:228
+eval @ hot-reloader-pages.js:72
+handleMessage @ websocket.js:69
+hook.js:608 ./src/app/globals.css
+Error: Cannot find module 'autoprefixer'
+Require stack:
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/index.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack-config.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/router-server.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/start-server.js
+    at Array.map (<anonymous>)
+-- inner error --
+Error: Cannot find module 'autoprefixer'
+Require stack:
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/plugins.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/blocks/css/index.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/config/index.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack-config.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/router-server.js
+- /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/server/lib/start-server.js
+    at Array.map (<anonymous>)
+Generated code for /Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/loaders/css-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[2]!/Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/node_modules/next/dist/build/webpack/loaders/postcss-loader/src/index.js??ruleSet[1].rules[14].oneOf[10].use[3]!/Users/erikparr/Documents/_Web/extrasensory-dot-studio/extrasensory-studio/src/app/globals.css
+overrideMethod @ hook.js:608
+nextJsHandleConsoleError @ pages-dev-overlay-setup.js:77
+handleErrors @ hot-reloader-pages.js:164
+processMessage @ hot-reloader-pages.js:228
+eval @ hot-reloader-pages.js:72
+handleMessage @ websocket.js:69
+index.js:1631 {file: {…}}
+favicon.ico:1  GET http://localhost:3000/favicon.ico 500 (Internal Server Error)
