@@ -1,51 +1,14 @@
+'use client'
+
 const mockProjects = [
   {
     id: 1,
-    title: "Interactive Sound Installation",
-    category: "Installation",
+    title: "MIDI WARP",
+    category: "Audio Plugin",
     year: "2024",
-    image: "/api/placeholder/400/300",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Generative Design Tool",
-    category: "Tool",
-    year: "2024",
-    image: "/api/placeholder/400/300",
-    featured: true
-  },
-  {
-    id: 3,
-    title: "Data Visualization Platform",
-    category: "Digital",
-    year: "2024",
-    image: "/api/placeholder/400/300",
-    featured: true
-  },
-  {
-    id: 4,
-    title: "Experimental Web Interface",
-    category: "Web",
-    year: "2023",
-    image: "/api/placeholder/400/300",
-    featured: false
-  },
-  {
-    id: 5,
-    title: "Audio Processing Plugin",
-    category: "Tool",
-    year: "2023",
-    image: "/api/placeholder/400/300",
-    featured: false
-  },
-  {
-    id: 6,
-    title: "Physical Computing Project",
-    category: "Physical",
-    year: "2023",
-    image: "/api/placeholder/400/300",
-    featured: false
+    image: "/MIDI_WARP_screenshot.png",
+    featured: true,
+    description: "Revolutionary MIDI effect plugin that transforms static MIDI controller input into dynamic, expressive musical performance using real-time physics simulation."
   }
 ]
 
@@ -65,9 +28,11 @@ export default function ProjectGrid({ featured = false, category = null }) {
       {projects.map((project) => (
         <div key={project.id} className="project-card group">
           <div className="aspect-[4/3] bg-studio-gray-200 mb-4 overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-br from-studio-gray-300 to-studio-gray-400 flex items-center justify-center">
-              <span className="text-studio-gray-600 text-sm">Image</span>
-            </div>
+            <img 
+              src={project.image} 
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
           </div>
           
           <div className="p-4">

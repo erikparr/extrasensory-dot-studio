@@ -1,0 +1,66 @@
+import { NextResponse } from 'next/server'
+import Stripe from 'stripe'
+import { getProduct } from '@/lib/products'
+import { validateCoupon, calculateDiscountedPrice } from '@/lib/coupons'
+
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: '2023-10-16',
+})
+
+export async function POST(request) {
+  try {
+    const { productId, couponCode } = await request.json()
+    
+    const product = getProduct(productId)
+    if (!product) {
+      return NextResponse.json(
+        { error: 'Product not found' },
+        { status: 404 }
+      )
+    }
+
+    // Apply coupon if provided
+    let finalPrice = product.price
+    let coupon = null
+    
+    if (couponCode) {
+      coupon = validateCoupon(couponCode)
+      if (coupon) {
+        finalPrice = calculateDiscountedPrice(product.price, coupon)
+      }
+    }
+
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: product.currency,
+            product_data: {
+              name: product.title,
+              description: product.description,
+              images: [`${process.env.NEXT_PUBLIC_APP_URL}${product.image}`],
+            },
+            unit_amount: finalPrice,
+          },
+          quantity: 1,
+        },
+      ],
+      mode: 'payment',
+      success_url: `${process.env.NEXT_PUBLIC_APP_URL}/success?session_id={CHECKOUT_SESSION_ID}&product_id=${productId}`,
+      cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/shop`,
+      metadata: {
+        productId: productId,
+        couponCode: couponCode || '',
+      },
+    })
+
+    return NextResponse.json({ url: session.url })
+  } catch (error) {
+    console.error('Stripe checkout error:', error)
+    return NextResponse.json(
+      { error: 'Failed to create checkout session' },
+      { status: 500 }
+    )
+  }
+}

@@ -13,7 +13,7 @@ export default function Home() {
             works - tools - research
           </p>
           <div className="flex gap-4">
-            <button className="btn-primary">View Projects</button>
+            <a href="/shop" className="btn-primary">Shop</a>
             <button className="btn-secondary">Get in Touch</button>
           </div>
         </div>
@@ -21,9 +21,8 @@ export default function Home() {
 
       {/* Featured Projects */}
       <section className="py-16">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-2xl font-semibold">Featured Projects</h2>
-          <a href="/projects" className="text-sm hover:underline">View all →</a>
+        <div className="mb-8">
+          <h2 className="text-2xl font-semibold">Featured Project</h2>
         </div>
         <ProjectGrid featured={true} />
       </section>

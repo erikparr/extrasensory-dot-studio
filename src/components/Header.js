@@ -8,11 +8,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   const navItems = [
-    { name: 'Projects', path: '/projects' },
-    { name: 'Tools', path: '/tools' },
-    { name: 'Research', path: '/research' },
-    { name: 'Shop', path: '/shop' },
-    { name: 'About', path: '/about' }
+    { name: 'Shop', path: '/shop' }
   ]
   
   return (
