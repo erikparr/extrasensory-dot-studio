@@ -67,7 +67,7 @@ export default function SuccessPage() {
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
               <div>
-                <h4 className="font-medium mb-2">What's Included:</h4>
+                <h4 className="font-medium mb-2">What&apos;s Included:</h4>
                 <ul className="text-studio-gray-600 space-y-1">
                   {product.files.map((file, index) => (
                     <li key={index}>• {file}</li>
@@ -107,7 +107,7 @@ export default function SuccessPage() {
         <h3 className="font-medium mb-3 text-blue-800">Installation Instructions</h3>
         <div className="text-sm text-blue-700 space-y-2">
           <p>1. Download and unzip the plugin package</p>
-          <p>2. Copy the plugin files to your DAW's plugin directory:</p>
+          <p>2. Copy the plugin files to your DAW&apos;s plugin directory:</p>
           <p className="pl-4">• VST3: <code className="bg-blue-100 px-2 py-1 rounded">/Library/Audio/Plug-Ins/VST3/</code></p>
           <p className="pl-4">• AU: <code className="bg-blue-100 px-2 py-1 rounded">/Library/Audio/Plug-Ins/Components/</code></p>
           <p>3. Restart your DAW and look for MIDI WARP in your MIDI effects</p>
