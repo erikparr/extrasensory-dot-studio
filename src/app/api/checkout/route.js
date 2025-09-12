@@ -3,9 +3,14 @@ import Stripe from 'stripe'
 import { getProduct } from '@/lib/products'
 import { validateCoupon, calculateDiscountedPrice } from '@/lib/coupons'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-})
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not set')
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2023-10-16',
+  })
+}
 
 export async function POST(request) {
   try {
@@ -30,6 +35,7 @@ export async function POST(request) {
       }
     }
 
+    const stripe = getStripe()
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [

@@ -4,9 +4,14 @@ import path from 'path'
 import Stripe from 'stripe'
 import { getProduct } from '@/lib/products'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-  apiVersion: '2023-10-16',
-})
+function getStripe() {
+  if (!process.env.STRIPE_SECRET_KEY) {
+    throw new Error('STRIPE_SECRET_KEY is not set')
+  }
+  return new Stripe(process.env.STRIPE_SECRET_KEY, {
+    apiVersion: '2023-10-16',
+  })
+}
 
 export async function GET(request) {
   try {
@@ -27,6 +32,7 @@ export async function GET(request) {
       console.log('Processing free download for product:', productId)
     } else {
       // Verify the Stripe session for paid downloads
+      const stripe = getStripe()
       const session = await stripe.checkout.sessions.retrieve(sessionId)
       
       if (session.payment_status !== 'paid') {
