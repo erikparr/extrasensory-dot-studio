@@ -101,7 +101,9 @@ class DubinsLogo {
             seed: config.seed || null,
             strokeWidth: config.strokeWidth || 2,
             circleColor: config.circleColor || '#000000',
-            pathColor: config.pathColor || '#ffffff'
+            pathColor: config.pathColor || '#ffffff',
+            cornerRadius: config.cornerRadius !== undefined ? config.cornerRadius : 0.35,
+            useCurves: config.useCurves !== undefined ? config.useCurves : true
         };
 
         this.canvasSize = this.config.circleRadius * 2 + 100;
@@ -122,6 +124,35 @@ class DubinsLogo {
         return distance <= this.config.circleRadius;
     }
 
+    getCellConnections(row, col) {
+        if (!this.maze || !this.maze.grid[row] || !this.maze.grid[row][col]) {
+            return { N: false, E: false, S: false, W: false };
+        }
+
+        const cell = this.maze.grid[row][col];
+        return {
+            N: !cell.N,
+            E: !cell.E,
+            S: !cell.S,
+            W: !cell.W
+        };
+    }
+
+    calculateArcCenter(corner, dir1, dir2, radius) {
+        // dir1 and dir2 are direction vectors, e.g., {x: 0, y: -1} for North
+        return {
+            x: corner.x + dir1.x * radius + dir2.x * radius,
+            y: corner.y + dir1.y * radius + dir2.y * radius
+        };
+    }
+
+    calculateTangentPoint(corner, direction, radius) {
+        return {
+            x: corner.x + direction.x * radius,
+            y: corner.y + direction.y * radius
+        };
+    }
+
     generateMaze() {
         this.maze = new MazeGenerator(
             this.config.gridResolution,
@@ -132,6 +163,140 @@ class DubinsLogo {
     }
 
     renderMaze() {
+        if (!this.config.useCurves) {
+            this.renderMazeStraight();
+            return;
+        }
+
+        this.path = [];
+        const radius = this.cellSize * this.config.cornerRadius;
+
+        // Pass 1: Add corner arcs for each cell (once per cell)
+        for (let row = 0; row < this.config.gridResolution; row++) {
+            for (let col = 0; col < this.config.gridResolution; col++) {
+                if (!this.isInCircle(row, col)) continue;
+
+                const connections = this.getCellConnections(row, col);
+                const world = this.cellToWorld(row, col);
+
+                this.addCornerArcsForCell(world, connections, radius);
+            }
+        }
+
+        // Pass 2: Add connecting lines between cells
+        for (let row = 0; row < this.config.gridResolution; row++) {
+            for (let col = 0; col < this.config.gridResolution; col++) {
+                if (!this.isInCircle(row, col)) continue;
+
+                const cell = this.maze.grid[row][col];
+                const world = this.cellToWorld(row, col);
+                const conn = this.getCellConnections(row, col);
+
+                // Draw East connection
+                if (!cell.E && col < this.config.gridResolution - 1 && this.isInCircle(row, col + 1)) {
+                    const neighborWorld = this.cellToWorld(row, col + 1);
+                    const neighborConn = this.getCellConnections(row, col + 1);
+
+                    let x1 = world.x;
+                    let x2 = neighborWorld.x;
+
+                    // Adjust for corners at source cell
+                    if (this.hasCurveInDirection(conn, 'E')) {
+                        x1 += radius;
+                    }
+                    // Adjust for corners at destination cell
+                    if (this.hasCurveInDirection(neighborConn, 'W')) {
+                        x2 -= radius;
+                    }
+
+                    this.path.push({
+                        type: 'line',
+                        x1: x1,
+                        y1: world.y,
+                        x2: x2,
+                        y2: neighborWorld.y
+                    });
+                }
+
+                // Draw South connection
+                if (!cell.S && row < this.config.gridResolution - 1 && this.isInCircle(row + 1, col)) {
+                    const neighborWorld = this.cellToWorld(row + 1, col);
+                    const neighborConn = this.getCellConnections(row + 1, col);
+
+                    let y1 = world.y;
+                    let y2 = neighborWorld.y;
+
+                    // Adjust for corners at source cell
+                    if (this.hasCurveInDirection(conn, 'S')) {
+                        y1 += radius;
+                    }
+                    // Adjust for corners at destination cell
+                    if (this.hasCurveInDirection(neighborConn, 'N')) {
+                        y2 -= radius;
+                    }
+
+                    this.path.push({
+                        type: 'line',
+                        x1: world.x,
+                        y1: y1,
+                        x2: neighborWorld.x,
+                        y2: y2
+                    });
+                }
+            }
+        }
+    }
+
+    hasCurveInDirection(connections, direction) {
+        // Check if there's a curve when exiting in this direction
+        const count = Object.values(connections).filter(Boolean).length;
+
+        // No curve for dead ends or straight corridors
+        if (count < 2) return false;
+        if (count === 2 && this.isOppositeConnections(connections)) return false;
+
+        // Check if the direction is connected (has an opening)
+        if (!connections[direction]) return false;
+
+        // There's a curve if we have this direction plus at least one perpendicular
+        const perpendicular = {
+            'N': ['E', 'W'],
+            'S': ['E', 'W'],
+            'E': ['N', 'S'],
+            'W': ['N', 'S']
+        };
+
+        return perpendicular[direction].some(dir => connections[dir]);
+    }
+
+    addCornerArcsForCell(center, connections, radius) {
+        const count = Object.values(connections).filter(Boolean).length;
+        if (count < 2) return;
+        if (count === 2 && this.isOppositeConnections(connections)) return;
+
+        const dirVectors = {
+            N: { x: 0, y: -1 },
+            E: { x: 1, y: 0 },
+            S: { x: 0, y: 1 },
+            W: { x: -1, y: 0 }
+        };
+
+        // Find all corner combinations and add arcs
+        if (connections.N && connections.E) {
+            this.addCornerArc(center, 'N', 'E', radius, dirVectors);
+        }
+        if (connections.E && connections.S) {
+            this.addCornerArc(center, 'E', 'S', radius, dirVectors);
+        }
+        if (connections.S && connections.W) {
+            this.addCornerArc(center, 'S', 'W', radius, dirVectors);
+        }
+        if (connections.W && connections.N) {
+            this.addCornerArc(center, 'W', 'N', radius, dirVectors);
+        }
+    }
+
+    renderMazeStraight() {
         this.path = [];
 
         for (let row = 0; row < this.config.gridResolution; row++) {
@@ -170,6 +335,43 @@ class DubinsLogo {
         }
     }
 
+    isOppositeConnections(connections) {
+        return (connections.N && connections.S && !connections.E && !connections.W) ||
+               (connections.E && connections.W && !connections.N && !connections.S);
+    }
+
+    addCornerArc(center, dir1, dir2, radius, dirVectors) {
+        const v1 = dirVectors[dir1];
+        const v2 = dirVectors[dir2];
+
+        // For convex corners, tangent points are on the incoming/outgoing paths
+        // They are offset FROM the center in each direction by the radius
+        const tangent1 = this.calculateTangentPoint(center, v1, radius);
+        const tangent2 = this.calculateTangentPoint(center, v2, radius);
+
+        // For convex (outward) corners, we need to reverse the sweep direction
+        // The arc should bulge away from the cell center
+        // Counter-clockwise transitions for outward curves:
+        const clockwiseTransitions = {
+            'N': { 'E': 0, 'W': 1 },  // N->E is counter-clockwise (outer curve)
+            'E': { 'S': 0, 'N': 1 },  // E->S is counter-clockwise (outer curve)
+            'S': { 'W': 0, 'E': 1 },  // S->W is counter-clockwise (outer curve)
+            'W': { 'N': 0, 'S': 1 }   // W->N is counter-clockwise (outer curve)
+        };
+
+        const sweep = clockwiseTransitions[dir1]?.[dir2] ?? 0;
+
+        this.path.push({
+            type: 'arc',
+            x1: tangent1.x,
+            y1: tangent1.y,
+            x2: tangent2.x,
+            y2: tangent2.y,
+            radius: radius,
+            sweep: sweep
+        });
+    }
+
     generate() {
         this.generateMaze();
         this.renderMaze();
@@ -181,6 +383,7 @@ class DubinsLogo {
         const centerY = height / 2;
 
         let pathData = '';
+        let currentPos = null;
 
         for (const segment of this.path) {
             const x1 = centerX + segment.x1;
@@ -188,7 +391,24 @@ class DubinsLogo {
             const x2 = centerX + segment.x2;
             const y2 = centerY + segment.y2;
 
-            pathData += `M ${x1} ${y1} L ${x2} ${y2} `;
+            if (segment.type === 'line') {
+                // Move to start if needed, then line to end
+                if (!currentPos || currentPos.x !== x1 || currentPos.y !== y1) {
+                    pathData += `M ${x1} ${y1} `;
+                }
+                pathData += `L ${x2} ${y2} `;
+                currentPos = { x: x2, y: y2 };
+            } else if (segment.type === 'arc') {
+                // Move to start if needed
+                if (!currentPos || currentPos.x !== x1 || currentPos.y !== y1) {
+                    pathData += `M ${x1} ${y1} `;
+                }
+                // SVG arc: A rx ry rotation large-arc-flag sweep-flag x y
+                // For 90-degree arcs, large-arc-flag = 0
+                const sweep = segment.sweep !== undefined ? segment.sweep : 1;
+                pathData += `A ${segment.radius} ${segment.radius} 0 0 ${sweep} ${x2} ${y2} `;
+                currentPos = { x: x2, y: y2 };
+            }
         }
 
         const svg = `

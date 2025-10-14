@@ -5,6 +5,8 @@ function updateConfig() {
     currentConfig = {
         circleRadius: parseFloat(document.getElementById('radius').value),
         gridResolution: parseInt(document.getElementById('gridResolution').value),
+        cornerRadius: parseFloat(document.getElementById('cornerRadius').value),
+        useCurves: document.getElementById('useCurves').checked,
         branchStrategy: 'random',
         seed: document.getElementById('seed').value ? parseInt(document.getElementById('seed').value) : null,
         strokeWidth: 2,
@@ -16,6 +18,7 @@ function updateConfig() {
 function updateValueDisplays() {
     document.getElementById('radius-val').textContent = document.getElementById('radius').value;
     document.getElementById('grid-val').textContent = document.getElementById('gridResolution').value;
+    document.getElementById('corner-val').textContent = document.getElementById('cornerRadius').value;
 }
 
 function generateLogo() {
@@ -45,13 +48,17 @@ function downloadSVG() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const controls = ['radius', 'gridResolution'];
+    const controls = ['radius', 'gridResolution', 'cornerRadius'];
     controls.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('input', () => {
             updateValueDisplays();
             generateLogo();
         });
+    });
+
+    document.getElementById('useCurves').addEventListener('change', () => {
+        generateLogo();
     });
 
     document.getElementById('generate').addEventListener('click', () => {
