@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dubins Curve Logo Generator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #fff;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+        }
+
+        .canvas-area {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        #svg-container {
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .controls {
+            width: 320px;
+            background: #1a1a1a;
+            padding: 30px;
+            overflow-y: auto;
+            border-left: 1px solid #333;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        .control-group {
+            margin-bottom: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #aaa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 4px;
+            background: #333;
+            outline: none;
+            border-radius: 2px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        input[type="number"] {
+            width: 100%;
+            padding: 8px 12px;
+            background: #0a0a0a;
+            border: 1px solid #333;
+            color: #fff;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .value-display {
+            display: inline-block;
+            float: right;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #fff;
+            color: #0a0a0a;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #e0e0e0;
+        }
+
+        button.secondary {
+            background: #333;
+            color: #fff;
+        }
+
+        button.secondary:hover {
+            background: #444;
+        }
+
+        .divider {
+            height: 1px;
+            background: #333;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="canvas-area">
+            <div id="svg-container"></div>
+        </div>
+
+        <div class="controls">
+            <h1>Dubins Logo</h1>
+
+            <div class="control-group">
+                <label>Circle Radius <span class="value-display" id="radius-val">200</span></label>
+                <input type="range" id="radius" min="100" max="400" value="200" step="10">
+            </div>
+
+            <div class="control-group">
+                <label>Grid Resolution <span class="value-display" id="grid-val">16</span></label>
+                <input type="range" id="gridResolution" min="4" max="32" value="16" step="2">
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="control-group">
+                <label>Random Seed</label>
+                <input type="number" id="seed" value="">
+                <small style="color: #666; font-size: 11px; display: block; margin-top: 4px;">Leave empty for random</small>
+            </div>
+
+            <button id="generate">Generate New</button>
+            <button class="secondary" id="download">Download SVG</button>
+        </div>
+    </div>
+
+    <script src="dubins-logo.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
