@@ -378,36 +378,113 @@ class DubinsLogo {
         return this.path;
     }
 
+    buildContinuousPaths() {
+        // Build adjacency graph of segments
+        const graph = new Map();
+        const segments = [...this.path];
+
+        // Helper to create point key
+        const pointKey = (x, y) => `${x.toFixed(3)},${y.toFixed(3)}`;
+
+        // Add each segment to the graph
+        segments.forEach((seg, idx) => {
+            const start = pointKey(seg.x1, seg.y1);
+            const end = pointKey(seg.x2, seg.y2);
+
+            if (!graph.has(start)) graph.set(start, []);
+            if (!graph.has(end)) graph.set(end, []);
+
+            graph.get(start).push({ segmentIdx: idx, fromStart: true });
+            graph.get(end).push({ segmentIdx: idx, fromStart: false });
+        });
+
+        // Trace continuous paths using DFS
+        const visited = new Set();
+        const continuousPaths = [];
+
+        for (let i = 0; i < segments.length; i++) {
+            if (visited.has(i)) continue;
+
+            const path = this.tracePath(i, segments, graph, visited, pointKey);
+            if (path.length > 0) {
+                continuousPaths.push(path);
+            }
+        }
+
+        return continuousPaths;
+    }
+
+    tracePath(startIdx, segments, graph, visited, pointKey) {
+        const path = [];
+        let currentIdx = startIdx;
+        let currentSeg = segments[currentIdx];
+        let currentEnd = pointKey(currentSeg.x2, currentSeg.y2);
+
+        // Add first segment
+        visited.add(currentIdx);
+        path.push({ segment: currentSeg, reverse: false });
+
+        // Follow connected segments
+        while (true) {
+            const neighbors = graph.get(currentEnd) || [];
+            const nextEdge = neighbors.find(edge => !visited.has(edge.segmentIdx));
+
+            if (!nextEdge) break;
+
+            const nextSeg = segments[nextEdge.segmentIdx];
+            visited.add(nextEdge.segmentIdx);
+
+            // Determine if we need to reverse the segment direction
+            const nextStart = pointKey(nextSeg.x1, nextSeg.y1);
+            const nextEnd = pointKey(nextSeg.x2, nextSeg.y2);
+
+            if (nextStart === currentEnd) {
+                // Segment is in correct direction
+                path.push({ segment: nextSeg, reverse: false });
+                currentEnd = nextEnd;
+            } else if (nextEnd === currentEnd) {
+                // Need to reverse segment
+                path.push({ segment: nextSeg, reverse: true });
+                currentEnd = nextStart;
+            } else {
+                break; // No connection
+            }
+        }
+
+        return path;
+    }
+
     toSVG(width = 500, height = 500) {
         const centerX = width / 2;
         const centerY = height / 2;
 
         let pathData = '';
-        let currentPos = null;
 
-        for (const segment of this.path) {
-            const x1 = centerX + segment.x1;
-            const y1 = centerY + segment.y1;
-            const x2 = centerX + segment.x2;
-            const y2 = centerY + segment.y2;
+        // Build continuous paths
+        const continuousPaths = this.buildContinuousPaths();
 
-            if (segment.type === 'line') {
-                // Move to start if needed, then line to end
-                if (!currentPos || currentPos.x !== x1 || currentPos.y !== y1) {
+        // Generate SVG path data for each continuous path
+        for (const path of continuousPaths) {
+            let isFirst = true;
+
+            for (const { segment, reverse } of path) {
+                const x1 = centerX + (reverse ? segment.x2 : segment.x1);
+                const y1 = centerY + (reverse ? segment.y2 : segment.y1);
+                const x2 = centerX + (reverse ? segment.x1 : segment.x2);
+                const y2 = centerY + (reverse ? segment.y1 : segment.y2);
+
+                if (isFirst) {
+                    // Start of new subpath
                     pathData += `M ${x1} ${y1} `;
+                    isFirst = false;
                 }
-                pathData += `L ${x2} ${y2} `;
-                currentPos = { x: x2, y: y2 };
-            } else if (segment.type === 'arc') {
-                // Move to start if needed
-                if (!currentPos || currentPos.x !== x1 || currentPos.y !== y1) {
-                    pathData += `M ${x1} ${y1} `;
+
+                if (segment.type === 'line') {
+                    pathData += `L ${x2} ${y2} `;
+                } else if (segment.type === 'arc') {
+                    const sweep = reverse ? (1 - segment.sweep) : segment.sweep;
+                    pathData += `A ${segment.radius} ${segment.radius} 0 0 ${sweep} ${x2} ${y2} `;
                 }
-                // SVG arc: A rx ry rotation large-arc-flag sweep-flag x y
-                // For 90-degree arcs, large-arc-flag = 0
-                const sweep = segment.sweep !== undefined ? segment.sweep : 1;
-                pathData += `A ${segment.radius} ${segment.radius} 0 0 ${sweep} ${x2} ${y2} `;
-                currentPos = { x: x2, y: y2 };
             }
         }
 
