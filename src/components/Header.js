@@ -8,6 +8,7 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   const navItems = [
+    { name: 'About', path: '/about' },
     { name: 'Shop', path: '/shop' }
   ]
   
@@ -15,8 +16,14 @@ export default function Header() {
     <header className="fixed top-0 w-full bg-studio-white border-b border-studio-gray-200 z-50">
       <div className="max-w-9xl mx-auto px-6 py-4">
         <nav className="flex items-center justify-between">
-          <Link href="/" className="text-xl font-semibold text-studio-accent">
-            extrasensory.studio
+          <Link href="/" className="flex items-center gap-4">
+            <img
+              src="/logo.svg"
+              alt="extrasensory.studio logo"
+              className="w-16 h-16"
+              style={{ filter: 'drop-shadow(0 0 8px rgba(204, 255, 0, 0.6))' }}
+            />
+            <span className="text-3xl font-semibold text-studio-accent">extrasensory.studio</span>
           </Link>
           
           {/* Desktop Navigation */}
