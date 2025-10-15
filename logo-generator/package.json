@@ -4,7 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "optimize-svg": "svgo -i ./output/ -o ./optimized/ --config=svgo.config.js",
+    "optimize": "svgo --config=svgo.config.js"
   },
   "keywords": [],
   "author": "",
@@ -12,5 +14,8 @@
   "type": "commonjs",
   "dependencies": {
     "mazes": "^2.0.3"
+  },
+  "devDependencies": {
+    "svgo": "^4.0.0"
   }
 }
