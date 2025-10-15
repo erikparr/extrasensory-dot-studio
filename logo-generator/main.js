@@ -6,12 +6,12 @@ function updateConfig() {
         circleRadius: parseFloat(document.getElementById('radius').value),
         gridResolution: parseInt(document.getElementById('gridResolution').value),
         cornerRadius: parseFloat(document.getElementById('cornerRadius').value),
+        strokeWidth: parseFloat(document.getElementById('strokeWidth').value),
         useCurves: document.getElementById('useCurves').checked,
         branchStrategy: 'random',
         seed: document.getElementById('seed').value ? parseInt(document.getElementById('seed').value) : null,
-        strokeWidth: 2,
-        circleColor: '#000000',
-        pathColor: '#ffffff'
+        circleColor: document.getElementById('circleColor').value,
+        pathColor: document.getElementById('pathColor').value
     };
 }
 
@@ -19,6 +19,7 @@ function updateValueDisplays() {
     document.getElementById('radius-val').textContent = document.getElementById('radius').value;
     document.getElementById('grid-val').textContent = document.getElementById('gridResolution').value;
     document.getElementById('corner-val').textContent = document.getElementById('cornerRadius').value;
+    document.getElementById('stroke-val').textContent = document.getElementById('strokeWidth').value;
 }
 
 function generateLogo() {
@@ -48,11 +49,19 @@ function downloadSVG() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    const controls = ['radius', 'gridResolution', 'cornerRadius'];
+    const controls = ['radius', 'gridResolution', 'cornerRadius', 'strokeWidth'];
     controls.forEach(id => {
         const element = document.getElementById(id);
         element.addEventListener('input', () => {
             updateValueDisplays();
+            generateLogo();
+        });
+    });
+
+    const colorControls = ['circleColor', 'pathColor'];
+    colorControls.forEach(id => {
+        const element = document.getElementById(id);
+        element.addEventListener('input', () => {
             generateLogo();
         });
     });
