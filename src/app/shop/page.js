@@ -155,19 +155,19 @@ function ProductCard({ product }) {
 }
 
 export default function ShopPage() {
+  const product = products[0] // VEX is the only product
+
   return (
     <div className="max-w-9xl mx-auto px-6 py-16">
-      <div className="mb-12">
-        <h1 className="text-4xl font-bold mb-4">Tools</h1>
-        <p className="text-lg text-studio-gray-600 max-w-2xl">
-          Digital tools.
+      <div className="mb-12 text-center">
+        <h1 className="text-4xl font-bold mb-4">VEX Expressive MIDI</h1>
+        <p className="text-lg text-studio-gray-600 max-w-2xl mx-auto">
+          Professional MIDI effect plugin for macOS, Windows & Linux
         </p>
       </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+
+      <div className="max-w-xl mx-auto">
+        {product && <ProductCard product={product} />}
       </div>
       
       <div className="mt-16 pt-12 border-t border-studio-gray-200">
