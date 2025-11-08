@@ -18,11 +18,21 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url)
     const sessionId = searchParams.get('session_id')
     const productId = searchParams.get('product_id')
+    const platform = searchParams.get('platform') || 'macos' // Default to macOS for backwards compatibility
     const isFree = searchParams.get('free') === 'true'
 
     if (!sessionId || !productId) {
       return NextResponse.json(
         { error: 'Missing session_id or product_id' },
+        { status: 400 }
+      )
+    }
+
+    // Validate platform
+    const validPlatforms = ['macos', 'windows', 'linux']
+    if (!validPlatforms.includes(platform)) {
+      return NextResponse.json(
+        { error: 'Invalid platform. Must be macos, windows, or linux' },
         { status: 400 }
       )
     }
@@ -59,8 +69,19 @@ export async function GET(request) {
       )
     }
 
+    // Get platform-specific download file
+    let downloadFile
+    if (product.downloads && product.downloads[platform]) {
+      downloadFile = product.downloads[platform].file
+      console.log(`Serving ${platform} download: ${downloadFile}`)
+    } else {
+      // Fallback to legacy single download if no platform-specific downloads
+      downloadFile = product.downloadFile
+      console.log(`Using legacy download: ${downloadFile}`)
+    }
+
     // Construct file path
-    const filePath = path.join(process.cwd(), '..', 'distribution', product.downloadFile)
+    const filePath = path.join(process.cwd(), '..', 'distribution', downloadFile)
     
     try {
       // Check if file exists
@@ -72,7 +93,7 @@ export async function GET(request) {
       // Set headers for file download
       const response = new NextResponse(fileBuffer)
       response.headers.set('Content-Type', 'application/zip')
-      response.headers.set('Content-Disposition', `attachment; filename="${product.downloadFile}"`)
+      response.headers.set('Content-Disposition', `attachment; filename="${downloadFile}"`)
       response.headers.set('Content-Length', fileBuffer.length.toString())
       
       return response

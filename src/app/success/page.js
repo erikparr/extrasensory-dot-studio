@@ -10,6 +10,7 @@ function SuccessContent() {
   const sessionId = searchParams.get('session_id')
   const productId = searchParams.get('product_id')
   const [product, setProduct] = useState(null)
+  const [selectedPlatform, setSelectedPlatform] = useState('macos') // Default platform
 
   useEffect(() => {
     if (productId) {
@@ -30,7 +31,19 @@ function SuccessContent() {
     )
   }
 
-  const downloadUrl = `/api/download?session_id=${sessionId}&product_id=${productId}`
+  const downloadUrl = `/api/download?session_id=${sessionId}&product_id=${productId}&platform=${selectedPlatform}`
+
+  // Get platform-specific download info
+  const platformInfo = product.downloads ? product.downloads[selectedPlatform] : null
+  const downloadSize = platformInfo ? platformInfo.size : product.downloadSize
+  const availableFormats = platformInfo ? platformInfo.formats.join(', ') : 'VST3, AU'
+
+  // Platform metadata for UI
+  const platforms = [
+    { id: 'macos', label: 'macOS', icon: '🍎' },
+    { id: 'windows', label: 'Windows', icon: '🪟' },
+    { id: 'linux', label: 'Linux', icon: '🐧' }
+  ]
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
@@ -88,6 +101,34 @@ function SuccessContent() {
         </div>
       </div>
 
+      {/* Platform Selection */}
+      <div className="mb-8">
+        <h3 className="text-lg font-semibold text-center mb-4">Select Your Platform</h3>
+        <div className="flex justify-center gap-3 mb-6">
+          {platforms.map((platform) => (
+            <button
+              key={platform.id}
+              onClick={() => setSelectedPlatform(platform.id)}
+              className={`flex flex-col items-center gap-2 px-6 py-4 rounded-lg border-2 transition-all ${
+                selectedPlatform === platform.id
+                  ? 'border-green-600 bg-green-50'
+                  : 'border-studio-gray-300 hover:border-studio-gray-400'
+              }`}
+            >
+              <span className="text-3xl">{platform.icon}</span>
+              <span className="font-medium">{platform.label}</span>
+            </button>
+          ))}
+        </div>
+
+        {/* Platform-specific info */}
+        {platformInfo && (
+          <div className="text-center text-sm text-studio-gray-600 mb-4">
+            <p>Formats: <strong>{availableFormats}</strong> • Size: <strong>{downloadSize}</strong></p>
+          </div>
+        )}
+      </div>
+
       <div className="text-center mb-8">
         <a
           href={downloadUrl}
@@ -96,7 +137,7 @@ function SuccessContent() {
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
           </svg>
-          Download {product.title} ({product.downloadSize})
+          Download for {platforms.find(p => p.id === selectedPlatform)?.label} ({downloadSize})
         </a>
         <p className="text-sm text-studio-gray-600 mt-2">
           Download link is valid indefinitely. Keep this page bookmarked for future downloads.
@@ -104,14 +145,35 @@ function SuccessContent() {
       </div>
 
       <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-        <h3 className="font-medium mb-3 text-blue-800">Installation Instructions</h3>
+        <h3 className="font-medium mb-3 text-blue-800">Installation Instructions for {platforms.find(p => p.id === selectedPlatform)?.label}</h3>
         <div className="text-sm text-blue-700 space-y-2">
           <p>1. Download and unzip the plugin package</p>
           <p>2. Copy the plugin files to your DAW&apos;s plugin directory:</p>
-          <p className="pl-4">• VST3: <code className="bg-blue-100 px-2 py-1 rounded">/Library/Audio/Plug-Ins/VST3/</code></p>
-          <p className="pl-4">• AU: <code className="bg-blue-100 px-2 py-1 rounded">/Library/Audio/Plug-Ins/Components/</code></p>
-          <p>3. Restart your DAW and look for MIDI WARP in your MIDI effects</p>
-          <p>4. Refer to the included User Manual for detailed usage instructions</p>
+
+          {selectedPlatform === 'macos' && (
+            <>
+              <p className="pl-4">• VST3: <code className="bg-blue-100 px-2 py-1 rounded">/Library/Audio/Plug-Ins/VST3/</code></p>
+              <p className="pl-4">• AU: <code className="bg-blue-100 px-2 py-1 rounded">/Library/Audio/Plug-Ins/Components/</code></p>
+              <p>3. If you see a security warning, go to System Preferences → Security & Privacy and allow the plugin</p>
+            </>
+          )}
+
+          {selectedPlatform === 'windows' && (
+            <>
+              <p className="pl-4">• VST3: <code className="bg-blue-100 px-2 py-1 rounded">C:\Program Files\Common Files\VST3\</code></p>
+              <p>3. If Windows Defender blocks the plugin, add an exception for the .vst3 file</p>
+            </>
+          )}
+
+          {selectedPlatform === 'linux' && (
+            <>
+              <p className="pl-4">• VST3: <code className="bg-blue-100 px-2 py-1 rounded">~/.vst3/</code> or <code className="bg-blue-100 px-2 py-1 rounded">/usr/lib/vst3/</code></p>
+              <p>3. Ensure the .vst3 file has executable permissions: <code className="bg-blue-100 px-2 py-1 rounded">chmod +x *.vst3</code></p>
+            </>
+          )}
+
+          <p>{selectedPlatform === 'macos' ? '4' : '4'}. Restart your DAW and look for VEX MIDI EXPRESSION in your MIDI effects</p>
+          <p>{selectedPlatform === 'macos' ? '5' : '5'}. Refer to the included User Manual for detailed usage instructions</p>
         </div>
       </div>
 
