@@ -1,7 +1,7 @@
 export const PRODUCTS = {
   'midi-warp': {
     id: 'midi-warp',
-    title: 'MIDI WARP',
+    title: 'VEX Expressive MIDI',
     price: 3000, // $30.00 in cents
     currency: 'usd',
     category: 'Audio Plugin',
@@ -23,9 +23,9 @@ export const PRODUCTS = {
 • Sound design and creative MIDI manipulation
 
 **Compatibility:**
-• macOS 10.13+ (Intel & Apple Silicon)
-• VST3: Cubase, Ableton Live, FL Studio, Reaper, etc.
-• AU: Logic Pro, GarageBand, MainStage
+• macOS 10.13+ (Intel & Apple Silicon) & Windows 10+
+• VST3: Cubase, Ableton Live, FL Studio, Reaper, Bitwig, etc.
+• AU: Logic Pro, GarageBand, MainStage (macOS only)
 • Works with any MIDI CC source`,
     
     features: [
@@ -33,7 +33,7 @@ export const PRODUCTS = {
       'Real-time bouncing ball simulation',
       'Up to 8 simultaneous CC mappings',
       'VST3 and AU plugin formats',
-      'macOS optimized (Intel & Apple Silicon)',
+      'Cross-platform: macOS & Windows',
       'Sub-10ms processing latency',
       'Background processing capability',
       'Comprehensive user manual included'
@@ -44,10 +44,10 @@ export const PRODUCTS = {
     downloadSize: '3.3 MB',
     
     systemRequirements: {
-      os: 'macOS 10.13 or later',
-      architecture: 'Intel or Apple Silicon',
-      formats: 'VST3, AU',
-      daws: 'Logic Pro, Ableton Live, Cubase, Pro Tools, FL Studio, Reaper, and more'
+      os: 'macOS 10.13+ / Windows 10+',
+      architecture: 'Intel, Apple Silicon, x64',
+      formats: 'VST3, AU (macOS only)',
+      daws: 'Logic Pro, Ableton Live, Cubase, Pro Tools, FL Studio, Reaper, Bitwig, and more'
     },
     
     files: [
