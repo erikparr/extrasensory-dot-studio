@@ -1,8 +1,68 @@
 'use client'
 import Link from 'next/link'
+import { useState } from 'react'
 import ValueIndicator from '@/components/ValueIndicator'
+import { getProduct } from '@/lib/products'
+import { validateCoupon, calculateDiscountedPrice } from '@/lib/coupons'
 
 export default function VexPage() {
+  const product = getProduct('midi-warp')
+  const [couponCode, setCouponCode] = useState('')
+  const [appliedCoupon, setAppliedCoupon] = useState(null)
+  const [couponError, setCouponError] = useState('')
+
+  const handleApplyCoupon = () => {
+    if (!couponCode) return
+
+    const coupon = validateCoupon(couponCode)
+    if (coupon) {
+      setAppliedCoupon(coupon)
+      setCouponError('')
+    } else {
+      setCouponError('Invalid coupon code')
+      setAppliedCoupon(null)
+    }
+  }
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null)
+    setCouponCode('')
+    setCouponError('')
+  }
+
+  const finalPrice = calculateDiscountedPrice(product.price, appliedCoupon)
+  const isFree = finalPrice === 0
+
+  const handlePurchase = async () => {
+    try {
+      if (isFree) {
+        const fakeSessionId = 'free_' + Date.now()
+        window.location.href = `/success?session_id=${fakeSessionId}&product_id=${product.id}&coupon=${appliedCoupon?.code || ''}&free=true`
+        return
+      }
+
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          productId: product.id,
+          couponCode: appliedCoupon?.code,
+        }),
+      })
+
+      const { url } = await response.json()
+
+      if (url) {
+        window.location.href = url
+      }
+    } catch (error) {
+      console.error('Error:', error)
+      alert('Something went wrong. Please try again.')
+    }
+  }
+
   // Create flowing wave effect: each bar progressively phase-shifted
   // Phase offset in radians (2π = full cycle)
   const phaseStep = (2 * Math.PI) / 10 // Divide full circle by 10 bars
@@ -98,9 +158,17 @@ export default function VexPage() {
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="/shop" className="btn-primary">
+          <a
+            href="#purchase"
+            className="btn-primary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center'
+            }}
+          >
             Get VEX
-          </Link>
+          </a>
           <a
             href="#features"
             className="btn-secondary"
@@ -204,26 +272,127 @@ export default function VexPage() {
         </div>
       </div>
 
-      {/* CTA Section */}
-      <div className="text-center px-6 py-24 border-t" style={{ borderColor: '#2a2a2a' }}>
+      {/* Purchase Section */}
+      <div id="purchase" className="max-w-2xl mx-auto px-6 py-24 border-t" style={{ borderColor: '#2a2a2a' }}>
         <h2 style={{
           fontSize: '32px',
           fontWeight: '700',
           color: '#ffffff',
-          marginBottom: '16px'
+          marginBottom: '16px',
+          textAlign: 'center'
         }}>
-          Ready to transform your MIDI?
+          Get VEX
         </h2>
-        <p style={{
-          fontSize: '16px',
-          color: '#999999',
-          marginBottom: '32px'
+
+        <div style={{
+          backgroundColor: '#1a1a1a',
+          border: '1px solid #2a2a2a',
+          borderRadius: '8px',
+          padding: '32px',
+          marginTop: '32px'
         }}>
-          Available now for $30
-        </p>
-        <Link href="/shop" className="btn-primary" style={{ fontSize: '18px' }}>
-          Purchase VEX
-        </Link>
+          <div style={{ marginBottom: '24px', textAlign: 'center' }}>
+            {appliedCoupon && finalPrice !== product.price && (
+              <div style={{ fontSize: '18px', color: '#999999', textDecoration: 'line-through', marginBottom: '8px' }}>
+                ${(product.price / 100).toFixed(2)}
+              </div>
+            )}
+            <div style={{ fontSize: '48px', fontWeight: '700', color: '#CCFF00' }}>
+              {isFree ? 'FREE' : `$${(finalPrice / 100).toFixed(2)}`}
+            </div>
+            <div style={{ fontSize: '14px', color: '#666666', marginTop: '8px' }}>
+              Cross-platform • VST3 & AU
+            </div>
+          </div>
+
+          {/* Coupon Code Section */}
+          <div style={{ marginBottom: '24px' }}>
+            {!appliedCoupon ? (
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <input
+                  type="text"
+                  placeholder="Have a coupon code?"
+                  value={couponCode}
+                  onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                  style={{
+                    flex: 1,
+                    padding: '12px 16px',
+                    fontSize: '14px',
+                    color: '#ffffff',
+                    backgroundColor: '#0a0a0a',
+                    border: '1px solid #2a2a2a',
+                    borderRadius: '4px',
+                    outline: 'none'
+                  }}
+                />
+                <button
+                  onClick={handleApplyCoupon}
+                  style={{
+                    padding: '12px 24px',
+                    fontSize: '14px',
+                    backgroundColor: '#2a2a2a',
+                    color: '#ffffff',
+                    border: 'none',
+                    borderRadius: '4px',
+                    cursor: 'pointer',
+                    whiteSpace: 'nowrap'
+                  }}
+                >
+                  Apply
+                </button>
+              </div>
+            ) : (
+              <div style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                backgroundColor: 'rgba(204, 255, 0, 0.1)',
+                border: '1px solid #CCFF00',
+                borderRadius: '4px',
+                padding: '12px 16px'
+              }}>
+                <span style={{ fontSize: '14px', color: '#CCFF00' }}>
+                  {appliedCoupon.code} - {appliedCoupon.description}
+                </span>
+                <button
+                  onClick={handleRemoveCoupon}
+                  style={{
+                    fontSize: '14px',
+                    color: '#CCFF00',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer'
+                  }}
+                >
+                  Remove
+                </button>
+              </div>
+            )}
+            {couponError && (
+              <p style={{ fontSize: '14px', color: '#ff4444', marginTop: '8px' }}>{couponError}</p>
+            )}
+          </div>
+
+          <button
+            onClick={handlePurchase}
+            style={{
+              width: '100%',
+              padding: '16px',
+              fontSize: '18px',
+              fontWeight: '600',
+              color: '#000000',
+              backgroundColor: '#CCFF00',
+              border: 'none',
+              borderRadius: '4px',
+              cursor: 'pointer',
+              transition: 'all 0.2s'
+            }}
+            onMouseOver={(e) => e.target.style.backgroundColor = '#b8e600'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#CCFF00'}
+          >
+            {isFree ? 'Download Free' : 'Purchase VEX'}
+          </button>
+        </div>
       </div>
     </div>
   )
