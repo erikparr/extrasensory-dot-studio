@@ -108,10 +108,10 @@ export default function RequestDownloadPage() {
           <div className="mt-8 pt-8 border-t border-studio-gray-300">
             <h3 className="font-medium mb-3">What happens next?</h3>
             <ul className="text-sm text-studio-gray-600 space-y-2">
-              <li>• We'll look up your purchases using this email address</li>
-              <li>• If found, you'll receive an email with a download link</li>
+              <li>• We&apos;ll look up your purchases using this email address</li>
+              <li>• If found, you&apos;ll receive an email with a download link</li>
               <li>• The download link will be valid for 30 days</li>
-              <li>• Check your spam folder if you don't see the email</li>
+              <li>• Check your spam folder if you don&apos;t see the email</li>
             </ul>
           </div>
 
