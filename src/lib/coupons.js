@@ -1,9 +1,9 @@
 export const COUPONS = {
-  'DOGGYSTYLE': {
-    code: 'DOGGYSTYLE', 
+  'GODMODE': {
+    code: 'GODMODE', 
     discount: 100, // 100% off
     type: 'percent',
-    description: 'Free for my doggs',
+    description: 'welcome to valhalla',
     active: true
   }
 }
