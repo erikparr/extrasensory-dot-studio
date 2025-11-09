@@ -1,6 +1,4 @@
 import { NextResponse } from 'next/server'
-import { promises as fs } from 'fs'
-import path from 'path'
 import Stripe from 'stripe'
 import { getProduct } from '@/lib/products'
 import { verifyDownloadToken } from '@/lib/downloadTokens'
@@ -21,7 +19,6 @@ export async function GET(request) {
     const sessionId = searchParams.get('session_id') // Legacy session-based auth
     const productId = searchParams.get('product_id')
     const platform = searchParams.get('platform') || 'macos' // Default to macOS for backwards compatibility
-    const isFree = searchParams.get('free') === 'true'
 
     if (!productId) {
       return NextResponse.json(
@@ -66,8 +63,8 @@ export async function GET(request) {
       }
 
       console.log('Token-based download for:', tokenData.customerEmail, productId)
-    } else if (isFree && sessionId.startsWith('free_')) {
-      // Handle free downloads (with coupon codes)
+    } else if (sessionId && sessionId.startsWith('free_')) {
+      // Handle free downloads (session_id starts with free_)
       console.log('Processing free download for product:', productId)
     } else {
       // Legacy session-based verification
@@ -111,30 +108,14 @@ export async function GET(request) {
       console.log(`Using legacy download: ${downloadFile}`)
     }
 
-    // Construct file path
-    const filePath = path.join(process.cwd(), '..', 'distribution', downloadFile)
-    
-    try {
-      // Check if file exists
-      await fs.access(filePath)
-      
-      // Read the file
-      const fileBuffer = await fs.readFile(filePath)
-      
-      // Set headers for file download
-      const response = new NextResponse(fileBuffer)
-      response.headers.set('Content-Type', 'application/zip')
-      response.headers.set('Content-Disposition', `attachment; filename="${downloadFile}"`)
-      response.headers.set('Content-Length', fileBuffer.length.toString())
-      
-      return response
-    } catch (fileError) {
-      console.error('File access error:', fileError)
-      return NextResponse.json(
-        { error: 'File not found' },
-        { status: 404 }
-      )
-    }
+    // Construct Blob URL - files are stored in Vercel Blob
+    const blobBaseUrl = 'https://hz2kxeiamjgndsso.public.blob.vercel-storage.com'
+    const blobUrl = `${blobBaseUrl}/${downloadFile}`
+
+    console.log(`Redirecting to blob URL: ${blobUrl}`)
+
+    // Redirect to the Blob URL
+    return NextResponse.redirect(blobUrl)
 
   } catch (error) {
     console.error('Download error:', error)
