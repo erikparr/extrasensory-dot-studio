@@ -124,6 +124,17 @@ export default function ValueIndicator({
                 shapeRendering="auto"
               />
             </pattern>
+            {/* Clip path for rounded rectangle */}
+            <clipPath id={`rounded-clip-${label}`}>
+              <rect
+                x="0"
+                y="0"
+                width="30"
+                height={height}
+                rx="15"
+                ry="15"
+              />
+            </clipPath>
           </defs>
           <rect
             x="0"
@@ -131,6 +142,7 @@ export default function ValueIndicator({
             width="30"
             height={height}
             fill={`url(#grid-pattern-${label})`}
+            clipPath={`url(#rounded-clip-${label})`}
           />
         </svg>
 
