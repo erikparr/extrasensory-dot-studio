@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
+import { Resend } from 'resend'
+import { generateDownloadToken, createSuccessPageUrl } from '@/lib/downloadTokens'
+import { generatePurchaseEmail } from '@/lib/emails/purchaseConfirmation'
+import { getProduct } from '@/lib/products'
 
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -11,6 +15,14 @@ function getStripe() {
 }
 
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
+
+function getResend() {
+  if (!process.env.RESEND_API_KEY) {
+    console.warn('RESEND_API_KEY is not set - emails will not be sent')
+    return null
+  }
+  return new Resend(process.env.RESEND_API_KEY)
+}
 
 export async function POST(request) {
   const body = await request.text()
@@ -33,17 +45,69 @@ export async function POST(request) {
   switch (event.type) {
     case 'checkout.session.completed':
       const session = event.data.object
-      
+
       console.log('Payment successful for session:', session.id)
       console.log('Product:', session.metadata.productId)
       console.log('Customer email:', session.customer_details?.email)
-      
-      // Here you could:
-      // - Send confirmation email
-      // - Update database with purchase record
-      // - Track analytics
-      // - Generate license keys
-      
+
+      // Get product and customer info
+      const productId = session.metadata.productId
+      const customerEmail = session.customer_details?.email
+      const product = getProduct(productId)
+
+      if (!product) {
+        console.error('Product not found:', productId)
+        break
+      }
+
+      if (!customerEmail) {
+        console.error('No customer email found in session:', session.id)
+        break
+      }
+
+      try {
+        // Generate download token
+        const downloadToken = await generateDownloadToken(
+          session.id,
+          productId,
+          customerEmail
+        )
+
+        // Create success page URL with token
+        const successPageUrl = createSuccessPageUrl(downloadToken, productId)
+
+        // Generate email
+        const emailContent = generatePurchaseEmail({
+          customerEmail,
+          product,
+          downloadToken,
+          successPageUrl
+        })
+
+        // Send email via Resend
+        const resend = getResend()
+        if (resend) {
+          const { data, error } = await resend.emails.send({
+            from: 'Extrasensory Studio <downloads@extrasensory.studio>',
+            to: customerEmail,
+            subject: emailContent.subject,
+            html: emailContent.html,
+            text: emailContent.text
+          })
+
+          if (error) {
+            console.error('Error sending email:', error)
+          } else {
+            console.log('Purchase confirmation email sent:', data.id)
+          }
+        } else {
+          console.log('Resend not configured - skipping email')
+          console.log('Download URL:', successPageUrl)
+        }
+      } catch (error) {
+        console.error('Error processing checkout completion:', error)
+      }
+
       break
 
     case 'payment_intent.payment_failed':

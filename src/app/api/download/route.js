@@ -3,6 +3,7 @@ import { promises as fs } from 'fs'
 import path from 'path'
 import Stripe from 'stripe'
 import { getProduct } from '@/lib/products'
+import { verifyDownloadToken } from '@/lib/downloadTokens'
 
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -16,14 +17,22 @@ function getStripe() {
 export async function GET(request) {
   try {
     const { searchParams } = new URL(request.url)
-    const sessionId = searchParams.get('session_id')
+    const token = searchParams.get('token') // New token-based auth
+    const sessionId = searchParams.get('session_id') // Legacy session-based auth
     const productId = searchParams.get('product_id')
     const platform = searchParams.get('platform') || 'macos' // Default to macOS for backwards compatibility
     const isFree = searchParams.get('free') === 'true'
 
-    if (!sessionId || !productId) {
+    if (!productId) {
       return NextResponse.json(
-        { error: 'Missing session_id or product_id' },
+        { error: 'Missing product_id' },
+        { status: 400 }
+      )
+    }
+
+    if (!token && !sessionId) {
+      return NextResponse.json(
+        { error: 'Missing token or session_id' },
         { status: 400 }
       )
     }
@@ -37,14 +46,34 @@ export async function GET(request) {
       )
     }
 
-    // Handle free downloads (with coupon codes)
-    if (isFree && sessionId.startsWith('free_')) {
+    // Verify download authorization
+    if (token) {
+      // New token-based verification
+      const tokenData = await verifyDownloadToken(token)
+
+      if (!tokenData) {
+        return NextResponse.json(
+          { error: 'Invalid or expired download token' },
+          { status: 403 }
+        )
+      }
+
+      if (tokenData.productId !== productId) {
+        return NextResponse.json(
+          { error: 'Product mismatch' },
+          { status: 403 }
+        )
+      }
+
+      console.log('Token-based download for:', tokenData.customerEmail, productId)
+    } else if (isFree && sessionId.startsWith('free_')) {
+      // Handle free downloads (with coupon codes)
       console.log('Processing free download for product:', productId)
     } else {
-      // Verify the Stripe session for paid downloads
+      // Legacy session-based verification
       const stripe = getStripe()
       const session = await stripe.checkout.sessions.retrieve(sessionId)
-      
+
       if (session.payment_status !== 'paid') {
         return NextResponse.json(
           { error: 'Payment not completed' },
@@ -58,6 +87,8 @@ export async function GET(request) {
           { status: 403 }
         )
       }
+
+      console.log('Session-based download for:', session.id, productId)
     }
 
     // Get product info

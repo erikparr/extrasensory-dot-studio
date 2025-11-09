@@ -7,7 +7,8 @@ import { getProduct } from '@/lib/products'
 
 function SuccessContent() {
   const searchParams = useSearchParams()
-  const sessionId = searchParams.get('session_id')
+  const token = searchParams.get('token') // New token-based access
+  const sessionId = searchParams.get('session_id') // Legacy session-based access
   const productId = searchParams.get('product_id')
   const [product, setProduct] = useState(null)
   const [selectedPlatform, setSelectedPlatform] = useState('macos') // Default platform
@@ -19,7 +20,7 @@ function SuccessContent() {
     }
   }, [productId])
 
-  if (!sessionId || !productId || !product) {
+  if ((!token && !sessionId) || !productId || !product) {
     return (
       <div className="max-w-4xl mx-auto px-6 py-16 text-center">
         <h1 className="text-3xl font-bold mb-4">Invalid Purchase</h1>
@@ -31,7 +32,10 @@ function SuccessContent() {
     )
   }
 
-  const downloadUrl = `/api/download?session_id=${sessionId}&product_id=${productId}&platform=${selectedPlatform}`
+  // Build download URL with token (preferred) or session_id (legacy)
+  const downloadUrl = token
+    ? `/api/download?token=${token}&product_id=${productId}&platform=${selectedPlatform}`
+    : `/api/download?session_id=${sessionId}&product_id=${productId}&platform=${selectedPlatform}`
 
   // Get platform-specific download info
   const platformInfo = product.downloads ? product.downloads[selectedPlatform] : null
@@ -40,16 +44,16 @@ function SuccessContent() {
 
   // Platform metadata for UI
   const platforms = [
-    { id: 'macos', label: 'macOS', icon: '🍎' },
-    { id: 'windows', label: 'Windows', icon: '🪟' },
-    { id: 'linux', label: 'Linux', icon: '🐧' }
+    { id: 'macos', label: 'macOS' },
+    { id: 'windows', label: 'Windows' },
+    { id: 'linux', label: 'Linux' }
   ]
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-16">
       <div className="text-center mb-12">
-        <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6">
-          <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6" style={{backgroundColor: '#ccff00'}}>
+          <svg className="w-8 h-8 text-black" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -109,14 +113,14 @@ function SuccessContent() {
             <button
               key={platform.id}
               onClick={() => setSelectedPlatform(platform.id)}
-              className={`flex flex-col items-center gap-2 px-6 py-4 rounded-lg border-2 transition-all ${
+              className={`px-6 py-3 rounded-lg border-2 transition-all font-medium ${
                 selectedPlatform === platform.id
-                  ? 'border-green-600 bg-green-50'
-                  : 'border-studio-gray-300 hover:border-studio-gray-400'
+                  ? 'text-black'
+                  : 'border-studio-gray-300 hover:border-studio-gray-400 bg-white text-black'
               }`}
+              style={selectedPlatform === platform.id ? {backgroundColor: '#ccff00', borderColor: '#ccff00'} : {}}
             >
-              <span className="text-3xl">{platform.icon}</span>
-              <span className="font-medium">{platform.label}</span>
+              {platform.label}
             </button>
           ))}
         </div>
@@ -132,7 +136,10 @@ function SuccessContent() {
       <div className="text-center mb-8">
         <a
           href={downloadUrl}
-          className="inline-flex items-center gap-2 bg-green-600 text-white px-8 py-4 rounded-lg font-medium hover:bg-green-700 transition-colors"
+          className="inline-flex items-center gap-2 text-black px-8 py-4 rounded-lg font-medium transition-colors"
+          style={{backgroundColor: '#ccff00'}}
+          onMouseEnter={(e) => e.target.style.backgroundColor = '#b8e600'}
+          onMouseLeave={(e) => e.target.style.backgroundColor = '#ccff00'}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
