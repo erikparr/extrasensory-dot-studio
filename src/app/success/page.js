@@ -151,31 +151,31 @@ function SuccessContent() {
         </p>
       </div>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-        <h3 className="font-medium mb-3 text-blue-800">Installation Instructions for {platforms.find(p => p.id === selectedPlatform)?.label}</h3>
-        <div className="text-sm text-blue-700 space-y-2">
+      <div className="bg-studio-gray-100 border border-studio-gray-300 rounded-lg p-6 mb-8">
+        <h3 className="font-medium mb-3 text-studio-black">Installation Instructions for {platforms.find(p => p.id === selectedPlatform)?.label}</h3>
+        <div className="text-sm text-studio-gray-700 space-y-2">
           <p>1. Download and unzip the plugin package</p>
           <p>2. Copy the plugin files to your DAW&apos;s plugin directory:</p>
 
           {selectedPlatform === 'macos' && (
             <>
-              <p className="pl-4">• VST3: <code className="bg-blue-100 px-2 py-1 rounded">/Library/Audio/Plug-Ins/VST3/</code></p>
-              <p className="pl-4">• AU: <code className="bg-blue-100 px-2 py-1 rounded">/Library/Audio/Plug-Ins/Components/</code></p>
+              <p className="pl-4">• VST3: <code className="bg-studio-gray-200 px-2 py-1 rounded">/Library/Audio/Plug-Ins/VST3/</code></p>
+              <p className="pl-4">• AU: <code className="bg-studio-gray-200 px-2 py-1 rounded">/Library/Audio/Plug-Ins/Components/</code></p>
               <p>3. If you see a security warning, go to System Preferences → Security & Privacy and allow the plugin</p>
             </>
           )}
 
           {selectedPlatform === 'windows' && (
             <>
-              <p className="pl-4">• VST3: <code className="bg-blue-100 px-2 py-1 rounded">C:\Program Files\Common Files\VST3\</code></p>
+              <p className="pl-4">• VST3: <code className="bg-studio-gray-200 px-2 py-1 rounded">C:\Program Files\Common Files\VST3\</code></p>
               <p>3. If Windows Defender blocks the plugin, add an exception for the .vst3 file</p>
             </>
           )}
 
           {selectedPlatform === 'linux' && (
             <>
-              <p className="pl-4">• VST3: <code className="bg-blue-100 px-2 py-1 rounded">~/.vst3/</code> or <code className="bg-blue-100 px-2 py-1 rounded">/usr/lib/vst3/</code></p>
-              <p>3. Ensure the .vst3 file has executable permissions: <code className="bg-blue-100 px-2 py-1 rounded">chmod +x *.vst3</code></p>
+              <p className="pl-4">• VST3: <code className="bg-studio-gray-200 px-2 py-1 rounded">~/.vst3/</code> or <code className="bg-studio-gray-200 px-2 py-1 rounded">/usr/lib/vst3/</code></p>
+              <p>3. Ensure the .vst3 file has executable permissions: <code className="bg-studio-gray-200 px-2 py-1 rounded">chmod +x *.vst3</code></p>
             </>
           )}
 
