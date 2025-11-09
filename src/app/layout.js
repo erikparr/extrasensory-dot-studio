@@ -1,5 +1,6 @@
 import "./globals.css";
 import Layout from '../components/Layout'
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata = {
   title: "extrasensory.studio",
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <Layout>
           {children}
         </Layout>
+        <Analytics />
       </body>
     </html>
   );
