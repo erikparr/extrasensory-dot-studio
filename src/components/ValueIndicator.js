@@ -97,14 +97,15 @@ export default function ValueIndicator({
         <svg
           style={{
             position: 'absolute',
-            top: '-20px',
+            top: 0,
             left: 0,
             width: '100%',
-            height: 'calc(100% + 40px)',
+            height: '100%',
             pointerEvents: 'none',
             zIndex: 0
           }}
-          viewBox={`0 0 30 ${height + 40}`}
+          viewBox={`0 0 30 ${height}`}
+          preserveAspectRatio="none"
         >
           <defs>
             <pattern
@@ -124,25 +125,13 @@ export default function ValueIndicator({
                 shapeRendering="auto"
               />
             </pattern>
-            {/* Clip path for rounded rectangle */}
-            <clipPath id={`rounded-clip-${label}`}>
-              <rect
-                x="0"
-                y="20"
-                width="30"
-                height={height}
-                rx="15"
-                ry="15"
-              />
-            </clipPath>
           </defs>
           <rect
-            x="0"
-            y="0"
-            width="30"
-            height={height + 40}
+            x="-5"
+            y="-5"
+            width="40"
+            height={height + 10}
             fill={`url(#grid-pattern-${label})`}
-            clipPath={`url(#rounded-clip-${label})`}
           />
         </svg>
 
