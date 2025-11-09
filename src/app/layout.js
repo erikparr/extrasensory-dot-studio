@@ -3,7 +3,13 @@ import Layout from '../components/Layout'
 
 export const metadata = {
   title: "extrasensory.studio",
-  description: "Creative studio for projects, tools, research & digital experiences",
+  description: "digital tools for artists",
+  icons: {
+    icon: [
+      { url: '/favicon.svg', type: 'image/svg+xml' },
+    ],
+    apple: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({ children }) {
