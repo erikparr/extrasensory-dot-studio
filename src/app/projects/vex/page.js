@@ -111,14 +111,28 @@ export default function VexPage() {
       </div>
 
       {/* Description Section */}
-      <div className="max-w-2xl mx-auto px-6 py-16 text-center">
-        <p style={{
-          fontSize: '18px',
-          color: '#999999',
-          lineHeight: '1.75',
-          marginBottom: '32px'
+      <div className="max-w-3xl mx-auto px-6 py-16 text-center">
+        <h2 style={{
+          fontSize: 'clamp(28px, 5vw, 36px)',
+          fontWeight: '500',
+          lineHeight: '1.3',
+          letterSpacing: '-0.01em',
+          color: '#ffffff',
+          marginBottom: '24px'
         }}>
           VEX transforms any MIDI device into an interactive control instrument.
+        </h2>
+
+        <p style={{
+          fontSize: 'clamp(16px, 2.5vw, 18px)',
+          color: '#aaaaaa',
+          lineHeight: '1.7',
+          marginBottom: '40px',
+          maxWidth: '700px',
+          marginLeft: 'auto',
+          marginRight: 'auto'
+        }}>
+          A real-time physics engine for MIDI expression. Transform static controller movements into organic, bouncing, and elastic motion. Add gravity, springs, dynamic curves, and jitter to any MIDI CC—bringing natural momentum and life to your music production and live performances.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -261,7 +275,7 @@ export default function VexPage() {
                 $25
               </div>
               <div style={{ fontSize: '24px', color: '#999999', textDecoration: 'line-through' }}>
-                $35
+                $30
               </div>
             </div>
             <div style={{ fontSize: '14px', color: '#666666' }}>
