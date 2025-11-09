@@ -16,21 +16,21 @@ export default function Header() {
     <header className="fixed top-0 w-full bg-studio-white border-b border-studio-gray-200 z-50">
       <div className="max-w-9xl mx-auto px-6 py-4">
         <nav className="flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2 md:gap-6">
             <img
               src="/logo.svg"
               alt="extrasensory logo"
-              className="w-20 h-20"
+              className="w-12 h-12 md:w-20 md:h-20"
               style={{ filter: 'drop-shadow(0 0 8px rgba(204, 255, 0, 0.6))' }}
             />
             <span
               className="font-semibold text-studio-accent leading-none mallanna-text"
               style={{
-                fontSize: '4rem',
+                fontSize: 'clamp(1.5rem, 5vw, 4rem)',
                 letterSpacing: '0.01em',
                 fontDisplay: 'swap',
                 transform: 'scaleX(1.1)',
-                margin: '-5px 0 0 40px'
+                marginLeft: 'clamp(0px, 2vw, 40px)'
               }}
             >
               extrasensory
