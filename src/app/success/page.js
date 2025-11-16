@@ -65,16 +65,16 @@ function SuccessContent() {
 
       <div className="bg-studio-gray-100 rounded-lg p-8 mb-8">
         <div className="flex items-start gap-6">
-          <img 
-            src={product.image} 
+          <img
+            src={product.image}
             alt={product.title}
             className="w-32 h-32 object-cover rounded-lg"
             onError={(e) => {
               e.target.style.display = 'none'
-              e.target.nextSibling.style.display = 'block'
+              e.target.nextSibling.style.display = 'flex'
             }}
           />
-          <div className="hidden w-32 h-32 bg-studio-gray-300 rounded-lg flex items-center justify-center">
+          <div className="w-32 h-32 bg-studio-gray-300 rounded-lg flex items-center justify-center" style={{ display: 'none' }}>
             <span className="text-studio-gray-500 text-sm">Image</span>
           </div>
           
