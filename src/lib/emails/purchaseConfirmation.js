@@ -5,9 +5,10 @@
  * @param {object} params.product - Product data
  * @param {string} params.downloadToken - Download token
  * @param {string} params.successPageUrl - Success page URL
+ * @param {string} params.licenseKey - License key for activation
  * @returns {object} - Email subject and HTML body
  */
-export function generatePurchaseEmail({ customerEmail, product, downloadToken, successPageUrl }) {
+export function generatePurchaseEmail({ customerEmail, product, downloadToken, successPageUrl, licenseKey }) {
   const subject = `Your ${product.title} Download is Ready!`
 
   const html = `
@@ -70,6 +71,35 @@ export function generatePurchaseEmail({ customerEmail, product, downloadToken, s
                   </td>
                 </tr>
               </table>
+
+              <!-- LICENSE KEY SECTION -->
+              <div style="background-color: #f0fdf4; border: 2px solid #22c55e; padding: 24px; border-radius: 8px; text-align: center; margin-bottom: 30px;">
+                <h3 style="margin: 0 0 12px; color: #166534; font-size: 18px; font-weight: 700;">
+                  🔑 Your License Key
+                </h3>
+                <div style="background-color: white; padding: 16px; border-radius: 4px; margin: 16px 0;">
+                  <code style="font-size: 24px; font-weight: 700; color: #22c55e; letter-spacing: 2px; font-family: 'Courier New', monospace;">
+                    ${licenseKey}
+                  </code>
+                </div>
+                <p style="margin: 0; color: #166534; font-size: 14px;">
+                  Copy this key to activate your plugin after installation
+                </p>
+              </div>
+
+              <!-- ACTIVATION INSTRUCTIONS -->
+              <div style="background-color: #eff6ff; border-left: 4px solid #3b82f6; padding: 16px; border-radius: 4px; margin-bottom: 30px;">
+                <h3 style="margin: 0 0 12px; color: #1e40af; font-size: 16px; font-weight: 600;">
+                  How to Activate Your License
+                </h3>
+                <ol style="margin: 0; padding-left: 20px; color: #1e3a8a; font-size: 14px; line-height: 1.8;">
+                  <li>Download and install the plugin (see download button below)</li>
+                  <li>Open VEX MIDI EXPRESSION in your DAW</li>
+                  <li>Click "Activate License" in the trial banner</li>
+                  <li>Paste your license key: <strong>${licenseKey}</strong></li>
+                  <li>Click "Activate" - you're done!</li>
+                </ol>
+              </div>
 
               <!-- CTA Button -->
               <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 30px;">
@@ -174,6 +204,18 @@ Thank You for Your Purchase!
 
 Your purchase of ${product.title} was successful!
 
+🔑 YOUR LICENSE KEY
+${licenseKey}
+
+IMPORTANT: Save this license key! You'll need it to activate the plugin after installation.
+
+How to Activate Your License:
+1. Download and install the plugin (see download link below)
+2. Open VEX MIDI EXPRESSION in your DAW
+3. Click "Activate License" in the trial banner
+4. Paste your license key: ${licenseKey}
+5. Click "Activate" - you're done!
+
 Download your plugin here:
 ${successPageUrl}
 
@@ -186,6 +228,7 @@ Quick Installation Guide:
 Important Information:
 - Your download link is valid for 30 days
 - Save this email or bookmark the download page
+- Your license key never expires
 - Need to re-download? Visit your download page or contact support
 
 Need Help?

@@ -73,6 +73,15 @@ export async function POST(request) {
           customerEmail
         )
 
+        // Generate license key
+        const { generateLicenseKey, storeLicense } = await import('@/lib/licenseKeys')
+        const licenseKey = generateLicenseKey()
+
+        // Store license in KV
+        await storeLicense(licenseKey, session.id, productId, customerEmail)
+
+        console.log('License key generated and stored:', licenseKey)
+
         // Create success page URL with token
         const successPageUrl = createSuccessPageUrl(downloadToken, productId)
 
@@ -81,7 +90,8 @@ export async function POST(request) {
           customerEmail,
           product,
           downloadToken,
-          successPageUrl
+          successPageUrl,
+          licenseKey
         })
 
         // Send email via Resend

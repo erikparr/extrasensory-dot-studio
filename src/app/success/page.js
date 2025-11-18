@@ -12,13 +12,40 @@ function SuccessContent() {
   const productId = searchParams.get('product_id')
   const [product, setProduct] = useState(null)
   const [selectedPlatform, setSelectedPlatform] = useState('macos') // Default platform
+  const [licenseKey, setLicenseKey] = useState(null)
+  const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     if (productId) {
       const productData = getProduct(productId)
       setProduct(productData)
     }
-  }, [productId])
+
+    // Fetch license key if token is available
+    async function fetchLicenseKey() {
+      if (token) {
+        try {
+          const res = await fetch(`/api/get-license?token=${token}`)
+          if (res.ok) {
+            const data = await res.json()
+            setLicenseKey(data.licenseKey)
+          } else {
+            console.error('Failed to fetch license key:', await res.text())
+          }
+        } catch (error) {
+          console.error('Error fetching license key:', error)
+        }
+      }
+    }
+
+    fetchLicenseKey()
+  }, [productId, token])
+
+  const copyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }
 
   if ((!token && !sessionId) || !productId || !product) {
     return (
@@ -104,6 +131,41 @@ function SuccessContent() {
           </div>
         </div>
       </div>
+
+      {/* LICENSE KEY CARD */}
+      {licenseKey && (
+        <div className="bg-green-50 border-2 border-green-500 rounded-lg p-6 mb-8 text-center">
+          <h3 className="text-xl font-bold text-green-900 mb-3">
+            🔑 Your License Key
+          </h3>
+
+          <div className="bg-white rounded p-4 mb-4 flex items-center justify-center gap-3 flex-wrap">
+            <code className="text-2xl font-bold text-green-600 tracking-wider font-mono">
+              {licenseKey}
+            </code>
+            <button
+              onClick={() => copyToClipboard(licenseKey)}
+              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors"
+            >
+              {copied ? '✓ Copied!' : '📋 Copy'}
+            </button>
+          </div>
+
+          <p className="text-sm text-green-800 mb-3">
+            Save this key! You'll need it to activate the plugin after installation.
+          </p>
+
+          <div className="bg-green-100 border border-green-300 rounded p-3 text-left text-xs text-green-900">
+            <strong>Activation Steps:</strong>
+            <ol className="list-decimal list-inside mt-2 space-y-1">
+              <li>Download and install the plugin below</li>
+              <li>Open VEX MIDI EXPRESSION in your DAW</li>
+              <li>Click "Activate License" in the trial banner</li>
+              <li>Paste your license key and click "Activate"</li>
+            </ol>
+          </div>
+        </div>
+      )}
 
       {/* Platform Selection */}
       <div className="mb-8">
