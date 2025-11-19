@@ -152,7 +152,7 @@ function SuccessContent() {
           </div>
 
           <p className="text-sm text-green-800 mb-3">
-            Save this key! You'll need it to activate the plugin after installation.
+            Save this key! You&apos;ll need it to activate the plugin after installation.
           </p>
 
           <div className="bg-green-100 border border-green-300 rounded p-3 text-left text-xs text-green-900">
@@ -160,8 +160,8 @@ function SuccessContent() {
             <ol className="list-decimal list-inside mt-2 space-y-1">
               <li>Download and install the plugin below</li>
               <li>Open VEX MIDI EXPRESSION in your DAW</li>
-              <li>Click "Activate License" in the trial banner</li>
-              <li>Paste your license key and click "Activate"</li>
+              <li>Click &quot;Activate License&quot; in the trial banner</li>
+              <li>Paste your license key and click &quot;Activate&quot;</li>
             </ol>
           </div>
         </div>
