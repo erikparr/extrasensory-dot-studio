@@ -21,11 +21,12 @@ function SuccessContent() {
       setProduct(productData)
     }
 
-    // Fetch license key if token is available
+    // Fetch license key if token or session_id is available
     async function fetchLicenseKey() {
-      if (token) {
+      if (token || sessionId) {
         try {
-          const res = await fetch(`/api/get-license?token=${token}`)
+          const queryParam = token ? `token=${token}` : `session_id=${sessionId}`
+          const res = await fetch(`/api/get-license?${queryParam}`)
           if (res.ok) {
             const data = await res.json()
             setLicenseKey(data.licenseKey)
@@ -39,7 +40,7 @@ function SuccessContent() {
     }
 
     fetchLicenseKey()
-  }, [productId, token])
+  }, [productId, token, sessionId])
 
   const copyToClipboard = (text) => {
     navigator.clipboard.writeText(text)
