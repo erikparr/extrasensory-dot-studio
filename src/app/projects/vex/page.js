@@ -1,10 +1,13 @@
 'use client'
+import { useState } from 'react'
+import { track } from '@vercel/analytics'
 import ValueIndicator from '@/components/ValueIndicator'
 import VolumetricShader from '@/components/VolumetricShader'
 import { getProduct } from '@/lib/products'
 
 export default function VexPage() {
   const product = getProduct('midi-warp')
+  const [trialPlatform, setTrialPlatform] = useState('macos')
 
   const handlePurchase = async () => {
     try {
@@ -27,6 +30,11 @@ export default function VexPage() {
       console.error('Error:', error)
       alert('Something went wrong. Please try again.')
     }
+  }
+
+  const handleTrialDownload = () => {
+    track('trial_download', { platform: trialPlatform, product: product.id })
+    window.location.href = `/api/trial-download?product_id=${product.id}&platform=${trialPlatform}`
   }
 
   // Create flowing wave effect: each bar progressively phase-shifted
@@ -266,7 +274,7 @@ export default function VexPage() {
       </div>
 
       {/* Purchase Section */}
-      <div id="purchase" className="max-w-2xl mx-auto px-6 py-24 border-t" style={{ borderColor: '#2a2a2a' }}>
+      <div id="purchase" className="max-w-4xl mx-auto px-6 py-24 border-t" style={{ borderColor: '#2a2a2a' }}>
         <h2 style={{
           fontSize: '32px',
           fontWeight: '700',
@@ -278,46 +286,187 @@ export default function VexPage() {
         </h2>
 
         <div style={{
-          backgroundColor: '#1a1a1a',
-          border: '1px solid #2a2a2a',
-          borderRadius: '8px',
-          padding: '32px',
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '24px',
           marginTop: '32px'
         }}>
-          <div style={{ marginBottom: '24px', textAlign: 'center' }}>
-            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
-              <div style={{ fontSize: '48px', fontWeight: '700', color: '#ccff33' }}>
-                $25
+          {/* Trial Card */}
+          <div style={{
+            backgroundColor: '#1a1a1a',
+            border: '1px solid #2a2a2a',
+            borderRadius: '8px',
+            padding: '32px',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <div style={{ marginBottom: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '14px', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+                Try Free
               </div>
-              <div style={{ fontSize: '24px', color: '#999999', textDecoration: 'line-through' }}>
-                $30
+              <div style={{ fontSize: '32px', fontWeight: '700', color: '#ffffff', marginBottom: '8px' }}>
+                14-Day Trial
+              </div>
+              <div style={{ fontSize: '14px', color: '#888888' }}>
+                Full features included
               </div>
             </div>
-            <div style={{ fontSize: '14px', color: '#666666' }}>
-              macOS • Windows • Linux
+
+            {/* Platform Selection */}
+            <div style={{ marginBottom: '24px' }}>
+              <div style={{ fontSize: '12px', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
+                Select Platform
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {[
+                  { id: 'macos', label: 'macOS', formats: 'VST3, AU' },
+                  { id: 'windows', label: 'Windows', formats: 'VST3' },
+                  { id: 'linux', label: 'Linux', formats: 'VST3' }
+                ].map((platform) => (
+                  <label
+                    key={platform.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '12px',
+                      padding: '12px',
+                      backgroundColor: trialPlatform === platform.id ? '#2a2a2a' : 'transparent',
+                      border: `1px solid ${trialPlatform === platform.id ? '#ccff33' : '#333333'}`,
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    <input
+                      type="radio"
+                      name="platform"
+                      value={platform.id}
+                      checked={trialPlatform === platform.id}
+                      onChange={(e) => setTrialPlatform(e.target.value)}
+                      style={{ accentColor: '#ccff33' }}
+                    />
+                    <div>
+                      <div style={{ fontSize: '14px', color: '#ffffff', fontWeight: '500' }}>
+                        {platform.label}
+                      </div>
+                      <div style={{ fontSize: '12px', color: '#666666' }}>
+                        {platform.formats}
+                      </div>
+                    </div>
+                  </label>
+                ))}
+              </div>
             </div>
+
+            <button
+              onClick={handleTrialDownload}
+              style={{
+                width: '100%',
+                padding: '16px',
+                fontSize: '16px',
+                fontWeight: '600',
+                color: '#ffffff',
+                backgroundColor: 'transparent',
+                border: '2px solid #ccff33',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                marginTop: 'auto'
+              }}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = '#ccff33'
+                e.target.style.color = '#000000'
+              }}
+              onMouseOut={(e) => {
+                e.target.style.backgroundColor = 'transparent'
+                e.target.style.color = '#ffffff'
+              }}
+            >
+              Download Trial
+            </button>
           </div>
 
-          <button
-            onClick={handlePurchase}
-            style={{
-              width: '100%',
-              padding: '16px',
-              fontSize: '18px',
-              fontWeight: '600',
-              color: '#000000',
-              backgroundColor: '#ccff33',
-              border: 'none',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              transition: 'all 0.2s'
-            }}
-            onMouseOver={(e) => e.target.style.backgroundColor = '#b8e600'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#ccff33'}
-          >
-            Purchase VEX
-          </button>
+          {/* Purchase Card */}
+          <div style={{
+            backgroundColor: '#1a1a1a',
+            border: '2px solid #ccff33',
+            borderRadius: '8px',
+            padding: '32px',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <div style={{ marginBottom: '24px', textAlign: 'center' }}>
+              <div style={{ fontSize: '14px', color: '#ccff33', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+                Full License
+              </div>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
+                <div style={{ fontSize: '48px', fontWeight: '700', color: '#ccff33' }}>
+                  $25
+                </div>
+                <div style={{ fontSize: '20px', color: '#666666', textDecoration: 'line-through' }}>
+                  $30
+                </div>
+              </div>
+              <div style={{ fontSize: '14px', color: '#888888' }}>
+                One-time payment
+              </div>
+            </div>
+
+            {/* Benefits */}
+            <div style={{ marginBottom: '24px', flex: 1 }}>
+              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+                {[
+                  'Lifetime license',
+                  'All platforms included',
+                  'No subscription',
+                  'Support development'
+                ].map((benefit, index) => (
+                  <li key={index} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '8px 0',
+                    fontSize: '14px',
+                    color: '#aaaaaa'
+                  }}>
+                    <span style={{ color: '#ccff33' }}>✓</span>
+                    {benefit}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <button
+              onClick={handlePurchase}
+              style={{
+                width: '100%',
+                padding: '16px',
+                fontSize: '16px',
+                fontWeight: '600',
+                color: '#000000',
+                backgroundColor: '#ccff33',
+                border: 'none',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                transition: 'all 0.2s',
+                marginTop: 'auto'
+              }}
+              onMouseOver={(e) => e.target.style.backgroundColor = '#b8e600'}
+              onMouseOut={(e) => e.target.style.backgroundColor = '#ccff33'}
+            >
+              Purchase
+            </button>
+          </div>
         </div>
+
+        <p style={{
+          textAlign: 'center',
+          fontSize: '13px',
+          color: '#555555',
+          marginTop: '24px'
+        }}>
+          Same download for both. Purchase to unlock permanently.
+        </p>
       </div>
     </div>
   )
