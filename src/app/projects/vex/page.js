@@ -1,5 +1,6 @@
 'use client'
 import ValueIndicator from '@/components/ValueIndicator'
+import VolumetricShader from '@/components/VolumetricShader'
 import { getProduct } from '@/lib/products'
 
 export default function VexPage() {
@@ -35,23 +36,23 @@ export default function VexPage() {
   const indicatorPairs = [
     [
       { label: 'IN', color: '#D9D9D9', value: 85, animated: true, phaseOffset: phaseStep * 0, amplitude: 0.6, frequency: 1 },
-      { label: 'OUT', color: '#CCFF00', value: 62, animated: true, phaseOffset: phaseStep * 1, amplitude: 0.8, frequency: 1 }
+      { label: 'OUT', color: '#ccff33', value: 62, animated: true, phaseOffset: phaseStep * 1, amplitude: 0.8, frequency: 1 }
     ],
     [
       { label: 'IN', color: '#D9D9D9', value: 108, animated: true, phaseOffset: phaseStep * 2, amplitude: 0.6, frequency: 1 },
-      { label: 'OUT', color: '#CCFF00', value: 45, animated: true, phaseOffset: phaseStep * 3, amplitude: 0.8, frequency: 1 }
+      { label: 'OUT', color: '#ccff33', value: 45, animated: true, phaseOffset: phaseStep * 3, amplitude: 0.8, frequency: 1 }
     ],
     [
       { label: 'IN', color: '#D9D9D9', value: 95, animated: true, phaseOffset: phaseStep * 4, amplitude: 0.6, frequency: 1 },
-      { label: 'OUT', color: '#CCFF00', value: 73, animated: true, phaseOffset: phaseStep * 5, amplitude: 0.8, frequency: 1 }
+      { label: 'OUT', color: '#ccff33', value: 73, animated: true, phaseOffset: phaseStep * 5, amplitude: 0.8, frequency: 1 }
     ],
     [
       { label: 'IN', color: '#D9D9D9', value: 50, animated: true, phaseOffset: phaseStep * 6, amplitude: 0.6, frequency: 1 },
-      { label: 'OUT', color: '#CCFF00', value: 110, animated: true, phaseOffset: phaseStep * 7, amplitude: 0.8, frequency: 1 }
+      { label: 'OUT', color: '#ccff33', value: 110, animated: true, phaseOffset: phaseStep * 7, amplitude: 0.8, frequency: 1 }
     ],
     [
       { label: 'IN', color: '#D9D9D9', value: 120, animated: true, phaseOffset: phaseStep * 8, amplitude: 0.6, frequency: 1 },
-      { label: 'OUT', color: '#CCFF00', value: 30, animated: true, phaseOffset: phaseStep * 9, amplitude: 0.8, frequency: 1 }
+      { label: 'OUT', color: '#ccff33', value: 30, animated: true, phaseOffset: phaseStep * 9, amplitude: 0.8, frequency: 1 }
     ]
   ]
 
@@ -66,14 +67,28 @@ export default function VexPage() {
       '--text-secondary': '#aaaaaa',
       '--text-tertiary': '#666666'
     }}>
+      {/* Volumetric Shader Header */}
+      <div className="relative" style={{ height: '50vh' }}>
+        <VolumetricShader
+          className="absolute inset-0 w-full h-full"
+        />
+        {/* Gradient fade to black at bottom */}
+        <div
+          className="absolute bottom-0 left-0 right-0 h-32"
+          style={{
+            background: 'linear-gradient(to bottom, transparent, #000000)'
+          }}
+        />
+      </div>
+
       {/* VEX Title Section */}
-      <div className="pt-32 pb-16 text-center px-6">
+      <div className="pt-8 pb-16 text-center px-6">
         <h1 style={{
           fontFamily: '"Bitcount Grid Single", monospace',
           fontSize: 'clamp(36px, 8vw, 48px)',
           fontWeight: '900',
           letterSpacing: '-0.02em',
-          color: '#CCFF00',
+          color: '#ccff33',
           textTransform: 'lowercase',
           margin: '0 0 8px 0'
         }}>
@@ -194,7 +209,7 @@ export default function VexPage() {
             <h3 style={{
               fontSize: '16px',
               fontWeight: '600',
-              color: '#CCFF00',
+              color: '#ccff33',
               marginBottom: '12px',
               textTransform: 'uppercase',
               letterSpacing: '0.1em'
@@ -236,7 +251,7 @@ export default function VexPage() {
             <h3 style={{
               fontSize: '16px',
               fontWeight: '600',
-              color: '#CCFF00',
+              color: '#ccff33',
               marginBottom: '12px',
               textTransform: 'uppercase',
               letterSpacing: '0.1em'
@@ -271,7 +286,7 @@ export default function VexPage() {
         }}>
           <div style={{ marginBottom: '24px', textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
-              <div style={{ fontSize: '48px', fontWeight: '700', color: '#CCFF00' }}>
+              <div style={{ fontSize: '48px', fontWeight: '700', color: '#ccff33' }}>
                 $25
               </div>
               <div style={{ fontSize: '24px', color: '#999999', textDecoration: 'line-through' }}>
@@ -291,14 +306,14 @@ export default function VexPage() {
               fontSize: '18px',
               fontWeight: '600',
               color: '#000000',
-              backgroundColor: '#CCFF00',
+              backgroundColor: '#ccff33',
               border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
               transition: 'all 0.2s'
             }}
             onMouseOver={(e) => e.target.style.backgroundColor = '#b8e600'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#CCFF00'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#ccff33'}
           >
             Purchase VEX
           </button>
