@@ -69,7 +69,7 @@ float hash13(vec3 p3) {
 }
 
 vec3 colormap(float t) {
-    vec3 accent = vec3(0.8, 1.0, 0.0);
+    vec3 accent = vec3(0.8, 1.0, 0.2);  // #ccff33
     float grey = 0.5 + 0.5*cos(TWOPI * t);
     return mix(vec3(grey), accent, smoothstep(0.3, 0.7, t));
 }
@@ -286,10 +286,20 @@ const PRESETS = [
 export default function VolumetricShader({ className = '', style = {} }) {
   const canvasRef = useRef(null)
   const paramsRef = useRef(PRESETS[Math.floor(Math.random() * PRESETS.length)])
+  const isVisibleRef = useRef(true)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
+
+    // Mobile detection
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+      || window.innerWidth < 768
+
+    // Resolution scale: 0.75x on mobile, 1x on desktop
+    const resolutionScale = isMobile ? 0.75 : 1.0
+    // Frame interval: ~30fps on mobile (33ms), uncapped on desktop
+    const minFrameInterval = isMobile ? 33 : 0
 
     const gl = canvas.getContext('webgl', {
       preserveDrawingBuffer: true,
@@ -335,18 +345,41 @@ export default function VolumetricShader({ className = '', style = {} }) {
     let frame = 0
     let startTime = performance.now()
     let lastTime = startTime
+    let lastRenderTime = 0
     let animationId
     let running = true
 
+    // IntersectionObserver to pause when off-screen
+    const observer = new IntersectionObserver(
+      (entries) => {
+        isVisibleRef.current = entries[0].isIntersecting
+      },
+      { threshold: 0.1 }
+    )
+    observer.observe(canvas)
+
     const render = (currentTime) => {
       if (!running) return
+
+      // Skip rendering if not visible
+      if (!isVisibleRef.current) {
+        animationId = requestAnimationFrame(render)
+        return
+      }
+
+      // Throttle frame rate on mobile
+      if (currentTime - lastRenderTime < minFrameInterval) {
+        animationId = requestAnimationFrame(render)
+        return
+      }
+      lastRenderTime = currentTime
 
       const time = (currentTime - startTime) / 1000
       const deltaTime = (currentTime - lastTime) / 1000
       lastTime = currentTime
 
-      const displayWidth = canvas.clientWidth
-      const displayHeight = canvas.clientHeight
+      const displayWidth = Math.floor(canvas.clientWidth * resolutionScale)
+      const displayHeight = Math.floor(canvas.clientHeight * resolutionScale)
       if (canvas.width !== displayWidth || canvas.height !== displayHeight) {
         canvas.width = displayWidth
         canvas.height = displayHeight
@@ -382,6 +415,7 @@ export default function VolumetricShader({ className = '', style = {} }) {
     return () => {
       running = false
       cancelAnimationFrame(animationId)
+      observer.disconnect()
     }
   }, [])
 
