@@ -86,8 +86,8 @@ vec3 hash31(float p) {
 }
 
 vec3 colormap(float t) {
-    // Pseudo-greyscale with accent color #ccff33
-    vec3 accent = vec3(0.8, 1.0, 0.0);
+    // Pseudo-greyscale with accent color #1e40af
+    vec3 accent = vec3(0.118, 0.251, 0.686);
     float grey = 0.5 + 0.5*cos(TWOPI * t);
     // Mix greyscale with accent based on density
     return mix(vec3(grey), accent, smoothstep(0.3, 0.7, t));

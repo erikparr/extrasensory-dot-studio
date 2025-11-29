@@ -2,7 +2,7 @@ export const PRODUCTS = {
   'midi-warp': {
     id: 'midi-warp',
     title: 'VEX Expressive MIDI',
-    price: 3000, // $30.00 in cents
+    price: 2500, // $25.00 in cents
     currency: 'usd',
     category: 'Audio Plugin',
     description: 'Revolutionary MIDI effect plugin that transforms static MIDI controller input into dynamic, expressive musical performance using real-time physics simulation.',

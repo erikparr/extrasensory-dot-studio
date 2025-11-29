@@ -1,6 +1,6 @@
 'use client'
 import { useState } from 'react'
-import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/react'
 import ValueIndicator from '@/components/ValueIndicator'
 import VolumetricShader from '@/components/VolumetricShader'
 import { getProduct } from '@/lib/products'
