@@ -44,18 +44,18 @@ export const PRODUCTS = {
     // Platform-specific downloads
     downloads: {
       macos: {
-        file: 'VEX_MIDI_Expression_macOS_v1.0.15.zip',
-        size: '6.0 MB',
+        file: 'VEX_MIDI_Expression_macOS_v1.0.17.zip',
+        size: '7.0 MB',
         formats: ['VST3', 'AU']
       },
       windows: {
-        file: 'VEX_MIDI_Expression_Windows_v1.0.15.zip',
+        file: 'VEX_MIDI_Expression_Windows_v1.0.17.zip',
         size: '2.6 MB',
         formats: ['VST3']
       },
       linux: {
-        file: 'VEX_MIDI_Expression_Linux_v1.0.15.zip',
-        size: '2.0 MB',
+        file: 'VEX_MIDI_Expression_Linux_v1.0.17.zip',
+        size: '2.1 MB',
         formats: ['VST3']
       }
     },
