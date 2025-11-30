@@ -1,5 +1,6 @@
 'use client'
 import { useState } from 'react'
+import Link from 'next/link'
 import { track } from '@vercel/analytics/react'
 import ValueIndicator from '@/components/ValueIndicator'
 import VolumetricShader from '@/components/VolumetricShader'
@@ -270,6 +271,53 @@ export default function VexPage() {
               VST3 and AU formats work seamlessly on macOS and Windows with all major DAWs.
             </p>
           </div>
+        </div>
+      </div>
+
+      {/* Setup Guides Section */}
+      <div className="max-w-4xl mx-auto px-6 py-16">
+        <div style={{
+          backgroundColor: '#1a1a1a',
+          border: '1px solid #2a2a2a',
+          borderRadius: '8px',
+          padding: '32px',
+          textAlign: 'center'
+        }}>
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            color: '#ffffff',
+            marginBottom: '12px'
+          }}>
+            DAW Setup Guides
+          </h3>
+          <p style={{
+            fontSize: '14px',
+            color: '#888888',
+            marginBottom: '24px',
+            maxWidth: '500px',
+            marginLeft: 'auto',
+            marginRight: 'auto'
+          }}>
+            Step-by-step instructions for setting up VEX in Ableton Live, Logic Pro, REAPER, and other DAWs.
+          </p>
+          <Link
+            href="/projects/vex/guides"
+            style={{
+              display: 'inline-block',
+              padding: '12px 24px',
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#ccff33',
+              backgroundColor: 'transparent',
+              border: '1px solid #ccff33',
+              borderRadius: '4px',
+              textDecoration: 'none',
+              transition: 'all 0.2s'
+            }}
+          >
+            View Setup Guides
+          </Link>
         </div>
       </div>
 
