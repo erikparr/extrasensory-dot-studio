@@ -549,15 +549,6 @@ export default function VexPage() {
             </button>
           </div>
         </div>
-
-        <p style={{
-          textAlign: 'center',
-          fontSize: '13px',
-          color: '#555555',
-          marginTop: '24px'
-        }}>
-          Same download for both. Purchase to unlock permanently.
-        </p>
       </div>
     </div>
   )
