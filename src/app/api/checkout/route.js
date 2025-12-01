@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { getProduct } from '@/lib/products'
 import { validateCoupon, calculateDiscountedPrice } from '@/lib/coupons'
+import { calculatePPPPrice } from '@/lib/ppp'
 
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -14,8 +15,8 @@ function getStripe() {
 
 export async function POST(request) {
   try {
-    const { productId, couponCode } = await request.json()
-    
+    const { productId, couponCode, countryCode } = await request.json()
+
     const product = getProduct(productId)
     if (!product) {
       return NextResponse.json(
@@ -24,14 +25,19 @@ export async function POST(request) {
       )
     }
 
-    // Apply coupon if provided
+    // Apply PPP pricing first
     let finalPrice = product.price
+    const ppp = calculatePPPPrice(product.price, countryCode)
+    if (ppp.discount > 0) {
+      finalPrice = ppp.price
+    }
+
+    // Apply coupon on top if provided
     let coupon = null
-    
     if (couponCode) {
       coupon = validateCoupon(couponCode)
       if (coupon) {
-        finalPrice = calculateDiscountedPrice(product.price, coupon)
+        finalPrice = calculateDiscountedPrice(finalPrice, coupon)
       }
     }
 
@@ -58,6 +64,8 @@ export async function POST(request) {
       metadata: {
         productId: productId,
         couponCode: couponCode || '',
+        countryCode: countryCode || '',
+        pppDiscount: ppp.discount.toString(),
       },
     })
 

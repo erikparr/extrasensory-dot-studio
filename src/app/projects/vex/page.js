@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { track } from '@vercel/analytics/react'
 import ValueIndicator from '@/components/ValueIndicator'
@@ -9,6 +9,14 @@ import { getProduct } from '@/lib/products'
 export default function VexPage() {
   const product = getProduct('midi-warp')
   const [trialPlatform, setTrialPlatform] = useState('macos')
+  const [geoPrice, setGeoPrice] = useState(null)
+
+  useEffect(() => {
+    fetch('/api/geo')
+      .then(res => res.json())
+      .then(data => setGeoPrice(data))
+      .catch(() => setGeoPrice(null))
+  }, [])
 
   const handlePurchase = async () => {
     try {
@@ -19,6 +27,7 @@ export default function VexPage() {
         },
         body: JSON.stringify({
           productId: product.id,
+          countryCode: geoPrice?.countryCode,
         }),
       })
 
@@ -492,12 +501,23 @@ export default function VexPage() {
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
                 <div style={{ fontSize: '48px', fontWeight: '700', color: '#ccff33' }}>
-                  $25
+                  ${geoPrice?.adjustedPrice ? (geoPrice.adjustedPrice / 100).toFixed(0) : '25'}
                 </div>
-                <div style={{ fontSize: '20px', color: '#666666', textDecoration: 'line-through' }}>
-                  $30
-                </div>
+                {geoPrice?.discount > 0 ? (
+                  <div style={{ fontSize: '20px', color: '#666666', textDecoration: 'line-through' }}>
+                    $25
+                  </div>
+                ) : (
+                  <div style={{ fontSize: '20px', color: '#666666', textDecoration: 'line-through' }}>
+                    $30
+                  </div>
+                )}
               </div>
+              {geoPrice?.discount > 0 && (
+                <div style={{ fontSize: '13px', color: '#ccff33', marginBottom: '4px' }}>
+                  {geoPrice.discount}% off for {geoPrice.countryName || geoPrice.countryCode}
+                </div>
+              )}
               <div style={{ fontSize: '14px', color: '#888888' }}>
                 One-time payment
               </div>
