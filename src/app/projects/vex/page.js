@@ -143,53 +143,45 @@ export default function VexPage() {
         ))}
       </div>
 
-      {/* Description Section */}
+      {/* Hero Section */}
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
         <h2 style={{
-          fontSize: 'clamp(28px, 5vw, 36px)',
-          fontWeight: '500',
-          lineHeight: '1.3',
+          fontSize: 'clamp(24px, 4vw, 32px)',
+          fontWeight: '400',
+          lineHeight: '1.4',
           letterSpacing: '-0.01em',
           color: '#ffffff',
-          marginBottom: '24px'
+          marginBottom: '32px'
         }}>
-          VEX transforms any MIDI device into an interactive control instrument.
+          Turn any MIDI controller into a physics-based performance instrument.
         </h2>
 
-        <p style={{
-          fontSize: 'clamp(16px, 2.5vw, 18px)',
-          color: '#aaaaaa',
-          lineHeight: '1.7',
-          marginBottom: '40px',
-          maxWidth: '700px',
-          marginLeft: 'auto',
-          marginRight: 'auto'
-        }}>
-          A real-time physics engine for MIDI expression. Transform static controller movements into organic, bouncing, and elastic motion. Add gravity, springs, dynamic curves, and jitter to any MIDI CC—bringing natural momentum and life to your music production and live performances.
-        </p>
-
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <a
+            href="#purchase"
+            className="btn-secondary"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: '14px 28px',
+              fontSize: '15px'
+            }}
+          >
+            Free Trial
+          </a>
           <a
             href="#purchase"
             className="btn-primary"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              justifyContent: 'center'
+              justifyContent: 'center',
+              padding: '14px 28px',
+              fontSize: '15px'
             }}
           >
-            Get VEX
-          </a>
-          <a
-            href="#features"
-            className="btn-secondary"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            Learn More
+            Buy VEX – ${geoPrice?.adjustedPrice ? (geoPrice.adjustedPrice / 100).toFixed(0) : '25'}
           </a>
         </div>
       </div>
