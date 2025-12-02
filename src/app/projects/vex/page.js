@@ -206,7 +206,7 @@ export default function VexPage() {
               Physics-Based Transform
             </h3>
             <p style={{ fontSize: '14px', color: '#999999', lineHeight: '1.6' }}>
-              Real-time bouncing ball simulation creates organic, expressive MIDI data from static controller input.
+              Five physics modes—<strong style={{ color: '#D9D9D9' }}>gravity, springs, curves, jitter, and note-triggers</strong>—transform static CC into dynamic expression.
             </p>
           </div>
 
