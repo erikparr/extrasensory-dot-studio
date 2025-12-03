@@ -76,7 +76,7 @@ export default function VexTesterPage() {
         <h1 style={{
           fontSize: '48px',
           fontWeight: '700',
-          color: '#CCFF00',
+          color: '#ccff33',
           marginBottom: '16px',
           textAlign: 'center'
         }}>
@@ -105,7 +105,7 @@ export default function VexTesterPage() {
                 ${Math.floor(product.price / 100)}
               </div>
             )}
-            <div style={{ fontSize: '48px', fontWeight: '700', color: '#CCFF00' }}>
+            <div style={{ fontSize: '48px', fontWeight: '700', color: '#ccff33' }}>
               {isFree ? 'FREE' : `$${Math.floor(finalPrice / 100)}`}
             </div>
             <div style={{ fontSize: '14px', color: '#666666', marginTop: '8px' }}>
@@ -155,18 +155,18 @@ export default function VexTesterPage() {
                 alignItems: 'center',
                 justifyContent: 'space-between',
                 backgroundColor: 'rgba(204, 255, 0, 0.1)',
-                border: '1px solid #CCFF00',
+                border: '1px solid #ccff33',
                 borderRadius: '4px',
                 padding: '12px 16px'
               }}>
-                <span style={{ fontSize: '14px', color: '#CCFF00' }}>
+                <span style={{ fontSize: '14px', color: '#ccff33' }}>
                   {appliedCoupon.code} - {appliedCoupon.description}
                 </span>
                 <button
                   onClick={handleRemoveCoupon}
                   style={{
                     fontSize: '14px',
-                    color: '#CCFF00',
+                    color: '#ccff33',
                     background: 'none',
                     border: 'none',
                     cursor: 'pointer'
@@ -189,14 +189,14 @@ export default function VexTesterPage() {
               fontSize: '18px',
               fontWeight: '600',
               color: '#000000',
-              backgroundColor: '#CCFF00',
+              backgroundColor: '#ccff33',
               border: 'none',
               borderRadius: '4px',
               cursor: 'pointer',
               transition: 'all 0.2s'
             }}
             onMouseOver={(e) => e.target.style.backgroundColor = '#b8e600'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#CCFF00'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#ccff33'}
           >
             {isFree ? 'Download Free' : 'Purchase VEX'}
           </button>
@@ -209,7 +209,7 @@ export default function VexTesterPage() {
           border: '1px solid #2a2a2a',
           borderRadius: '8px'
         }}>
-          <h3 style={{ fontSize: '18px', color: '#CCFF00', marginBottom: '12px' }}>
+          <h3 style={{ fontSize: '18px', color: '#ccff33', marginBottom: '12px' }}>
             Available Coupon Codes
           </h3>
           <ul style={{ fontSize: '14px', color: '#999999', lineHeight: '1.8' }}>

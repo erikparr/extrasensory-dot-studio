@@ -6,7 +6,7 @@ const mockProjects = [
     title: "VEX Expressive MIDI",
     category: "Audio Plugin",
     year: "2024",
-    image: "/MIDI_WARP_screenshot.png",
+    image: "/vex-screen.png",
     featured: true,
     description: "Revolutionary MIDI effect plugin that transforms static MIDI controller input into dynamic, expressive musical performance using real-time physics simulation.",
     link: "/projects/vex"

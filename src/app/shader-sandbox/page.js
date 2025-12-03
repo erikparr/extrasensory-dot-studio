@@ -276,12 +276,20 @@ vec3 nvCamDirFromClip(vec3 nvFw, vec2 clip) {
 }
 
 void mainImage(out vec4 fragColor, in vec2 fragCoord) {
-    vec2 uv = fragCoord / iResolution.xy;
+    // Rotate 90 degrees clockwise
+    vec2 rotatedCoord = vec2(iResolution.y - fragCoord.y, fragCoord.x);
+    vec2 uv = rotatedCoord / iResolution.yx;
+
+    // Clip space with rotated aspect ratio
+    vec2 clip = uv * 2.0 - 1.0;
+    clip.x *= iResolution.y / iResolution.x;
 
     // Fixed camera looking straight at the slice, close enough to fill viewport
     vec3 camPos = vec3(0.0, 0.0, 1.5);
     vec3 nvCamFw = vec3(0.0, 0.0, -1.0);
-    vec3 nvCamDir = nvCamDirFromClip(nvCamFw, uv*2. - 1.);
+    vec3 nvRt = normalize(cross(nvCamFw, vec3(0.,1.,0.)));
+    vec3 nvUp = cross(nvRt, nvCamFw);
+    vec3 nvCamDir = normalize(TAN_HALF_FOVY*(clip.x*nvRt + clip.y*nvUp) + nvCamFw);
 
     // Render
     vec3 bgColor = skybox(nvCamDir);
@@ -368,9 +376,23 @@ const PRESETS = [
 export default function ShaderSandbox() {
   const canvasRef = useRef(null)
   const [error, setError] = useState(null)
+  const [showControls, setShowControls] = useState(false)
 
-  // Randomly choose a preset on load
-  const paramsRef = useRef(PRESETS[Math.floor(Math.random() * PRESETS.length)])
+  // Initialize with first preset
+  const initialPreset = PRESETS[0]
+  const [timeSpeed, setTimeSpeed] = useState(initialPreset.timeSpeed)
+  const [freqX, setFreqX] = useState(initialPreset.freqX)
+  const [freqY, setFreqY] = useState(initialPreset.freqY)
+  const [freqZ, setFreqZ] = useState(initialPreset.freqZ)
+  const [distortion, setDistortion] = useState(initialPreset.distortion)
+  const [fbmScale, setFbmScale] = useState(initialPreset.fbmScale)
+  const [densityThreshold, setDensityThreshold] = useState(initialPreset.densityThreshold)
+
+  const paramsRef = useRef(initialPreset)
+
+  useEffect(() => {
+    paramsRef.current = { timeSpeed, freqX, freqY, freqZ, distortion, fbmScale, densityThreshold }
+  }, [timeSpeed, freqX, freqY, freqZ, distortion, fbmScale, densityThreshold])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -510,18 +532,94 @@ export default function ShaderSandbox() {
     }
   }, [])
 
+  const loadPreset = (preset) => {
+    setTimeSpeed(preset.timeSpeed)
+    setFreqX(preset.freqX)
+    setFreqY(preset.freqY)
+    setFreqZ(preset.freqZ)
+    setDistortion(preset.distortion)
+    setFbmScale(preset.fbmScale)
+    setDensityThreshold(preset.densityThreshold)
+  }
+
   return (
-    <div className="min-h-screen bg-black">
+    <div className="fixed inset-0 z-50 bg-black">
       {error ? (
-        <div className="bg-red-900/50 border border-red-500 rounded p-4 m-4">
+        <div className="absolute top-4 left-4 right-4 bg-red-900/50 border border-red-500 rounded p-4 z-10">
           <pre className="text-red-300 text-sm whitespace-pre-wrap">{error}</pre>
         </div>
       ) : null}
 
       <canvas
         ref={canvasRef}
-        className="w-full h-full fixed inset-0"
+        className="w-full h-full"
       />
+
+      {/* Toggle button */}
+      <button
+        onClick={() => setShowControls(!showControls)}
+        className="absolute top-4 right-4 bg-black/50 hover:bg-black/70 text-white px-3 py-1 rounded text-sm"
+      >
+        {showControls ? 'Hide' : 'Controls'}
+      </button>
+
+      {/* Control panel */}
+      {showControls && (
+        <div className="absolute top-14 right-4 bg-black/80 p-4 rounded w-72 text-white text-sm">
+          <div className="mb-4 flex gap-2">
+            <button
+              onClick={() => loadPreset(PRESETS[0])}
+              className="bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded text-xs"
+            >
+              Preset 1
+            </button>
+            <button
+              onClick={() => loadPreset(PRESETS[1])}
+              className="bg-gray-700 hover:bg-gray-600 px-2 py-1 rounded text-xs"
+            >
+              Preset 2
+            </button>
+          </div>
+
+          <div className="space-y-3">
+            <div>
+              <label className="block text-gray-400 mb-1">Time Speed: {timeSpeed.toFixed(2)}</label>
+              <input type="range" min="0.1" max="10" step="0.1" value={timeSpeed}
+                onChange={(e) => setTimeSpeed(parseFloat(e.target.value))} className="w-full" />
+            </div>
+            <div>
+              <label className="block text-gray-400 mb-1">Freq X: {freqX.toFixed(2)}</label>
+              <input type="range" min="0.01" max="5" step="0.01" value={freqX}
+                onChange={(e) => setFreqX(parseFloat(e.target.value))} className="w-full" />
+            </div>
+            <div>
+              <label className="block text-gray-400 mb-1">Freq Y: {freqY.toFixed(2)}</label>
+              <input type="range" min="0.01" max="5" step="0.01" value={freqY}
+                onChange={(e) => setFreqY(parseFloat(e.target.value))} className="w-full" />
+            </div>
+            <div>
+              <label className="block text-gray-400 mb-1">Freq Z: {freqZ.toFixed(2)}</label>
+              <input type="range" min="0.01" max="5" step="0.01" value={freqZ}
+                onChange={(e) => setFreqZ(parseFloat(e.target.value))} className="w-full" />
+            </div>
+            <div>
+              <label className="block text-gray-400 mb-1">Distortion: {distortion.toFixed(2)}</label>
+              <input type="range" min="0" max="20" step="0.1" value={distortion}
+                onChange={(e) => setDistortion(parseFloat(e.target.value))} className="w-full" />
+            </div>
+            <div>
+              <label className="block text-gray-400 mb-1">FBM Scale: {fbmScale.toFixed(2)}</label>
+              <input type="range" min="0.1" max="3" step="0.05" value={fbmScale}
+                onChange={(e) => setFbmScale(parseFloat(e.target.value))} className="w-full" />
+            </div>
+            <div>
+              <label className="block text-gray-400 mb-1">Density: {densityThreshold.toFixed(2)}</label>
+              <input type="range" min="0.5" max="5" step="0.05" value={densityThreshold}
+                onChange={(e) => setDensityThreshold(parseFloat(e.target.value))} className="w-full" />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

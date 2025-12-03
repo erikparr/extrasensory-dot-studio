@@ -10,7 +10,7 @@ module.exports = {
       colors: {
         'studio-black': '#ffffff',
         'studio-white': '#0a0a0a', 
-        'studio-accent': '#ccff00',
+        'studio-accent': '#ccff33',
         'studio-gray-50': '#171717',
         'studio-gray-100': '#262626',
         'studio-gray-200': '#404040',

@@ -1,0 +1,29 @@
+VEX MIDI EXPRESSION - QUICK START GUIDE
+=======================================
+
+1. INSTALL
+   Double-click "VEX Installer.pkg" and follow the prompts.
+
+2. OPEN YOUR DAW
+   - Logic Pro: MIDI FX > AU MIDI Effect > Extrasensory > VEX MIDI EXPRESSION
+   - Ableton: Browser > Plug-ins > VST3 > VEX MIDI EXPRESSION
+   - Other DAWs: Look in MIDI Effects or MIDI FX section
+
+3. ADD A MAPPING
+   - Click "Add Mapping"
+   - Select the CC number your controller uses
+   - Choose "Bouncy" physics
+
+4. PLAY!
+   Move your MIDI controller and watch it bounce!
+
+TIPS:
+- Increase Gravity for faster bounces
+- Increase Bounciness for more energy retention
+- Try "Spring" for smooth oscillations
+- Use "Trigger" mode for physics-driven note generation
+
+For full documentation, visit: https://extrasensory.studio
+
+---
+Copyright 2025 Extrasensory
