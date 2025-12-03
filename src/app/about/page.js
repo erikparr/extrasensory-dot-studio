@@ -11,9 +11,9 @@ export default function AboutPage() {
           />
         </div>
         <p className="text-lg text-studio-gray-700 leading-relaxed">
-          extrasensory.studio is a production lab focusing on advanced tools for art production.
-          for inquiries please contact me via{' '}
-          <a href="mailto:e@erikparr.com" className="text-studio-accent hover:underline">
+          extrasensory is an independent studio focusing on advanced tools for art production.
+          for inquiries please contact us via{' '}
+          <a href="mailto:hello@extrasensory.studio" className="text-studio-accent hover:underline">
             email
           </a>
           .

@@ -23,18 +23,20 @@ export default function Header() {
               className="w-12 h-12 md:w-20 md:h-20"
               style={{ filter: 'drop-shadow(0 0 8px rgba(204, 255, 0, 0.6))' }}
             />
-            <span
-              className="font-semibold text-studio-accent leading-none mallanna-text"
-              style={{
-                fontSize: 'clamp(1.5rem, 5vw, 4rem)',
-                letterSpacing: '0.01em',
-                fontDisplay: 'swap',
-                transform: 'scaleX(1.1)',
-                marginLeft: 'clamp(0px, 2vw, 40px)'
-              }}
-            >
-              extrasensory
-            </span>
+            <div style={{ marginLeft: 'clamp(0px, 2vw, 40px)' }}>
+              <span
+                className="font-semibold text-studio-accent leading-none mallanna-text"
+                style={{
+                  fontSize: 'clamp(1.5rem, 5vw, 4rem)',
+                  letterSpacing: '0.01em',
+                  fontDisplay: 'swap',
+                  transform: 'scaleX(1.1)',
+                  display: 'block'
+                }}
+              >
+                extrasensory
+              </span>
+            </div>
           </Link>
           
           {/* Desktop Navigation */}
