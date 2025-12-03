@@ -12,6 +12,32 @@ export default function AbletonGuidePage() {
         How to route MIDI through VEX MIDI EXPRESSION in Ableton Live.
       </p>
 
+      {/* Video Tutorial */}
+      <div className="mb-12">
+        <div style={{
+          position: 'relative',
+          paddingBottom: '56.25%',
+          height: 0,
+          overflow: 'hidden',
+          borderRadius: '8px'
+        }}>
+          <iframe
+            src="https://www.youtube.com/embed/HfwuxF81ib4"
+            title="VEX Ableton Setup Tutorial"
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              border: 'none'
+            }}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      </div>
+
       {/* Important Notice */}
       <div className="bg-yellow-900/20 border border-yellow-600/30 rounded-lg p-6 mb-8">
         <h2 className="text-lg font-semibold text-yellow-500 mb-2">Important: Ableton MIDI Routing</h2>

@@ -300,7 +300,7 @@ export default function VexPage() {
             borderRadius: '8px'
           }}>
             <iframe
-              src="https://www.youtube.com/embed/Tg9IuFNAuwg"
+              src="https://www.youtube.com/embed/WPRROqgEx1U"
               title="VEX Demo Video"
               style={{
                 position: 'absolute',
