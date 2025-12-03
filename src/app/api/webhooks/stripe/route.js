@@ -4,6 +4,7 @@ import { Resend } from 'resend'
 import { generateDownloadToken, createSuccessPageUrl } from '@/lib/downloadTokens'
 import { generatePurchaseEmail } from '@/lib/emails/purchaseConfirmation'
 import { getProduct } from '@/lib/products'
+import { recordPromoRedemption } from '@/lib/promos'
 
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -81,6 +82,13 @@ export async function POST(request) {
         await storeLicense(licenseKey, session.id, productId, customerEmail)
 
         console.log('License key generated and stored:', licenseKey)
+
+        // Record promo redemption if applicable
+        const promoCode = session.metadata?.promoCode
+        if (promoCode) {
+          await recordPromoRedemption(promoCode, customerEmail, session.id)
+          console.log('Promo redemption recorded:', promoCode)
+        }
 
         // Create success page URL with token
         const successPageUrl = createSuccessPageUrl(downloadToken, productId)

@@ -3,6 +3,7 @@ import Stripe from 'stripe'
 import { getProduct } from '@/lib/products'
 import { validateCoupon, calculateDiscountedPrice } from '@/lib/coupons'
 import { calculatePPPPrice } from '@/lib/ppp'
+import { getPromo, isPromoAvailable } from '@/lib/promos'
 
 function getStripe() {
   if (!process.env.STRIPE_SECRET_KEY) {
@@ -32,12 +33,31 @@ export async function POST(request) {
       finalPrice = ppp.price
     }
 
-    // Apply coupon on top if provided
+    // Check for promo code (limited use) or regular coupon
     let coupon = null
+    let promoCode = null
+
     if (couponCode) {
-      coupon = validateCoupon(couponCode)
-      if (coupon) {
-        finalPrice = calculateDiscountedPrice(finalPrice, coupon)
+      // First check if it's a limited promo code
+      const promo = getPromo(couponCode)
+      if (promo) {
+        // Verify promo is still available
+        const promoStatus = await isPromoAvailable(couponCode)
+        if (!promoStatus.available) {
+          return NextResponse.json(
+            { error: promoStatus.error },
+            { status: 400 }
+          )
+        }
+        // Apply promo discount
+        promoCode = promo.code
+        finalPrice = Math.round(finalPrice * (100 - promo.discount) / 100)
+      } else {
+        // Fall back to regular coupon
+        coupon = validateCoupon(couponCode)
+        if (coupon) {
+          finalPrice = calculateDiscountedPrice(finalPrice, coupon)
+        }
       }
     }
 
@@ -64,6 +84,7 @@ export async function POST(request) {
       metadata: {
         productId: productId,
         couponCode: couponCode || '',
+        promoCode: promoCode || '',
         countryCode: countryCode || '',
         pppDiscount: ppp.discount.toString(),
       },
