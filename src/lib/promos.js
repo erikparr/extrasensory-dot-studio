@@ -81,17 +81,31 @@ export async function validateAndReservePromo(code, email) {
 
 /**
  * Record successful promo redemption (called after successful checkout)
+ * Increments the count and logs the redemption
  */
 export async function recordPromoRedemption(code, email, sessionId) {
+  const countKey = `promo:${code.toUpperCase()}:count`
   const redemptionKey = `promo:${code.toUpperCase()}:redemptions`
-  const redemptions = await kv.get(redemptionKey) || []
+  const emailKey = `promo:${code.toUpperCase()}:emails`
 
+  // Increment the count
+  const currentCount = await kv.get(countKey) || 0
+  await kv.set(countKey, currentCount + 1)
+
+  // Track email to prevent double claims
+  const usedEmails = await kv.get(emailKey) || []
+  if (!usedEmails.includes(email.toLowerCase())) {
+    usedEmails.push(email.toLowerCase())
+    await kv.set(emailKey, usedEmails)
+  }
+
+  // Log redemption details
+  const redemptions = await kv.get(redemptionKey) || []
   redemptions.push({
     email: email.toLowerCase(),
     sessionId,
     redeemedAt: Date.now()
   })
-
   await kv.set(redemptionKey, redemptions)
 }
 
