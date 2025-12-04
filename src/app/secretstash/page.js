@@ -4,6 +4,12 @@ import Link from 'next/link'
 
 const PROMO_CODE = 'SECRETSTASH11'
 
+const PLATFORMS = [
+  { id: 'macos', label: 'macOS' },
+  { id: 'windows', label: 'Windows' },
+  { id: 'linux', label: 'Linux' }
+]
+
 export default function PromoPage() {
   const [promoStats, setPromoStats] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -12,6 +18,7 @@ export default function PromoPage() {
   const [email, setEmail] = useState('')
   const [signupStatus, setSignupStatus] = useState(null)
   const [signingUp, setSigningUp] = useState(false)
+  const [trialPlatform, setTrialPlatform] = useState('macos')
 
   useEffect(() => {
     fetchPromoStats()
@@ -204,21 +211,45 @@ export default function PromoPage() {
               </form>
             )}
 
-            <Link
-              href="/projects/vex"
-              style={{
-                display: 'inline-block',
-                padding: '10px 20px',
-                backgroundColor: 'transparent',
-                color: '#888',
-                fontSize: '14px',
-                borderRadius: '4px',
-                textDecoration: 'none',
-                border: '1px solid #444'
-              }}
-            >
-              Get VEX at $25
-            </Link>
+            <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #333' }}>
+              <p style={{ color: '#888', fontSize: '13px', marginBottom: '12px' }}>
+                Try VEX free for 14 days
+              </p>
+              <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '12px' }}>
+                {PLATFORMS.map((platform) => (
+                  <button
+                    key={platform.id}
+                    onClick={() => setTrialPlatform(platform.id)}
+                    style={{
+                      padding: '6px 12px',
+                      backgroundColor: trialPlatform === platform.id ? '#2a2a2a' : 'transparent',
+                      border: `1px solid ${trialPlatform === platform.id ? '#ccff33' : '#444'}`,
+                      borderRadius: '4px',
+                      color: trialPlatform === platform.id ? '#ccff33' : '#888',
+                      fontSize: '12px',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {platform.label}
+                  </button>
+                ))}
+              </div>
+              <a
+                href={`/api/trial-download?product_id=midi-warp&platform=${trialPlatform}`}
+                style={{
+                  display: 'inline-block',
+                  padding: '10px 24px',
+                  backgroundColor: '#ccff33',
+                  color: '#000',
+                  fontWeight: '600',
+                  fontSize: '14px',
+                  borderRadius: '4px',
+                  textDecoration: 'none'
+                }}
+              >
+                Download Trial
+              </a>
+            </div>
           </div>
         ) : (
           <>
