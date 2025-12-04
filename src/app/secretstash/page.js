@@ -9,6 +9,9 @@ export default function PromoPage() {
   const [loading, setLoading] = useState(true)
   const [claiming, setClaiming] = useState(false)
   const [error, setError] = useState(null)
+  const [email, setEmail] = useState('')
+  const [signupStatus, setSignupStatus] = useState(null)
+  const [signingUp, setSigningUp] = useState(false)
 
   useEffect(() => {
     fetchPromoStats()
@@ -77,6 +80,32 @@ export default function PromoPage() {
 
   const isAvailable = promoStats && promoStats.remaining > 0
 
+  const handleSignup = async (e) => {
+    e.preventDefault()
+    setSigningUp(true)
+    setSignupStatus(null)
+
+    try {
+      const res = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      })
+      const data = await res.json()
+
+      if (res.ok) {
+        setSignupStatus({ success: true, message: data.message })
+        setEmail('')
+      } else {
+        setSignupStatus({ success: false, message: data.error })
+      }
+    } catch (err) {
+      setSignupStatus({ success: false, message: 'Something went wrong' })
+    } finally {
+      setSigningUp(false)
+    }
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: '#000000' }}>
       <div className="text-center max-w-xl">
@@ -111,7 +140,7 @@ export default function PromoPage() {
 
         {loading ? (
           <div style={{ color: '#666666', fontSize: '16px' }}>Loading...</div>
-        ) : error && !isAvailable ? (
+        ) : !isAvailable ? (
           <div style={{
             backgroundColor: '#1a1a1a',
             border: '1px solid #333',
@@ -122,16 +151,70 @@ export default function PromoPage() {
             <p style={{ color: '#ff6b6b', fontSize: '18px', marginBottom: '16px' }}>
               All licenses have been claimed!
             </p>
+
+            <p style={{ color: '#aaaaaa', fontSize: '14px', marginBottom: '16px' }}>
+              Sign up for future giveaways and new tool releases.
+            </p>
+
+            {signupStatus?.success ? (
+              <p style={{ color: '#ccff33', fontSize: '16px', fontWeight: '600' }}>
+                {signupStatus.message}
+              </p>
+            ) : (
+              <form onSubmit={handleSignup} style={{ marginBottom: '16px' }}>
+                <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="your@email.com"
+                    required
+                    style={{
+                      padding: '12px 16px',
+                      backgroundColor: '#000',
+                      border: '1px solid #444',
+                      borderRadius: '4px',
+                      color: '#fff',
+                      fontSize: '14px',
+                      width: '200px'
+                    }}
+                  />
+                  <button
+                    type="submit"
+                    disabled={signingUp}
+                    style={{
+                      padding: '12px 20px',
+                      backgroundColor: signingUp ? '#333' : '#ccff33',
+                      color: signingUp ? '#666' : '#000',
+                      fontWeight: '600',
+                      borderRadius: '4px',
+                      border: 'none',
+                      cursor: signingUp ? 'wait' : 'pointer',
+                      fontSize: '14px'
+                    }}
+                  >
+                    {signingUp ? '...' : 'Sign Up'}
+                  </button>
+                </div>
+                {signupStatus && !signupStatus.success && (
+                  <p style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '8px' }}>
+                    {signupStatus.message}
+                  </p>
+                )}
+              </form>
+            )}
+
             <Link
               href="/projects/vex"
               style={{
                 display: 'inline-block',
-                padding: '12px 24px',
-                backgroundColor: '#ccff33',
-                color: '#000000',
-                fontWeight: '600',
+                padding: '10px 20px',
+                backgroundColor: 'transparent',
+                color: '#888',
+                fontSize: '14px',
                 borderRadius: '4px',
-                textDecoration: 'none'
+                textDecoration: 'none',
+                border: '1px solid #444'
               }}
             >
               Get VEX at $25
