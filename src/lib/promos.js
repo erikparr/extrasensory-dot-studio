@@ -10,6 +10,15 @@ export const PROMOS = {
     description: 'Free license giveaway',
     active: true,
     productId: 'midi-warp' // Only valid for VEX
+  },
+  'SECRETSTASH11': {
+    code: 'SECRETSTASH11',
+    discount: 100, // 100% off (free)
+    type: 'percent',
+    maxUses: 11,
+    description: 'Secret stash giveaway',
+    active: true,
+    productId: 'midi-warp'
   }
 }
 
