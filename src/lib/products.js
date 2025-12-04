@@ -6,7 +6,7 @@ export const PRODUCTS = {
     currency: 'usd',
     category: 'Audio Plugin',
     description: 'Revolutionary MIDI effect plugin that transforms static MIDI controller input into dynamic, expressive musical performance using real-time physics simulation.',
-    longDescription: `MIDI Warp adds a "physics engine" between your MIDI controller and synthesizer, where your input controls a virtual bouncing ball that generates organic, expressive MIDI data.
+    longDescription: `VEX adds a "physics engine" between your MIDI controller and synthesizer, where your input controls a virtual bouncing ball that generates organic, expressive MIDI data.
 
 **Key Features:**
 • Real-time physics-based MIDI CC transformation
@@ -61,7 +61,7 @@ export const PRODUCTS = {
     },
 
     // Legacy single download (deprecated)
-    downloadFile: 'MIDI_Warp_v1.0.zip',
+    downloadFile: 'VEX_MIDI_EXPRESSION_v1.0.zip',
     downloadSize: '3.3 MB',
     
     systemRequirements: {
@@ -72,8 +72,8 @@ export const PRODUCTS = {
     },
     
     files: [
-      'MIDI Warp.vst3',
-      'MIDI Warp.component', 
+      'VEX MIDI Expression.vst3',
+      'VEX MIDI Expression.component',
       'User_Manual.md',
       'Installation_Instructions.txt'
     ]
