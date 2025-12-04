@@ -117,10 +117,36 @@ export default function VexPage() {
           color: '#666666',
           letterSpacing: '0.05em',
           textTransform: 'uppercase',
-          margin: 0
+          margin: '0 0 24px 0'
         }}>
           Expressive MIDI
         </p>
+        <p style={{
+          fontSize: '16px',
+          color: '#aaaaaa',
+          maxWidth: '400px',
+          margin: '0 auto 24px auto',
+          lineHeight: '1.5'
+        }}>
+          Turn any MIDI controller into a physics-based performance instrument.
+        </p>
+        <a
+          href="#purchase"
+          style={{
+            display: 'inline-block',
+            padding: '14px 32px',
+            backgroundColor: '#ccff33',
+            color: '#000000',
+            fontWeight: '600',
+            fontSize: '15px',
+            borderRadius: '4px',
+            textDecoration: 'none',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em'
+          }}
+        >
+          Free Download
+        </a>
       </div>
 
       {/* Value Indicators Section - 5 pairs of IN/OUT */}
