@@ -19,6 +19,15 @@ export const PROMOS = {
     description: 'Secret stash giveaway',
     active: true,
     productId: 'midi-warp'
+  },
+  'KVRAUDIO11': {
+    code: 'KVRAUDIO11',
+    discount: 100, // 100% off (free)
+    type: 'percent',
+    maxUses: 11,
+    description: 'KVR Audio giveaway',
+    active: true,
+    productId: 'midi-warp'
   }
 }
 
