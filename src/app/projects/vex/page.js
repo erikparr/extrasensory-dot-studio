@@ -474,6 +474,31 @@ export default function VexPage() {
                   </label>
                 ))}
               </div>
+
+              {/* Windows 10 WebView2 note */}
+              {trialPlatform === 'windows' && (
+                <div style={{
+                  marginTop: '12px',
+                  padding: '10px 12px',
+                  backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                  border: '1px solid rgba(251, 191, 36, 0.3)',
+                  borderRadius: '4px'
+                }}>
+                  <p style={{ fontSize: '12px', color: '#d97706', margin: 0, lineHeight: '1.4' }}>
+                    <span style={{ marginRight: '6px' }}>ℹ️</span>
+                    Windows 10 may require{' '}
+                    <a
+                      href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: '#d97706', textDecoration: 'underline' }}
+                    >
+                      WebView2 Runtime
+                    </a>
+                    {' '}(pre-installed on Windows 11)
+                  </p>
+                </div>
+              )}
             </div>
 
             <button

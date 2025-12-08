@@ -232,6 +232,34 @@ function SuccessContent() {
             <>
               <p className="pl-4">• VST3: <code className="bg-studio-gray-200 px-2 py-1 rounded">C:\Program Files\Common Files\VST3\</code></p>
               <p>3. If Windows Defender blocks the plugin, add an exception for the .vst3 file</p>
+
+              {/* Windows 10 WebView2 Notice */}
+              <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <span className="text-amber-600 text-lg">⚠️</span>
+                  <div>
+                    <h4 className="font-medium text-amber-800 mb-1">Windows 10 Users</h4>
+                    <p className="text-amber-700 text-sm mb-2">
+                      VEX uses Microsoft WebView2 for its interface. This is pre-installed on Windows 11,
+                      but may need to be installed manually on Windows 10.
+                    </p>
+                    <p className="text-amber-700 text-sm">
+                      If the plugin UI doesn&apos;t appear, install the WebView2 Runtime:
+                    </p>
+                    <a
+                      href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 mt-2 text-sm font-medium text-amber-800 hover:text-amber-900 underline"
+                    >
+                      Download WebView2 Runtime
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </>
           )}
 
