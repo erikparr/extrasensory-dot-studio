@@ -49,12 +49,12 @@ export const PRODUCTS = {
         formats: ['VST3', 'AU']
       },
       windows: {
-        file: 'VEX_MIDI_EXPRESSION_v1.0.19_Windows.zip',
+        file: 'VEX_MIDI_EXPRESSION_v1.0.20_Windows.zip',
         size: '2.6 MB',
         formats: ['VST3']
       },
       linux: {
-        file: 'VEX_MIDI_EXPRESSION_v1.0.19_Linux.zip',
+        file: 'VEX_MIDI_EXPRESSION_v1.0.20_Linux.zip',
         size: '2.1 MB',
         formats: ['VST3']
       }
