@@ -44,8 +44,8 @@ export const PRODUCTS = {
     // Platform-specific downloads
     downloads: {
       macos: {
-        file: 'VEX_MIDI_EXPRESSION_v1.0.19_macOS.zip',
-        size: '7.0 MB',
+        file: 'VEX_MIDI_EXPRESSION_v1.0.21_macOS.pkg',
+        size: '3.5 MB',
         formats: ['VST3', 'AU']
       },
       windows: {
