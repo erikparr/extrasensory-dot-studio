@@ -1,4 +1,58 @@
 export const PRODUCTS = {
+  'foam-sampler': {
+    id: 'foam-sampler',
+    title: 'FOAM Phoneme Sampler',
+    price: 2000, // $20.00 in cents
+    currency: 'usd',
+    category: 'Audio Plugin',
+    description: 'AI-powered phoneme sampling instrument with ElevenLabs TTS integration.',
+    longDescription: `FOAM generates realistic vocal phoneme samples using AI text-to-speech, turning any text into playable instrument sounds.
+
+**Key Features:**
+• AI-powered phoneme generation via ElevenLabs TTS
+• Real-time phoneme sampling and playback
+• DAW integration (VST3/AU formats)
+• Credit-based content generation system
+• Cross-platform support (macOS & Windows)
+
+**Pricing Model:**
+• One-time purchase: $20 for the plugin
+• Credits purchased separately for AI generation
+• Buy credits in-app or at foam.extrasensory.studio`,
+
+    features: [
+      'AI-powered phoneme sampling',
+      'ElevenLabs TTS integration',
+      'Real-time sample playback',
+      'VST3 and AU plugin formats',
+      'Cross-platform: macOS & Windows',
+      'Credit-based AI generation',
+      'In-app credit purchases'
+    ],
+
+    image: '/foam-screen.png',
+
+    // Platform-specific downloads
+    downloads: {
+      macos: {
+        file: 'FOAM_SAMPLER_v1.0.0_macOS.pkg',
+        size: 'TBD',
+        formats: ['VST3', 'AU']
+      },
+      windows: {
+        file: 'FOAM_SAMPLER_v1.0.0_Windows.zip',
+        size: 'TBD',
+        formats: ['VST3']
+      }
+    },
+
+    systemRequirements: {
+      os: 'macOS 10.13+ / Windows 10+',
+      architecture: 'Intel, Apple Silicon, x64',
+      formats: 'VST3, AU (macOS only)',
+      daws: 'Logic Pro, Ableton Live, Cubase, FL Studio, Reaper, Bitwig, and more'
+    }
+  },
   'midi-warp': {
     id: 'midi-warp',
     title: 'VEX Expressive MIDI',
