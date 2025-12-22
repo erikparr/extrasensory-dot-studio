@@ -263,7 +263,7 @@ export default function FoamPage() {
         </div>
       </div>
 
-      {/* Demo Video Section (Placeholder) */}
+      {/* Demo Video Section */}
       <div className="max-w-4xl mx-auto px-6 py-16">
         <div style={{
           maxWidth: '640px',
@@ -285,36 +285,23 @@ export default function FoamPage() {
             overflow: 'hidden',
             backgroundColor: '#1a1a1a',
             border: '1px solid #2a2a2a',
-            borderRadius: '8px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center'
+            borderRadius: '8px'
           }}>
-            <div style={{
-              position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              textAlign: 'center'
-            }}>
-              <div style={{
-                width: '64px',
-                height: '64px',
-                borderRadius: '50%',
-                backgroundColor: '#2a2a2a',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto 16px'
-              }}>
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="#666666">
-                  <path d="M8 5v14l11-7z"/>
-                </svg>
-              </div>
-              <p style={{ fontSize: '14px', color: '#666666' }}>
-                Demo video coming soon
-              </p>
-            </div>
+            <iframe
+              src="https://www.youtube.com/embed/PvssdueJEKw"
+              title="FOAM Demo Video"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                borderRadius: '8px'
+              }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
         </div>
       </div>
