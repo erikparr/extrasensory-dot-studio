@@ -88,7 +88,7 @@ export default function FoamPage() {
           fontSize: 'clamp(36px, 8vw, 48px)',
           fontWeight: '900',
           letterSpacing: '-0.02em',
-          color: 'rgb(51, 0, 255)',
+          color: '#e0e0e0',
           textTransform: 'lowercase',
           margin: '0 0 8px 0'
         }}>
@@ -141,7 +141,7 @@ export default function FoamPage() {
           color: '#ffffff',
           marginBottom: '32px'
         }}>
-          Transform any text into playable phoneme samples with ElevenLabs TTS integration.
+          Transform any text into playable phoneme samples with AI-powered speech synthesis.
         </h2>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -212,10 +212,10 @@ export default function FoamPage() {
               textTransform: 'uppercase',
               letterSpacing: '0.1em'
             }}>
-              ElevenLabs TTS Integration
+              AI Speech Synthesis
             </h3>
             <p style={{ fontSize: '14px', color: '#999999', lineHeight: '1.6' }}>
-              Powered by industry-leading ElevenLabs text-to-speech technology for natural, expressive vocal generation.
+              Powered by state-of-the-art text-to-speech technology for natural, expressive vocal generation.
             </p>
           </div>
 
