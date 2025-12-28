@@ -183,6 +183,30 @@ const iridescenceFragmentShader = `
   }
 `
 
+// Responsive FOV calculation - keeps horizontal content visible on narrow screens
+const BASE_ASPECT = 16 / 9
+const BASE_FOV = 35
+const MAX_FOV = 65
+
+function calculateResponsiveFOV(width, height) {
+  const aspect = width / height
+  let fov = BASE_FOV
+  if (aspect < BASE_ASPECT) {
+    fov = BASE_FOV * (BASE_ASPECT / aspect)
+    fov = Math.min(fov, MAX_FOV)
+  }
+  return fov
+}
+
+// Calculate camera Z to fit content width within view
+function calculateCameraZ(contentWidth, fov, aspect) {
+  const vFovRad = (fov * Math.PI) / 180
+  const hFovRad = 2 * Math.atan(Math.tan(vFovRad / 2) * aspect)
+  const padding = 1.15 // 15% breathing room
+  const z = (contentWidth * padding) / (2 * Math.tan(hFovRad / 2))
+  return z
+}
+
 export default function FoamLogo3D({
   className = '',
   autoRotate = true,
@@ -200,6 +224,7 @@ export default function FoamLogo3D({
     // Scene state - initialized lazily
     let initialized = false
     let scene, camera, renderer, clock, dracoLoader, bubbleGeometry
+    let sceneContentWidth = 0 // Store scene width for responsive camera positioning
     let animationId = 0
     let lastTime = performance.now()
     let frameCount = 0
@@ -246,8 +271,9 @@ export default function FoamLogo3D({
       // Scene setup
       scene = new THREE.Scene()
 
-      // Camera
-      camera = new THREE.PerspectiveCamera(35, width / height, 0.1, 1000)
+      // Camera - with responsive FOV for narrow screens
+      const initialFOV = calculateResponsiveFOV(width, height)
+      camera = new THREE.PerspectiveCamera(initialFOV, width / height, 0.1, 1000)
       camera.position.z = 6
 
       // Renderer
@@ -345,7 +371,10 @@ export default function FoamLogo3D({
               const sceneBounds = new THREE.Box3()
               letterMeshes.forEach(mesh => sceneBounds.expandByObject(mesh))
               const sceneSize = sceneBounds.getSize(new THREE.Vector3())
-              camera.position.z = (Math.max(sceneSize.x, sceneSize.y) * 0.8 + 3) * 0.56
+
+              // Store scene width and calculate camera Z to fit content
+              sceneContentWidth = sceneSize.x
+              camera.position.z = calculateCameraZ(sceneContentWidth, camera.fov, camera.aspect)
               camera.position.y = 1
             }
           },
@@ -439,8 +468,15 @@ export default function FoamLogo3D({
         return
       }
 
-      // Update existing scene
+      // Update existing scene with responsive FOV and camera Z
       camera.aspect = width / height
+      camera.fov = calculateResponsiveFOV(width, height)
+
+      // Recalculate camera Z if we know the scene width
+      if (sceneContentWidth > 0) {
+        camera.position.z = calculateCameraZ(sceneContentWidth, camera.fov, camera.aspect)
+      }
+
       camera.updateProjectionMatrix()
       renderer.setSize(width, height)
     }
@@ -472,7 +508,7 @@ export default function FoamLogo3D({
     <div
       ref={containerRef}
       className={`foam-logo-3d ${className}`}
-      style={{ width: '100%', height: '100%', position: 'relative', background: 'var(--bg-secondary, #0a0a0a)' }}
+      style={{ width: '100%', height: '100%', background: 'var(--bg-secondary, #0a0a0a)' }}
     >
       {showStats && (
         <div className="foam-logo-stats">
