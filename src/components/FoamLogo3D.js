@@ -471,13 +471,22 @@ export default function FoamLogo3D({
     }
     animate()
 
-    // Resize handler
+    // Resize handler using ResizeObserver for reliable detection
     const handleResize = () => {
       if (!container) return
-      camera.aspect = container.clientWidth / container.clientHeight
+      const width = container.clientWidth
+      const height = container.clientHeight
+      if (width === 0 || height === 0) return
+      camera.aspect = width / height
       camera.updateProjectionMatrix()
-      renderer.setSize(container.clientWidth, container.clientHeight)
+      renderer.setSize(width, height)
     }
+
+    // Use ResizeObserver for more reliable resize detection
+    const resizeObserver = new ResizeObserver(handleResize)
+    resizeObserver.observe(container)
+
+    // Also handle window resize as fallback
     window.addEventListener('resize', handleResize)
 
     sceneRef.current = {
@@ -490,6 +499,7 @@ export default function FoamLogo3D({
     }
 
     return () => {
+      resizeObserver.disconnect()
       window.removeEventListener('resize', handleResize)
       cancelAnimationFrame(animationId)
       dracoLoader.dispose()

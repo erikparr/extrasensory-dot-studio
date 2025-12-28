@@ -11,6 +11,8 @@
 
 .foam-logo-3d canvas {
   display: block;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .foam-logo-stats {
