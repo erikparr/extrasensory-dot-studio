@@ -185,8 +185,6 @@ const iridescenceFragmentShader = `
 
 export default function FoamLogo3D({
   className = '',
-  width = 400,
-  height = 200,
   autoRotate = true,
   showStats = false
 }) {
@@ -199,6 +197,10 @@ export default function FoamLogo3D({
     const container = containerRef.current
     if (!container) return
 
+    // Get actual container dimensions
+    const containerWidth = container.clientWidth || window.innerWidth
+    const containerHeight = container.clientHeight || window.innerHeight * 0.5
+
     // Scene setup
     const scene = new THREE.Scene()
     // Background handled by CSS container
@@ -206,7 +208,7 @@ export default function FoamLogo3D({
     // Camera - closer for more detail
     const camera = new THREE.PerspectiveCamera(
       35,
-      width / height,
+      containerWidth / containerHeight,
       0.1,
       1000
     )
@@ -217,7 +219,7 @@ export default function FoamLogo3D({
       antialias: true,
       alpha: true
     })
-    renderer.setSize(width, height)
+    renderer.setSize(containerWidth, containerHeight)
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
     renderer.outputColorSpace = THREE.SRGBColorSpace
     container.appendChild(renderer.domElement)
@@ -502,13 +504,13 @@ export default function FoamLogo3D({
       }
       sceneRef.current = null
     }
-  }, [width, height, autoRotate, showStats])
+  }, [autoRotate, showStats])
 
   return (
     <div
       ref={containerRef}
       className={`foam-logo-3d ${className}`}
-      style={{ width, height, position: 'relative', background: 'var(--bg-secondary, #0a0a0a)' }}
+      style={{ width: '100%', height: '100%', position: 'relative', background: 'var(--bg-secondary, #0a0a0a)' }}
     >
       {showStats && (
         <div className="foam-logo-stats">

@@ -68,8 +68,6 @@ export default function FoamPage() {
       <div className="relative" style={{ height: '50vh' }}>
         <FoamLogo3D
           className="absolute inset-0"
-          width={typeof window !== 'undefined' ? window.innerWidth : 1200}
-          height={typeof window !== 'undefined' ? window.innerHeight * 0.5 : 600}
           autoRotate={true}
         />
         {/* Gradient fade to black at bottom */}
