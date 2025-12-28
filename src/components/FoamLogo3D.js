@@ -198,12 +198,27 @@ function calculateResponsiveFOV(width, height) {
   return fov
 }
 
-// Calculate camera Z to fit content width within view
-function calculateCameraZ(contentWidth, fov, aspect) {
+// Calculate camera Z to fit content within view (both width and height)
+function calculateCameraZ(contentWidth, contentHeight, fov, aspect) {
   const vFovRad = (fov * Math.PI) / 180
   const hFovRad = 2 * Math.atan(Math.tan(vFovRad / 2) * aspect)
   const padding = 1.15 // 15% breathing room
-  const z = (contentWidth * padding) / (2 * Math.tan(hFovRad / 2))
+
+  // Z needed to fit width
+  const zForWidth = (contentWidth * padding) / (2 * Math.tan(hFovRad / 2))
+
+  // Z needed to fit height
+  const zForHeight = (contentHeight * padding) / (2 * Math.tan(vFovRad / 2))
+
+  // Use whichever requires the camera to be farther back
+  let z = Math.max(zForWidth, zForHeight)
+
+  // Pull back extra on wide screens to prevent vertical clipping
+  if (aspect > BASE_ASPECT) {
+    const widenessFactor = aspect / BASE_ASPECT
+    z *= 1 + (widenessFactor - 1) * (2 / 3) // Reduced by 1/3
+  }
+
   return z
 }
 
@@ -224,7 +239,8 @@ export default function FoamLogo3D({
     // Scene state - initialized lazily
     let initialized = false
     let scene, camera, renderer, clock, dracoLoader, bubbleGeometry
-    let sceneContentWidth = 0 // Store scene width for responsive camera positioning
+    let sceneContentWidth = 0 // Store scene dimensions for responsive camera positioning
+    let sceneContentHeight = 0
     let animationId = 0
     let lastTime = performance.now()
     let frameCount = 0
@@ -372,9 +388,10 @@ export default function FoamLogo3D({
               letterMeshes.forEach(mesh => sceneBounds.expandByObject(mesh))
               const sceneSize = sceneBounds.getSize(new THREE.Vector3())
 
-              // Store scene width and calculate camera Z to fit content
+              // Store scene dimensions and calculate camera Z to fit content
               sceneContentWidth = sceneSize.x
-              camera.position.z = calculateCameraZ(sceneContentWidth, camera.fov, camera.aspect)
+              sceneContentHeight = sceneSize.y
+              camera.position.z = calculateCameraZ(sceneContentWidth, sceneContentHeight, camera.fov, camera.aspect)
               camera.position.y = 1
             }
           },
@@ -472,9 +489,9 @@ export default function FoamLogo3D({
       camera.aspect = width / height
       camera.fov = calculateResponsiveFOV(width, height)
 
-      // Recalculate camera Z if we know the scene width
+      // Recalculate camera Z if we know the scene dimensions
       if (sceneContentWidth > 0) {
-        camera.position.z = calculateCameraZ(sceneContentWidth, camera.fov, camera.aspect)
+        camera.position.z = calculateCameraZ(sceneContentWidth, sceneContentHeight, camera.fov, camera.aspect)
       }
 
       camera.updateProjectionMatrix()
