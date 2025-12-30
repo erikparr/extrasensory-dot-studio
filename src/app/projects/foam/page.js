@@ -278,7 +278,7 @@ export default function FoamPage() {
             borderRadius: '8px'
           }}>
             <iframe
-              src="https://www.youtube.com/embed/PvssdueJEKw"
+              src="https://www.youtube.com/embed/iebzvL85_fo"
               title="FOAM Demo Video"
               style={{
                 position: 'absolute',
