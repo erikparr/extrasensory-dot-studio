@@ -1,7 +1,7 @@
 export const PRODUCTS = {
   'foam-sampler': {
     id: 'foam-sampler',
-    title: 'FOAM Phoneme Sampler',
+    title: 'FOAM',
     price: 2000, // $20.00 in cents
     currency: 'usd',
     category: 'Audio Plugin',
