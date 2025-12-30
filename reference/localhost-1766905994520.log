@@ -1,0 +1,5 @@
+forward-logs-shared.ts:95 [HMR] connected
+script.debug.js:1 [Vercel Web Analytics] Debug mode is enabled by default in development. No requests will be sent to the server.
+script.debug.js:1 [Vercel Web Analytics] [pageview] http://localhost:3000/projects/foam {o: 'http://localhost:3000/projects/foam', sv: '0.1.3', sdkn: '@vercel/analytics/react', sdkv: '1.5.0', ts: 1766905991824, …}
+FoamLogo3D.js:203 [FoamLogo3D] INIT: {container: {…}, canvas: {…}, camera: {…}}
+FoamLogo3D.js:203 [FoamLogo3D] MODELS LOADED: {sceneSize: {…}, camera: {…}, visibleWidth: '6.66'}

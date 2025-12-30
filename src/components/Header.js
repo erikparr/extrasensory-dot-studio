@@ -8,8 +8,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   
   const navItems = [
-    { name: 'About', path: '/about' },
-    { name: 'Shop', path: '/shop' }
+    { name: 'Shop', path: '/shop' },
+    { name: 'About', path: '/about' }
   ]
   
   return (
@@ -21,17 +21,18 @@ export default function Header() {
               src="/logo.svg"
               alt="extrasensory logo"
               className="w-12 h-12 md:w-20 md:h-20"
-              style={{ filter: 'drop-shadow(0 0 8px rgba(204, 255, 0, 0.6))' }}
+              style={{ filter: 'drop-shadow(0 0 8px rgba(223, 255, 128, 0.6))' }}
             />
             <div style={{ marginLeft: 'clamp(0px, 2vw, 40px)' }}>
               <span
-                className="font-semibold text-studio-accent leading-none mallanna-text"
+                className="font-semibold leading-none mallanna-text"
                 style={{
                   fontSize: 'clamp(1.5rem, 5vw, 4rem)',
                   letterSpacing: '0.01em',
                   fontDisplay: 'swap',
                   transform: 'scaleX(1.1)',
-                  display: 'block'
+                  display: 'block',
+                  color: '#dfff80'
                 }}
               >
                 extrasensory

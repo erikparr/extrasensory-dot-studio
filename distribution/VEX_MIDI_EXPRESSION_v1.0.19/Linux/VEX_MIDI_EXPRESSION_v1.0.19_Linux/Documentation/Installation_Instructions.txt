@@ -1,0 +1,214 @@
+VEX MIDI EXPRESSION v1.0.14 - INSTALLATION INSTRUCTIONS
+========================================================
+
+by Extrasensory
+Cross-Platform: Windows • Linux • macOS
+
+System Requirements:
+--------------------
+
+WINDOWS:
+- Windows 10 or later (64-bit)
+- VST3-compatible DAW
+- MIDI controller or MIDI input source
+
+LINUX:
+- Ubuntu 20.04+ or equivalent (64-bit)
+- VST3-compatible DAW
+- MIDI controller or MIDI input source
+
+macOS:
+- macOS 10.13 or later
+- Universal Binary (Intel x86_64 + Apple Silicon ARM64)
+- VST3 or AU-compatible DAW
+- MIDI controller or MIDI input source
+
+================================================================================
+WINDOWS INSTALLATION
+================================================================================
+
+1. EXTRACT THE PLUGIN FILES
+   - Unzip the downloaded VEX_MIDI_EXPRESSION_vX.X.X_Windows.zip file
+   - You should see "VEX MIDI EXPRESSION.vst3" in the "Windows" folder
+
+2. INSTALL VST3 PLUGIN
+   - Copy "VEX MIDI EXPRESSION.vst3" to one of these locations:
+
+     Option A (Recommended):
+     C:\Program Files\Common Files\VST3\
+
+     Option B (User-specific):
+     C:\Users\[YourUsername]\AppData\Local\Programs\Common\VST3\
+
+3. RESTART YOUR DAW
+   - Close and reopen your DAW completely
+   - VEX MIDI EXPRESSION should appear in your MIDI Effects or MIDI FX list
+   - Rescan plugins if necessary
+
+================================================================================
+LINUX INSTALLATION
+================================================================================
+
+1. EXTRACT THE PLUGIN FILES
+   - Unzip the downloaded VEX_MIDI_EXPRESSION_vX.X.X_Linux.zip file
+   - You should see "VEX MIDI EXPRESSION.vst3" in the "Linux" folder
+
+2. INSTALL VST3 PLUGIN
+   - Copy "VEX MIDI EXPRESSION.vst3" to:
+     ~/.vst3/
+
+   Terminal command:
+   mkdir -p ~/.vst3
+   cp -R "Linux/VEX MIDI EXPRESSION.vst3" ~/.vst3/
+
+   Or system-wide:
+   sudo cp -R "Linux/VEX MIDI EXPRESSION.vst3" /usr/lib/vst3/
+
+3. RESTART YOUR DAW
+   - Close and reopen your DAW completely
+   - VEX MIDI EXPRESSION should appear in your MIDI Effects or MIDI FX list
+   - Rescan plugins if necessary
+
+================================================================================
+macOS INSTALLATION
+================================================================================
+
+1. EXTRACT THE PLUGIN FILES
+   - Unzip the downloaded VEX_MIDI_EXPRESSION_vX.X.X_macOS.zip file
+   - You should see two plugin formats in the "macOS" folder:
+     • VEX MIDI EXPRESSION.vst3 (for most DAWs)
+     • VEX MIDI EXPRESSION.component (for Logic Pro, GarageBand)
+
+2. INSTALL VST3 PLUGIN (Ableton, Cubase, FL Studio, etc.)
+   - Copy "VEX MIDI EXPRESSION.vst3" to:
+     ~/Library/Audio/Plug-Ins/VST3/
+
+   Terminal command:
+   cp -R "macOS/VEX MIDI EXPRESSION.vst3" ~/Library/Audio/Plug-Ins/VST3/
+
+3. INSTALL AU PLUGIN (Logic Pro, GarageBand)
+   - Copy "VEX MIDI EXPRESSION.component" to:
+     ~/Library/Audio/Plug-Ins/Components/
+
+   Terminal command:
+   cp -R "macOS/VEX MIDI EXPRESSION.component" ~/Library/Audio/Plug-Ins/Components/
+
+4. RESTART YOUR DAW
+   - Close and reopen your DAW completely
+   - VEX MIDI EXPRESSION should appear in your MIDI Effects or MIDI FX list
+   - In Logic Pro, look under: Audio Units > MIDI Effect > Extrasensory
+
+================================================================================
+SETUP IN YOUR DAW (All Platforms)
+================================================================================
+
+Setup in Your DAW:
+==================
+
+QUICK START:
+1. Insert VEX MIDI EXPRESSION as a MIDI effect on a track
+2. Connect your MIDI controller to the track
+3. Route the MIDI output to your target instrument/synth
+4. Adjust physics parameters in the VEX interface
+5. Move a MIDI controller knob/fader and watch it bounce!
+
+DETAILED SETUP (Logic Pro Example):
+1. Create a Software Instrument track
+2. Click the MIDI FX slot and select: AU MIDI Effect > Extrasensory > VEX MIDI EXPRESSION
+3. Load your favorite synth in the Instrument slot
+4. Enable recording/monitoring on the track
+5. Open the VEX interface
+6. Click "Add Mapping" and select a CC number
+7. Choose "Bouncy" transform type
+8. Adjust bounciness and gravity parameters
+9. Move your MIDI controller and hear the organic transformation!
+
+ABLETON LIVE:
+1. Create a MIDI track
+2. Drag VEX MIDI EXPRESSION from Browser > Plug-ins > VST3
+3. Place it BEFORE your instrument in the device chain
+4. Configure as above
+
+CUBASE/NUENDO:
+1. Create a MIDI track
+2. Add VEX MIDI EXPRESSION to the MIDI Inserts section
+3. Route MIDI to your instrument track
+4. Configure as above
+
+Troubleshooting:
+================
+
+Plugin Not Appearing in DAW:
+---------------------------
+- Verify plugins are in the correct directories
+- Make sure you copied the entire .vst3/.component bundle, not just a file
+- Restart DAW completely (quit and relaunch)
+- Check DAW's plugin manager/preferences
+- In Logic Pro: Preferences > Plug-in Manager > Reset & Rescan Selection
+- Clear DAW's plugin cache if available
+
+Permission Issues:
+-----------------
+- Make sure you have write permissions to plugin directories
+- The ~/Library folder might be hidden - in Finder: Go > Go to Folder > ~/Library
+- For terminal commands, avoid using sudo (not recommended for plugin installs)
+
+"Damaged or Can't Be Opened" Error (macOS Gatekeeper):
+------------------------------------------------------
+If macOS blocks the plugin:
+1. Open System Settings > Privacy & Security
+2. Scroll down to "Security" section
+3. Look for message about VEX MIDI EXPRESSION being blocked
+4. Click "Open Anyway" or "Allow"
+5. Restart your DAW
+
+Alternative method:
+sudo xattr -r -d com.apple.quarantine "/path/to/VEX MIDI EXPRESSION.vst3"
+
+No MIDI Response:
+----------------
+- VEX MIDI EXPRESSION processes MIDI, not audio
+- Make sure it's inserted as a MIDI effect, not an audio effect
+- Verify MIDI routing: Input device → Track → VEX → Instrument
+- Check that your MIDI controller is sending CC messages
+- Enable "Add Mapping" and configure the CC number you're using
+- Toggle mapping "Enabled" checkbox on and off
+
+Physics Not Working:
+-------------------
+- Ensure the mapping is enabled (green toggle)
+- Verify CC number matches your controller
+- Increase gravity and bounciness for more dramatic effects
+- Try "Flip Gravity" to change bounce direction
+- Check that transformedValue is changing in the meters
+
+Performance Issues:
+------------------
+- Reduce number of active mappings (8 max recommended)
+- Disable unused mappings
+- Close other resource-intensive applications
+- VEX is highly optimized and should use minimal CPU
+
+For Technical Support:
+======================
+
+Email: contact@extrasensory.com
+Documentation: See User_Manual.md in the Documentation folder
+Build Info: See BUILD_INFO.txt for version details
+
+Tips:
+=====
+
+- Start with "Bouncy" physics and moderate settings
+- Try "Spring" physics for smooth oscillations
+- Experiment with different CC numbers for different parameters
+- Use multiple mappings for complex modulation
+- Flip gravity to change where the "rest position" is
+- Higher charge multiplier = more responsive to fast movements
+- Lower cooldown = can trigger bounces more frequently
+
+Enjoy creating organic, expressive MIDI performances with VEX MIDI EXPRESSION!
+
+---
+Copyright 2025 Extrasensory
+https://extrasensory.com
