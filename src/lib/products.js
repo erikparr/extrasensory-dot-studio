@@ -2,7 +2,7 @@ export const PRODUCTS = {
   'foam-sampler': {
     id: 'foam-sampler',
     title: 'FOAM',
-    price: 2000, // $20.00 in cents
+    price: 2500, // $25.00 in cents
     currency: 'usd',
     category: 'Audio Plugin',
     description: 'AI-powered phoneme sampling instrument with text-to-speech integration.',
@@ -16,7 +16,7 @@ export const PRODUCTS = {
 • Cross-platform support (macOS & Windows)
 
 **Pricing Model:**
-• One-time purchase: $20 for the plugin
+• One-time purchase: $25 for the plugin
 • Credits purchased separately for AI generation
 • Buy credits in-app or at foam.extrasensory.studio`,
 

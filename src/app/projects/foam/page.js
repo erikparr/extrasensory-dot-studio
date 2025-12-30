@@ -175,7 +175,7 @@ export default function FoamPage() {
               fontSize: '15px'
             }}
           >
-            Buy FOAM – $20
+            Buy FOAM – $25
           </a>
         </div>
       </div>
@@ -447,7 +447,7 @@ export default function FoamPage() {
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
                 <div style={{ fontSize: '48px', fontWeight: '700', color: 'rgb(51, 0, 255)' }}>
-                  $20
+                  $25
                 </div>
                 <div style={{ fontSize: '24px', color: '#666666', textDecoration: 'line-through' }}>
                   $30
