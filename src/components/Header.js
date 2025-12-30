@@ -20,7 +20,7 @@ export default function Header() {
             <img
               src="/logo.svg"
               alt="extrasensory logo"
-              className="w-12 h-12 md:w-20 md:h-20"
+              className="w-10 h-10 md:w-[68px] md:h-[68px]"
               style={{ filter: 'drop-shadow(0 0 8px rgba(223, 255, 128, 0.6))' }}
             />
             <div style={{ marginLeft: 'clamp(0px, 2vw, 40px)' }}>
