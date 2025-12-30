@@ -93,13 +93,13 @@ export default function FoamPage() {
           foam
         </h1>
         <p style={{
-          fontSize: '14px',
+          fontSize: '20px',
           color: '#666666',
           letterSpacing: '0.05em',
           textTransform: 'uppercase',
           margin: '0 0 24px 0'
         }}>
-          futuristic hyper-vocal instrument + synthetic ai speech generator
+          generate synthetic hypervocals
         </p>
         <p style={{
           fontSize: '16px',
@@ -108,7 +108,7 @@ export default function FoamPage() {
           margin: '0 auto 24px auto',
           lineHeight: '1.5'
         }}>
-          FOAM is a new vocal instrument that deconstructs synthetic speech into sonic bits.
+          FOAM is a new kind of vocal instrument that deconstructs synthetic AI speech into high-velocity phonemes.
         </p>
         <a
           href="#purchase"
