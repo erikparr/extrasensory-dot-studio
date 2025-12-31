@@ -119,6 +119,59 @@ export default function AbracadabraPage() {
   return (
     <div className="min-h-screen px-6 py-12" style={{ backgroundColor: '#000000' }}>
       <div className="max-w-2xl mx-auto">
+        {/* Paused Banner */}
+        <div style={{
+          backgroundColor: '#1a1a0a',
+          border: '2px solid #f59e0b',
+          borderRadius: '12px',
+          padding: '32px',
+          marginBottom: '32px',
+          textAlign: 'center'
+        }}>
+          <h1 style={{
+            fontSize: '32px',
+            fontWeight: '900',
+            color: '#f59e0b',
+            marginBottom: '16px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.05em'
+          }}>
+            Giveaway Paused
+          </h1>
+          <p style={{
+            fontSize: '20px',
+            color: '#ffffff',
+            marginBottom: '12px',
+            fontWeight: '600'
+          }}>
+            Until Reddit post reaches 15 upvotes
+          </p>
+          <p style={{
+            fontSize: '16px',
+            color: '#aaaaaa',
+            marginBottom: '24px'
+          }}>
+            I will add even more licenses based on upvotes. Support independent creators!
+          </p>
+          <a
+            href="https://www.reddit.com/r/AudioProductionDeals/comments/1hqx0t3/extrasensory_studio_foam_sampler_free_giveaway_25/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-block',
+              padding: '14px 28px',
+              backgroundColor: '#ff4500',
+              color: '#ffffff',
+              fontSize: '16px',
+              fontWeight: '600',
+              borderRadius: '6px',
+              textDecoration: 'none'
+            }}
+          >
+            Upvote on Reddit
+          </a>
+        </div>
+
         {/* Header */}
         <div className="text-center mb-12">
           <Link href="/projects/foam" className="inline-block mb-8">
@@ -291,22 +344,21 @@ export default function AbracadabraPage() {
                   )}
 
                   <button
-                    onClick={handleClaimFree}
-                    disabled={claiming || !hasAvailableNow}
+                    disabled={true}
                     style={{
                       width: '100%',
                       padding: '16px',
                       fontSize: '16px',
                       fontWeight: '600',
-                      color: claiming || !hasAvailableNow ? '#666666' : '#000000',
-                      backgroundColor: claiming || !hasAvailableNow ? '#333333' : '#ffffff',
+                      color: '#666666',
+                      backgroundColor: '#333333',
                       border: 'none',
                       borderRadius: '4px',
-                      cursor: claiming || !hasAvailableNow ? 'not-allowed' : 'pointer',
+                      cursor: 'not-allowed',
                       transition: 'all 0.2s'
                     }}
                   >
-                    {claiming ? 'Claiming...' : hasAvailableNow ? 'Claim Free License' : 'No Licenses Available'}
+                    Paused - Upvote to Unlock
                   </button>
 
                   {hasAvailableNow && (
