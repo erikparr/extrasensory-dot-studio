@@ -36,7 +36,7 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url)
   const secret = searchParams.get('secret')
 
-  if (secret !== process.env.ADMIN_SECRET) {
+  if (secret !== process.env.FOAM_ADMIN_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
