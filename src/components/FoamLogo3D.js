@@ -331,8 +331,9 @@ export default function FoamLogo3D({
           animationId = 0
         }
 
-        // If too many context losses, show fallback
-        if (contextLossCountRef.current >= 3) {
+        // If too many context losses in a short time, show fallback
+        // But be more lenient - only fail after 5 losses
+        if (contextLossCountRef.current >= 5) {
           console.warn('Too many WebGL context losses, showing fallback')
           setWebglFailed(true)
         }
@@ -589,12 +590,8 @@ export default function FoamLogo3D({
         if (mesh.geometry) mesh.geometry.dispose()
       })
       if (renderer) {
-        // Remove context loss listeners
-        const canvas = renderer.domElement
-        canvas.removeEventListener('webglcontextlost', () => {})
-        canvas.removeEventListener('webglcontextrestored', () => {})
         renderer.dispose()
-        renderer.forceContextLoss()
+        const canvas = renderer.domElement
         if (container.contains(canvas)) {
           container.removeChild(canvas)
         }
