@@ -2,7 +2,8 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
-const PROMO_CODE = 'ABRACADABRA11'
+const FREE_PROMO_CODE = 'ABRACADABRA20'
+const DISCOUNT_PROMO_CODE = 'ABRACADABRA'
 
 const PLATFORMS = [
   { id: 'macos', label: 'macOS' },
@@ -10,23 +11,24 @@ const PLATFORMS = [
   { id: 'linux', label: 'Linux' }
 ]
 
-export default function PromoPage() {
+export default function AbracadabraPage() {
   const [promoStats, setPromoStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [claiming, setClaiming] = useState(false)
+  const [purchasing, setPurchasing] = useState(false)
   const [error, setError] = useState(null)
-  const [email, setEmail] = useState('')
-  const [signupStatus, setSignupStatus] = useState(null)
-  const [signingUp, setSigningUp] = useState(false)
   const [trialPlatform, setTrialPlatform] = useState('macos')
 
   useEffect(() => {
     fetchPromoStats()
+    // Poll every 30 seconds for updates
+    const interval = setInterval(fetchPromoStats, 30000)
+    return () => clearInterval(interval)
   }, [])
 
   const fetchPromoStats = async () => {
     try {
-      const res = await fetch(`/api/promo?code=${PROMO_CODE}`)
+      const res = await fetch(`/api/promo?code=${FREE_PROMO_CODE}`)
       if (res.ok) {
         const data = await res.json()
         setPromoStats(data)
@@ -40,34 +42,32 @@ export default function PromoPage() {
     }
   }
 
-  const handleClaim = async () => {
+  const handleClaimFree = async () => {
     setClaiming(true)
     setError(null)
 
     try {
-      // Check if still available
       const checkRes = await fetch('/api/promo', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ code: PROMO_CODE })
+        body: JSON.stringify({ code: FREE_PROMO_CODE })
       })
 
       const checkData = await checkRes.json()
 
       if (!checkData.available) {
-        setError(checkData.error || 'Promo no longer available')
+        setError(checkData.error || 'No free licenses available right now')
         await fetchPromoStats()
         setClaiming(false)
         return
       }
 
-      // Redirect to checkout with promo code
       const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          productId: 'midi-warp',
-          couponCode: PROMO_CODE
+          productId: 'foam-sampler',
+          couponCode: FREE_PROMO_CODE
         })
       })
 
@@ -85,135 +85,304 @@ export default function PromoPage() {
     }
   }
 
-  const isAvailable = promoStats && promoStats.remaining > 0
-
-  const handleSignup = async (e) => {
-    e.preventDefault()
-    setSigningUp(true)
-    setSignupStatus(null)
+  const handlePurchaseDiscounted = async () => {
+    setPurchasing(true)
+    setError(null)
 
     try {
-      const res = await fetch('/api/newsletter', {
+      const checkoutRes = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({
+          productId: 'foam-sampler',
+          couponCode: DISCOUNT_PROMO_CODE
+        })
       })
-      const data = await res.json()
 
-      if (res.ok) {
-        setSignupStatus({ success: true, message: data.message })
-        setEmail('')
+      const checkoutData = await checkoutRes.json()
+
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url
       } else {
-        setSignupStatus({ success: false, message: data.error })
+        setError(checkoutData.error || 'Failed to start checkout')
+        setPurchasing(false)
       }
     } catch (err) {
-      setSignupStatus({ success: false, message: 'Something went wrong' })
-    } finally {
-      setSigningUp(false)
+      setError('Something went wrong')
+      setPurchasing(false)
     }
   }
 
+  const hasAvailableNow = promoStats?.availableNow > 0
+  const allClaimed = promoStats?.claimed >= promoStats?.totalLicenses
+
   return (
-    <div className="min-h-screen flex items-center justify-center px-6" style={{ backgroundColor: '#000000' }}>
-      <div className="text-center max-w-xl">
-        <Link href="/projects/vex" className="inline-block mb-8">
-          <img
-            src="/logo.svg"
-            alt="extrasensory logo"
-            className="w-24 h-24 mx-auto"
-            style={{ filter: 'drop-shadow(0 0 12px rgba(204, 255, 0, 0.6))' }}
-          />
-        </Link>
+    <div className="min-h-screen px-6 py-12" style={{ backgroundColor: '#000000' }}>
+      <div className="max-w-2xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <Link href="/projects/foam" className="inline-block mb-8">
+            <img
+              src="/logo.svg"
+              alt="extrasensory logo"
+              className="w-20 h-20 mx-auto"
+              style={{ filter: 'brightness(0.8)' }}
+            />
+          </Link>
 
-        <h1 style={{
-          fontFamily: '"Bitcount Grid Single", monospace',
-          fontSize: '48px',
-          fontWeight: '900',
-          color: '#ccff33',
-          textTransform: 'lowercase',
-          marginBottom: '16px'
-        }}>
-          Free VEX License
-        </h1>
+          <h1 style={{
+            fontFamily: '"Bitcount Grid Single", monospace',
+            fontSize: '42px',
+            fontWeight: '900',
+            color: '#e0e0e0',
+            textTransform: 'lowercase',
+            marginBottom: '12px'
+          }}>
+            foam giveaway
+          </h1>
 
-        <p style={{
-          fontSize: '18px',
-          color: '#aaaaaa',
-          marginBottom: '32px',
-          lineHeight: '1.6'
-        }}>
-          Claim one of 11 free licenses for VEX - the physics-based MIDI expression plugin.
-        </p>
+          <p style={{
+            fontSize: '17px',
+            color: '#888888',
+            lineHeight: '1.6',
+            maxWidth: '420px',
+            margin: '0 auto'
+          }}>
+            We&apos;re giving away 20 free FOAM licenses. New licenses are released randomly throughout the day.
+          </p>
+        </div>
 
         {loading ? (
-          <div style={{ color: '#666666', fontSize: '16px' }}>Loading...</div>
-        ) : !isAvailable ? (
-          <div style={{
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #333',
-            borderRadius: '8px',
-            padding: '24px',
-            marginBottom: '24px'
-          }}>
-            <p style={{ color: '#ff6b6b', fontSize: '18px', marginBottom: '16px' }}>
-              All licenses have been claimed!
-            </p>
+          <div style={{ color: '#666666', fontSize: '16px', textAlign: 'center' }}>Loading...</div>
+        ) : (
+          <>
+            {/* Free License Section */}
+            <div style={{
+              backgroundColor: '#0a0a0a',
+              border: '1px solid #2a2a2a',
+              borderRadius: '8px',
+              padding: '32px',
+              marginBottom: '24px'
+            }}>
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#666666',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  marginBottom: '8px'
+                }}>
+                  Free Licenses
+                </div>
 
-            <p style={{ color: '#aaaaaa', fontSize: '14px', marginBottom: '16px' }}>
-              Sign up for future giveaways and new tool releases.
-            </p>
-
-            {signupStatus?.success ? (
-              <p style={{ color: '#ccff33', fontSize: '16px', fontWeight: '600' }}>
-                {signupStatus.message}
-              </p>
-            ) : (
-              <form onSubmit={handleSignup} style={{ marginBottom: '16px' }}>
-                <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="your@email.com"
-                    required
-                    style={{
-                      padding: '12px 16px',
-                      backgroundColor: '#000',
-                      border: '1px solid #444',
-                      borderRadius: '4px',
-                      color: '#fff',
+                {allClaimed ? (
+                  <div style={{ fontSize: '18px', color: '#666666' }}>
+                    All 20 licenses have been claimed
+                  </div>
+                ) : hasAvailableNow ? (
+                  <>
+                    <div style={{
+                      fontSize: '56px',
+                      fontWeight: '900',
+                      color: '#ffffff',
+                      lineHeight: '1'
+                    }}>
+                      {promoStats.availableNow}
+                    </div>
+                    <div style={{
                       fontSize: '14px',
-                      width: '200px'
-                    }}
-                  />
+                      color: '#888888',
+                      marginTop: '8px'
+                    }}>
+                      available now
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div style={{
+                      fontSize: '24px',
+                      color: '#aaaaaa',
+                      marginBottom: '8px'
+                    }}>
+                      {promoStats?.claimed || 0} of 20 claimed
+                    </div>
+                    <div style={{
+                      fontSize: '14px',
+                      color: '#666666'
+                    }}>
+                      Next license drops soon — check back shortly
+                    </div>
+                  </>
+                )}
+              </div>
+
+              {!allClaimed && (
+                <>
+                  <div style={{
+                    backgroundColor: '#1a1a1a',
+                    borderRadius: '6px',
+                    padding: '16px',
+                    marginBottom: '20px',
+                    textAlign: 'center'
+                  }}>
+                    <p style={{ fontSize: '13px', color: '#888888', margin: 0 }}>
+                      Licenses are released at random times over 24 hours. Refresh or check back to catch the next drop.
+                    </p>
+                  </div>
+
+                  {error && (
+                    <div style={{
+                      color: '#ff6b6b',
+                      fontSize: '14px',
+                      marginBottom: '16px',
+                      textAlign: 'center'
+                    }}>
+                      {error}
+                    </div>
+                  )}
+
                   <button
-                    type="submit"
-                    disabled={signingUp}
+                    onClick={handleClaimFree}
+                    disabled={claiming || !hasAvailableNow}
                     style={{
-                      padding: '12px 20px',
-                      backgroundColor: signingUp ? '#333' : '#ccff33',
-                      color: signingUp ? '#666' : '#000',
+                      width: '100%',
+                      padding: '16px',
+                      fontSize: '16px',
                       fontWeight: '600',
-                      borderRadius: '4px',
+                      color: claiming || !hasAvailableNow ? '#666666' : '#000000',
+                      backgroundColor: claiming || !hasAvailableNow ? '#333333' : '#ffffff',
                       border: 'none',
-                      cursor: signingUp ? 'wait' : 'pointer',
-                      fontSize: '14px'
+                      borderRadius: '4px',
+                      cursor: claiming || !hasAvailableNow ? 'not-allowed' : 'pointer',
+                      transition: 'all 0.2s'
                     }}
                   >
-                    {signingUp ? '...' : 'Sign Up'}
+                    {claiming ? 'Claiming...' : hasAvailableNow ? 'Claim Free License' : 'No Licenses Available'}
                   </button>
-                </div>
-                {signupStatus && !signupStatus.success && (
-                  <p style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '8px' }}>
-                    {signupStatus.message}
-                  </p>
-                )}
-              </form>
-            )}
 
-            <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #333' }}>
-              <p style={{ color: '#888', fontSize: '13px', marginBottom: '12px' }}>
-                Try VEX free for 14 days
+                  {hasAvailableNow && (
+                    <p style={{
+                      fontSize: '12px',
+                      color: '#555555',
+                      marginTop: '12px',
+                      textAlign: 'center'
+                    }}>
+                      You&apos;ll be redirected to checkout (total: $0)
+                    </p>
+                  )}
+                </>
+              )}
+            </div>
+
+            {/* $20 Promo Section */}
+            <div style={{
+              backgroundColor: '#0a0a0a',
+              border: '2px solid #333333',
+              borderRadius: '8px',
+              padding: '32px'
+            }}>
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+                <div style={{
+                  fontSize: '12px',
+                  color: '#888888',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  marginBottom: '8px'
+                }}>
+                  Limited Time Offer
+                </div>
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'baseline',
+                  justifyContent: 'center',
+                  gap: '12px',
+                  marginBottom: '8px'
+                }}>
+                  <span style={{
+                    fontSize: '48px',
+                    fontWeight: '700',
+                    color: '#ffffff'
+                  }}>
+                    $20
+                  </span>
+                  <span style={{
+                    fontSize: '20px',
+                    color: '#666666',
+                    textDecoration: 'line-through'
+                  }}>
+                    $25
+                  </span>
+                </div>
+                <p style={{
+                  fontSize: '15px',
+                  color: '#aaaaaa',
+                  margin: '0 0 4px 0'
+                }}>
+                  Skip the wait — get FOAM now at a special price
+                </p>
+                <p style={{
+                  fontSize: '13px',
+                  color: '#666666',
+                  margin: 0
+                }}>
+                  Includes 250 AI generation credits
+                </p>
+              </div>
+
+              <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+                marginBottom: '24px'
+              }}>
+                {[
+                  'Full plugin license (VST3, AU)',
+                  'All platforms: macOS, Windows, Linux',
+                  '250 credits for AI phoneme generation',
+                  'Lifetime updates'
+                ].map((benefit, i) => (
+                  <div key={i} style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '10px',
+                    fontSize: '14px',
+                    color: '#aaaaaa'
+                  }}>
+                    <span style={{ color: '#666666' }}>✓</span>
+                    {benefit}
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={handlePurchaseDiscounted}
+                disabled={purchasing}
+                style={{
+                  width: '100%',
+                  padding: '16px',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  color: purchasing ? '#666666' : '#000000',
+                  backgroundColor: purchasing ? '#333333' : '#e0e0e0',
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: purchasing ? 'wait' : 'pointer',
+                  transition: 'all 0.2s'
+                }}
+              >
+                {purchasing ? 'Processing...' : 'Get FOAM for $20'}
+              </button>
+            </div>
+
+            {/* Trial Download Section */}
+            <div style={{
+              marginTop: '32px',
+              paddingTop: '24px',
+              borderTop: '1px solid #1a1a1a',
+              textAlign: 'center'
+            }}>
+              <p style={{ color: '#666666', fontSize: '14px', marginBottom: '16px' }}>
+                Want to try before you buy?
               </p>
               <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', marginBottom: '12px' }}>
                 {PLATFORMS.map((platform) => (
@@ -221,12 +390,12 @@ export default function PromoPage() {
                     key={platform.id}
                     onClick={() => setTrialPlatform(platform.id)}
                     style={{
-                      padding: '6px 12px',
-                      backgroundColor: trialPlatform === platform.id ? '#2a2a2a' : 'transparent',
-                      border: `1px solid ${trialPlatform === platform.id ? '#ccff33' : '#444'}`,
+                      padding: '6px 14px',
+                      backgroundColor: trialPlatform === platform.id ? '#1a1a1a' : 'transparent',
+                      border: `1px solid ${trialPlatform === platform.id ? '#444' : '#333'}`,
                       borderRadius: '4px',
-                      color: trialPlatform === platform.id ? '#ccff33' : '#888',
-                      fontSize: '12px',
+                      color: trialPlatform === platform.id ? '#aaaaaa' : '#666666',
+                      fontSize: '13px',
                       cursor: 'pointer'
                     }}
                   >
@@ -235,107 +404,41 @@ export default function PromoPage() {
                 ))}
               </div>
               <a
-                href={`/api/trial-download?product_id=midi-warp&platform=${trialPlatform}`}
+                href={`/api/trial-download?product_id=foam-sampler&platform=${trialPlatform}`}
                 style={{
                   display: 'inline-block',
                   padding: '10px 24px',
-                  backgroundColor: '#ccff33',
-                  color: '#000',
-                  fontWeight: '600',
+                  backgroundColor: 'transparent',
+                  border: '1px solid #444',
+                  color: '#aaaaaa',
+                  fontWeight: '500',
                   fontSize: '14px',
                   borderRadius: '4px',
                   textDecoration: 'none'
                 }}
               >
-                Download Trial
+                Download Free Demo
               </a>
             </div>
-          </div>
-        ) : (
-          <>
-            {/* Counter */}
+
+            {/* Footer Link */}
             <div style={{
-              backgroundColor: '#1a1a1a',
-              border: '2px solid #ccff33',
-              borderRadius: '8px',
-              padding: '24px',
-              marginBottom: '24px'
+              marginTop: '32px',
+              textAlign: 'center'
             }}>
-              <div style={{
-                fontSize: '64px',
-                fontWeight: '900',
-                color: '#ccff33',
-                lineHeight: '1'
-              }}>
-                {promoStats?.remaining}
-              </div>
-              <div style={{
-                fontSize: '14px',
-                color: '#888888',
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-                marginTop: '8px'
-              }}>
-                of {promoStats?.total} remaining
-              </div>
+              <Link
+                href="/projects/foam"
+                style={{
+                  color: '#555555',
+                  fontSize: '14px',
+                  textDecoration: 'none'
+                }}
+              >
+                Learn more about FOAM →
+              </Link>
             </div>
-
-            {error && (
-              <div style={{
-                color: '#ff6b6b',
-                fontSize: '14px',
-                marginBottom: '16px'
-              }}>
-                {error}
-              </div>
-            )}
-
-            <button
-              onClick={handleClaim}
-              disabled={claiming || !isAvailable}
-              style={{
-                width: '100%',
-                maxWidth: '300px',
-                padding: '16px 32px',
-                fontSize: '18px',
-                fontWeight: '600',
-                color: claiming ? '#666666' : '#000000',
-                backgroundColor: claiming ? '#333333' : '#ccff33',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: claiming ? 'wait' : 'pointer',
-                transition: 'all 0.2s'
-              }}
-            >
-              {claiming ? 'Claiming...' : 'Claim Free License'}
-            </button>
-
-            <p style={{
-              fontSize: '13px',
-              color: '#555555',
-              marginTop: '16px'
-            }}>
-              You&apos;ll be redirected to checkout (total: $0)
-            </p>
           </>
         )}
-
-        <div style={{
-          marginTop: '48px',
-          paddingTop: '24px',
-          borderTop: '1px solid #222'
-        }}>
-          <Link
-            href="/projects/vex"
-            style={{
-              color: '#666666',
-              fontSize: '14px',
-              textDecoration: 'none'
-            }}
-          >
-            Learn more about VEX →
-          </Link>
-        </div>
       </div>
     </div>
   )

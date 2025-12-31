@@ -2,14 +2,25 @@ import { kv } from '@vercel/kv'
 
 // Promo code configuration
 export const PROMOS = {
-  'ABRACADABRA11': {
-    code: 'ABRACADABRA11',
+  'ABRACADABRA20': {
+    code: 'ABRACADABRA20',
     discount: 100, // 100% off (free)
     type: 'percent',
-    maxUses: 11,
-    description: 'Free license giveaway',
+    maxUses: 20,
+    description: 'Free FOAM license giveaway',
     active: true,
-    productId: 'midi-warp' // Only valid for VEX
+    productId: 'foam-sampler',
+    timedRelease: true,
+    releaseDurationHours: 24
+  },
+  'ABRACADABRA': {
+    code: 'ABRACADABRA',
+    discount: 20, // 20% off ($25 -> $20)
+    type: 'percent',
+    maxUses: 1000,
+    description: 'FOAM $20 promo price',
+    active: true,
+    productId: 'foam-sampler'
   },
   'SECRETSTASH11': {
     code: 'SECRETSTASH11',
@@ -63,6 +74,11 @@ export async function getPromoRedemptionCount(code) {
 export async function isPromoAvailable(code) {
   const promo = getPromo(code)
   if (!promo) return { available: false, error: 'Invalid promo code' }
+
+  // Handle timed release promos
+  if (promo.timedRelease) {
+    return await isTimedReleaseAvailable(code)
+  }
 
   const count = await getPromoRedemptionCount(code)
   const remaining = promo.maxUses - count
@@ -145,12 +161,132 @@ export async function getPromoStats(code) {
 
   const count = await getPromoRedemptionCount(code)
 
-  return {
+  const stats = {
     code: promo.code,
     description: promo.description,
     total: promo.maxUses,
     claimed: count,
     remaining: promo.maxUses - count,
     active: promo.active && count < promo.maxUses
+  }
+
+  // Add timed release info if applicable
+  if (promo.timedRelease) {
+    const timedStats = await getTimedReleaseStats(code)
+    return { ...stats, ...timedStats }
+  }
+
+  return stats
+}
+
+/**
+ * Initialize timed release schedule for a promo
+ * Generates random release times spread over the duration
+ */
+export async function initializeTimedRelease(code) {
+  const promo = getPromo(code)
+  if (!promo || !promo.timedRelease) return null
+
+  const scheduleKey = `promo:${code.toUpperCase()}:schedule`
+  const startKey = `promo:${code.toUpperCase()}:start`
+
+  // Check if already initialized
+  const existingSchedule = await kv.get(scheduleKey)
+  if (existingSchedule) {
+    const startTime = await kv.get(startKey)
+    return { schedule: existingSchedule, startTime }
+  }
+
+  // Generate random release times
+  const now = Date.now()
+  const durationMs = promo.releaseDurationHours * 60 * 60 * 1000
+  const endTime = now + durationMs
+
+  // Generate random timestamps for each license
+  const releaseTimes = []
+  for (let i = 0; i < promo.maxUses; i++) {
+    const randomTime = now + Math.random() * durationMs
+    releaseTimes.push(randomTime)
+  }
+
+  // Sort chronologically
+  releaseTimes.sort((a, b) => a - b)
+
+  await kv.set(startKey, now)
+  await kv.set(scheduleKey, releaseTimes)
+
+  return { schedule: releaseTimes, startTime: now }
+}
+
+/**
+ * Get timed release stats - how many released vs claimed
+ */
+export async function getTimedReleaseStats(code) {
+  const promo = getPromo(code)
+  if (!promo || !promo.timedRelease) return null
+
+  const scheduleKey = `promo:${code.toUpperCase()}:schedule`
+  const startKey = `promo:${code.toUpperCase()}:start`
+
+  let schedule = await kv.get(scheduleKey)
+  let startTime = await kv.get(startKey)
+
+  // Initialize if not yet started
+  if (!schedule) {
+    const init = await initializeTimedRelease(code)
+    if (init) {
+      schedule = init.schedule
+      startTime = init.startTime
+    } else {
+      return null
+    }
+  }
+
+  const now = Date.now()
+  const claimed = await getPromoRedemptionCount(code)
+
+  // Count how many have been released (timestamp has passed)
+  const released = schedule.filter(time => time <= now).length
+
+  // Available = released but not yet claimed
+  const availableNow = Math.max(0, released - claimed)
+
+  // Find next release time
+  const nextRelease = schedule.find(time => time > now)
+  const durationMs = promo.releaseDurationHours * 60 * 60 * 1000
+  const endTime = startTime + durationMs
+
+  return {
+    timedRelease: true,
+    released,
+    availableNow,
+    claimed,
+    totalLicenses: promo.maxUses,
+    nextReleaseTime: nextRelease || null,
+    promoEndTime: endTime,
+    promoStartTime: startTime
+  }
+}
+
+/**
+ * Check if a timed release license is available to claim
+ */
+export async function isTimedReleaseAvailable(code) {
+  const stats = await getTimedReleaseStats(code)
+  if (!stats) return { available: false, error: 'Invalid promo' }
+
+  if (stats.availableNow > 0) {
+    return { available: true, availableNow: stats.availableNow }
+  }
+
+  if (stats.claimed >= stats.totalLicenses) {
+    return { available: false, error: 'All licenses have been claimed', allClaimed: true }
+  }
+
+  return {
+    available: false,
+    error: 'No licenses available right now',
+    nextReleaseTime: stats.nextReleaseTime,
+    checkBackSoon: true
   }
 }
