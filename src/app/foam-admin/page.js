@@ -125,6 +125,14 @@ export default function FoamAdmin() {
               <div style={styles.label}>OpenAI TTS Usage</div>
               <div style={styles.value}>{charPct}%</div>
               <div style={styles.sub}>{charsToday.toLocaleString()} / {charLimit.toLocaleString()} chars</div>
+              <a
+                href="https://platform.openai.com/usage"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={styles.externalLink}
+              >
+                View OpenAI Dashboard →
+              </a>
             </div>
             <div style={{
               ...styles.statCard,
@@ -165,6 +173,7 @@ export default function FoamAdmin() {
                     <th style={styles.th}>License Key</th>
                     <th style={styles.th}>Email</th>
                     <th style={styles.th}>Status</th>
+                    <th style={styles.th}>Created</th>
                     <th style={styles.th}>Balance</th>
                     <th style={styles.th}>Used</th>
                     <th style={styles.th}>Purchased</th>
@@ -176,6 +185,7 @@ export default function FoamAdmin() {
                       <td style={styles.td}><code>{l.license_key}</code></td>
                       <td style={styles.td}>{l.email || '-'}</td>
                       <td style={styles.td}><span style={{...styles.badge, ...styles[`badge_${l.status}`]}}>{l.status}</span></td>
+                      <td style={styles.td}>{formatTime(l.created_at)}</td>
                       <td style={styles.td}><strong>{l.balance}</strong></td>
                       <td style={styles.td}>{l.lifetime_used}</td>
                       <td style={styles.td}>{l.lifetime_purchased}</td>
@@ -337,6 +347,13 @@ const styles = {
   label: { color: '#888', fontSize: 12, textTransform: 'uppercase' },
   value: { fontSize: 32, fontWeight: 'bold', color: '#fff', marginTop: 5 },
   sub: { color: '#666', fontSize: 12, marginTop: 5 },
+  externalLink: {
+    display: 'block',
+    marginTop: 10,
+    color: '#3b82f6',
+    fontSize: 12,
+    textDecoration: 'none',
+  },
   tabs: {
     display: 'flex',
     gap: 5,
