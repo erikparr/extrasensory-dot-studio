@@ -307,7 +307,7 @@ export default function FoamLogo3D({
 
       // Renderer - with Safari-specific options
       renderer = new THREE.WebGLRenderer({
-        antialias: !isSafari, // Disable antialiasing on Safari for stability
+        antialias: true, // Keep antialiasing for quality
         alpha: true,
         powerPreference: isSafari ? 'low-power' : 'high-performance',
         failIfMajorPerformanceCaveat: false
