@@ -146,10 +146,59 @@ export default function AbracadabraPage() {
             color: '#888888',
             lineHeight: '1.6',
             maxWidth: '420px',
-            margin: '0 auto'
+            margin: '0 auto 24px auto'
           }}>
-            We&apos;re giving away 20 free FOAM licenses. New licenses are released randomly throughout the day.
+            We&apos;re giving away 25 free FOAM licenses. New licenses are released randomly throughout the day.
           </p>
+
+          <Link
+            href="/projects/foam"
+            style={{
+              display: 'inline-block',
+              padding: '12px 24px',
+              backgroundColor: '#1a1a1a',
+              border: '1px solid #333',
+              borderRadius: '4px',
+              color: '#aaaaaa',
+              fontSize: '14px',
+              fontWeight: '500',
+              textDecoration: 'none'
+            }}
+          >
+            Learn about FOAM →
+          </Link>
+        </div>
+
+        {/* Video Section */}
+        <div style={{
+          maxWidth: '560px',
+          margin: '0 auto 32px auto'
+        }}>
+          <div style={{
+            position: 'relative',
+            paddingBottom: '56.25%',
+            height: 0,
+            overflow: 'hidden',
+            backgroundColor: '#1a1a1a',
+            border: '1px solid #2a2a2a',
+            borderRadius: '8px'
+          }}>
+            <iframe
+              src="https://www.youtube.com/embed/iebzvL85_fo"
+              title="FOAM Demo Video"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                borderRadius: '8px'
+              }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         </div>
 
         {loading ? (
@@ -177,7 +226,7 @@ export default function AbracadabraPage() {
 
                 {allClaimed ? (
                   <div style={{ fontSize: '18px', color: '#666666' }}>
-                    All 20 licenses have been claimed
+                    All 25 licenses have been claimed
                   </div>
                 ) : hasAvailableNow ? (
                   <>
@@ -204,7 +253,7 @@ export default function AbracadabraPage() {
                       color: '#aaaaaa',
                       marginBottom: '8px'
                     }}>
-                      {promoStats?.claimed || 0} of 20 claimed
+                      {promoStats?.claimed || 0} of 25 claimed
                     </div>
                     <div style={{
                       fontSize: '14px',
@@ -421,22 +470,6 @@ export default function AbracadabraPage() {
               </a>
             </div>
 
-            {/* Footer Link */}
-            <div style={{
-              marginTop: '32px',
-              textAlign: 'center'
-            }}>
-              <Link
-                href="/projects/foam"
-                style={{
-                  color: '#555555',
-                  fontSize: '14px',
-                  textDecoration: 'none'
-                }}
-              >
-                Learn more about FOAM →
-              </Link>
-            </div>
           </>
         )}
       </div>

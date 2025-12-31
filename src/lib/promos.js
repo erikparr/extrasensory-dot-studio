@@ -6,12 +6,13 @@ export const PROMOS = {
     code: 'ABRACADABRA20',
     discount: 100, // 100% off (free)
     type: 'percent',
-    maxUses: 20,
+    maxUses: 25,
     description: 'Free FOAM license giveaway',
     active: true,
     productId: 'foam-sampler',
     timedRelease: true,
-    releaseDurationHours: 24
+    releaseDurationHours: 24,
+    immediateReleases: 5
   },
   'ABRACADABRA': {
     code: 'ABRACADABRA',
@@ -200,11 +201,18 @@ export async function initializeTimedRelease(code) {
   // Generate random release times
   const now = Date.now()
   const durationMs = promo.releaseDurationHours * 60 * 60 * 1000
-  const endTime = now + durationMs
+  const immediateCount = promo.immediateReleases || 0
 
-  // Generate random timestamps for each license
+  // Generate timestamps for each license
   const releaseTimes = []
-  for (let i = 0; i < promo.maxUses; i++) {
+
+  // First N licenses are available immediately
+  for (let i = 0; i < immediateCount; i++) {
+    releaseTimes.push(now)
+  }
+
+  // Remaining licenses released randomly over the duration
+  for (let i = immediateCount; i < promo.maxUses; i++) {
     const randomTime = now + Math.random() * durationMs
     releaseTimes.push(randomTime)
   }
