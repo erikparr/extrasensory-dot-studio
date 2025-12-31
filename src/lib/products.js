@@ -35,8 +35,8 @@ export const PRODUCTS = {
     // Platform-specific downloads
     downloads: {
       macos: {
-        file: 'FOAM-1.0.2.dmg',
-        size: '8.1 MB',
+        file: 'FOAM-1.0.3.dmg',
+        size: '16.6 MB',
         formats: ['VST3', 'AU']
       },
       windows: {
