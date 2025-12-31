@@ -83,6 +83,31 @@ export async function POST(request) {
 
         console.log('License key generated and stored:', licenseKey)
 
+        // Sync FOAM licenses to foam-studio-api (Redis)
+        if (productId === 'foam-sampler' && process.env.FOAM_API_URL && process.env.FOAM_ADMIN_SECRET) {
+          try {
+            const foamRes = await fetch(`${process.env.FOAM_API_URL}/api/admin/licenses/register`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'X-Admin-Secret': process.env.FOAM_ADMIN_SECRET
+              },
+              body: JSON.stringify({
+                license_key: licenseKey,
+                email: customerEmail,
+                starter_credits: 250
+              })
+            })
+            if (foamRes.ok) {
+              console.log('License synced to FOAM API:', licenseKey)
+            } else {
+              console.error('Failed to sync license to FOAM API:', await foamRes.text())
+            }
+          } catch (foamErr) {
+            console.error('Error syncing license to FOAM API:', foamErr)
+          }
+        }
+
         // Record promo redemption if applicable
         const promoCode = session.metadata?.promoCode
         if (promoCode) {
