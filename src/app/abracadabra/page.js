@@ -1,4 +1,12 @@
 'use client'
+import { redirect } from 'next/navigation'
+
+export default function AbracadabraPage() {
+  redirect('/projects/foam')
+}
+
+/* PROMO TEMPLATE - DISABLED
+
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 
@@ -11,7 +19,7 @@ const PLATFORMS = [
   { id: 'linux', label: 'Linux' }
 ]
 
-export default function AbracadabraPage() {
+export default function AbracadabraPageTemplate() {
   const [promoStats, setPromoStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [claiming, setClaiming] = useState(false)
@@ -21,7 +29,6 @@ export default function AbracadabraPage() {
 
   useEffect(() => {
     fetchPromoStats()
-    // Poll every 30 seconds for updates
     const interval = setInterval(fetchPromoStats, 30000)
     return () => clearInterval(interval)
   }, [])
@@ -119,59 +126,6 @@ export default function AbracadabraPage() {
   return (
     <div className="min-h-screen px-6 py-12" style={{ backgroundColor: '#000000' }}>
       <div className="max-w-2xl mx-auto">
-        {/* Paused Banner */}
-        <div style={{
-          backgroundColor: '#1a1a0a',
-          border: '2px solid #f59e0b',
-          borderRadius: '12px',
-          padding: '32px',
-          marginBottom: '32px',
-          textAlign: 'center'
-        }}>
-          <h1 style={{
-            fontSize: '32px',
-            fontWeight: '900',
-            color: '#f59e0b',
-            marginBottom: '16px',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
-          }}>
-            Giveaway Paused
-          </h1>
-          <p style={{
-            fontSize: '20px',
-            color: '#ffffff',
-            marginBottom: '12px',
-            fontWeight: '600'
-          }}>
-            Until Reddit post reaches 15 upvotes
-          </p>
-          <p style={{
-            fontSize: '16px',
-            color: '#aaaaaa',
-            marginBottom: '24px'
-          }}>
-            I will add even more licenses based on upvotes. Support independent creators!
-          </p>
-          <a
-            href="https://reddit.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'inline-block',
-              padding: '14px 28px',
-              backgroundColor: '#ff4500',
-              color: '#ffffff',
-              fontSize: '16px',
-              fontWeight: '600',
-              borderRadius: '6px',
-              textDecoration: 'none'
-            }}
-          >
-            Upvote on Reddit
-          </a>
-        </div>
-
         {/* Header */}
         <div className="text-center mb-12">
           <Link href="/projects/foam" className="inline-block mb-8">
@@ -528,3 +482,4 @@ export default function AbracadabraPage() {
     </div>
   )
 }
+*/
