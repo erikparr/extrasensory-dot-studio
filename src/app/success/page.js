@@ -114,9 +114,14 @@ function SuccessContent() {
               <div>
                 <h4 className="font-medium mb-2">What&apos;s Included:</h4>
                 <ul className="text-studio-gray-600 space-y-1">
-                  {product.files.map((file, index) => (
+                  {product.files ? product.files.map((file, index) => (
                     <li key={index}>• {file}</li>
-                  ))}
+                  )) : (
+                    <>
+                      <li>• {product.title} Plugin (VST3, AU)</li>
+                      <li>• All platform builds included</li>
+                    </>
+                  )}
                 </ul>
               </div>
               
