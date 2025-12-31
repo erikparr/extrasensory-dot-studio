@@ -154,7 +154,7 @@ export default function AbracadabraPage() {
             I will add even more licenses based on upvotes. Support independent creators!
           </p>
           <a
-            href="https://www.reddit.com/r/AudioProductionDeals/comments/1hqx0t3/extrasensory_studio_foam_sampler_free_giveaway_25/"
+            href="https://reddit.com"
             target="_blank"
             rel="noopener noreferrer"
             style={{
