@@ -74,9 +74,9 @@ export async function POST(request) {
           customerEmail
         )
 
-        // Generate license key
+        // Generate license key with product-specific prefix
         const { generateLicenseKey, storeLicense } = await import('@/lib/licenseKeys')
-        const licenseKey = generateLicenseKey()
+        const licenseKey = generateLicenseKey(productId)
 
         // Store license in KV
         await storeLicense(licenseKey, session.id, productId, customerEmail)

@@ -40,35 +40,45 @@ function generateKeyData(length = 8) {
   return result
 }
 
+// Product-specific license prefixes
+const LICENSE_PREFIXES = {
+  'midi-warp': 'VXME',      // VEX MIDI Expression
+  'foam-sampler': 'FOAM'    // FOAM Sampler
+}
+
 /**
  * Generate complete license key
- * Format: VXME-XXXX-XXXX-XXXX
+ * Format: XXXX-XXXX-XXXX-XXXX
  * Structure: PREFIX(4) + KEYDATA(8) + CHECKSUM(4) = 16 chars
  *
- * @returns {string} Formatted license key (e.g., "VXME-A1B2-C3D4-E5F6")
+ * @param {string} productId - Product ID to determine prefix
+ * @returns {string} Formatted license key (e.g., "FOAM-A1B2-C3D4-E5F6")
  */
-export function generateLicenseKey() {
-  const prefix = 'VXME'
+export function generateLicenseKey(productId = 'midi-warp') {
+  const prefix = LICENSE_PREFIXES[productId] || 'VXME'
   const keyData = generateKeyData(8)
   const checksum = calculateChecksum(prefix, keyData)
 
-  // Full key: VXME + 8 chars + 4 char checksum
+  // Full key: PREFIX + 8 chars + 4 char checksum
   const fullKey = prefix + keyData + checksum
 
-  // Format: VXME-XXXX-XXXX-XXXX
+  // Format: XXXX-XXXX-XXXX-XXXX
   return [
-    fullKey.substring(0, 4),   // VXME
+    fullKey.substring(0, 4),   // Prefix
     fullKey.substring(4, 8),   // First 4 of keyData
     fullKey.substring(8, 12),  // Last 4 of keyData
     fullKey.substring(12, 16)  // Checksum
   ].join('-')
 }
 
+// Valid license prefixes
+const VALID_PREFIXES = ['VXME', 'FOAM']
+
 /**
  * Validate license key format and checksum
  *
  * @param {string} key - License key to validate
- * @returns {object} { valid: boolean, error?: string }
+ * @returns {object} { valid: boolean, error?: string, productId?: string }
  */
 export function validateLicenseKey(key) {
   // Remove hyphens and spaces
@@ -79,13 +89,13 @@ export function validateLicenseKey(key) {
     return { valid: false, error: 'Invalid key length (expected 16 chars)' }
   }
 
-  // Check prefix
-  if (!normalized.startsWith('VXME')) {
-    return { valid: false, error: 'Invalid key prefix (expected VXME)' }
+  // Extract prefix and check validity
+  const prefix = normalized.substring(0, 4)
+  if (!VALID_PREFIXES.includes(prefix)) {
+    return { valid: false, error: `Invalid key prefix (got ${prefix})` }
   }
 
   // Extract parts
-  const prefix = normalized.substring(0, 4)
   const keyData = normalized.substring(4, 12)
   const checksum = normalized.substring(12, 16)
 
@@ -99,7 +109,10 @@ export function validateLicenseKey(key) {
     }
   }
 
-  return { valid: true }
+  // Determine product from prefix
+  const productId = prefix === 'FOAM' ? 'foam-sampler' : 'midi-warp'
+
+  return { valid: true, productId }
 }
 
 /**
