@@ -31,8 +31,12 @@ const iridescenceVertexShader = `
   }
 `
 
-// Thin-film interference fragment shader
-const iridescenceFragmentShader = `
+// Detect Safari browser
+const isSafari = typeof navigator !== 'undefined' &&
+  /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+
+// Thin-film interference fragment shader - with Safari optimization
+const createFragmentShader = (useLowQuality = false) => `
   uniform float uTime;
   uniform float uThickness;
   uniform float uFresnelPower;
@@ -87,8 +91,14 @@ const iridescenceFragmentShader = `
   vec3 thinFilmInterference(float cosTheta, float thickness) {
     vec3 color = vec3(0.0);
 
-    // Sample multiple wavelengths for accurate color
+    // Sample wavelengths - fewer iterations for Safari/low quality mode
+    ${useLowQuality ? `
+    // Low quality: 6 samples instead of 16
+    for (float w = 420.0; w <= 680.0; w += 52.0) {
+    ` : `
+    // High quality: 16 samples
     for (float w = 400.0; w <= 700.0; w += 20.0) {
+    `}
       // Optical path difference
       float delta = 2.0 * IOR * thickness * cosTheta;
 
@@ -101,8 +111,8 @@ const iridescenceFragmentShader = `
       color += wavelengthToRGB(w) * intensity;
     }
 
-    // Normalize
-    color /= 16.0;
+    // Normalize based on sample count
+    ${useLowQuality ? 'color /= 6.0;' : 'color /= 16.0;'}
     return color;
   }
 
@@ -229,7 +239,10 @@ export default function FoamLogo3D({
 }) {
   const containerRef = useRef(null)
   const [stats, setStats] = useState({ fps: 0, triangles: 0, drawCalls: 0 })
+  const [webglFailed, setWebglFailed] = useState(false)
   const sceneRef = useRef(null)
+  const contextLossCountRef = useRef(0)
+  const isContextLostRef = useRef(false)
 
   // Initialize Three.js scene - deferred until container has dimensions
   useEffect(() => {
@@ -261,7 +274,7 @@ export default function FoamLogo3D({
           uEnvColor3: { value: new THREE.Color(0.3, 0.4, 1.0) },
         },
         vertexShader: iridescenceVertexShader,
-        fragmentShader: iridescenceFragmentShader,
+        fragmentShader: createFragmentShader(isSafari),
         transparent: true,
         side: THREE.DoubleSide,
       })
@@ -292,12 +305,67 @@ export default function FoamLogo3D({
       camera = new THREE.PerspectiveCamera(initialFOV, width / height, 0.1, 1000)
       camera.position.z = 6
 
-      // Renderer
-      renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
+      // Renderer - with Safari-specific options
+      renderer = new THREE.WebGLRenderer({
+        antialias: !isSafari, // Disable antialiasing on Safari for stability
+        alpha: true,
+        powerPreference: isSafari ? 'low-power' : 'high-performance',
+        failIfMajorPerformanceCaveat: false
+      })
       renderer.setSize(width, height)
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, isSafari ? 1.5 : 2))
       renderer.outputColorSpace = THREE.SRGBColorSpace
       container.appendChild(renderer.domElement)
+
+      // Handle WebGL context loss
+      const canvas = renderer.domElement
+      const handleContextLost = (event) => {
+        event.preventDefault()
+        console.warn('WebGL context lost')
+        isContextLostRef.current = true
+        contextLossCountRef.current++
+
+        // Stop animation loop
+        if (animationId) {
+          cancelAnimationFrame(animationId)
+          animationId = 0
+        }
+
+        // If too many context losses, show fallback
+        if (contextLossCountRef.current >= 3) {
+          console.warn('Too many WebGL context losses, showing fallback')
+          setWebglFailed(true)
+        }
+      }
+
+      const handleContextRestored = () => {
+        console.log('WebGL context restored')
+        isContextLostRef.current = false
+
+        // Don't restore if we've already shown fallback
+        if (contextLossCountRef.current >= 3) return
+
+        // Reinitialize materials after context restore
+        letterMeshes.forEach((mesh) => {
+          if (mesh.material) {
+            mesh.material.dispose()
+            mesh.material = createIridescentMaterial()
+          }
+        })
+        bubbles.forEach((bubble) => {
+          if (bubble.mesh.material) {
+            bubble.mesh.material.dispose()
+            bubble.mesh.material = createIridescentMaterial()
+          }
+        })
+
+        // Restart animation loop
+        clock.start()
+        animate()
+      }
+
+      canvas.addEventListener('webglcontextlost', handleContextLost)
+      canvas.addEventListener('webglcontextrestored', handleContextRestored)
 
       // Lighting
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
@@ -410,6 +478,11 @@ export default function FoamLogo3D({
 
       // Animation loop
       const animate = () => {
+        // Skip if context is lost
+        if (isContextLostRef.current) {
+          return
+        }
+
         animationId = requestAnimationFrame(animate)
 
         const elapsed = clock.getElapsedTime()
@@ -508,18 +581,58 @@ export default function FoamLogo3D({
       if (dracoLoader) dracoLoader.dispose()
       if (bubbleGeometry) bubbleGeometry.dispose()
       bubbles.forEach((b) => {
-        b.mesh.material.dispose()
+        if (b.mesh.material) b.mesh.material.dispose()
         if (scene) scene.remove(b.mesh)
       })
+      letterMeshes.forEach((mesh) => {
+        if (mesh.material) mesh.material.dispose()
+        if (mesh.geometry) mesh.geometry.dispose()
+      })
       if (renderer) {
+        // Remove context loss listeners
+        const canvas = renderer.domElement
+        canvas.removeEventListener('webglcontextlost', () => {})
+        canvas.removeEventListener('webglcontextrestored', () => {})
         renderer.dispose()
-        if (container.contains(renderer.domElement)) {
-          container.removeChild(renderer.domElement)
+        renderer.forceContextLoss()
+        if (container.contains(canvas)) {
+          container.removeChild(canvas)
         }
       }
       sceneRef.current = null
     }
   }, [autoRotate, showStats])
+
+  // Fallback for WebGL failures
+  if (webglFailed) {
+    return (
+      <div
+        className={`foam-logo-3d ${className}`}
+        style={{
+          width: '100%',
+          height: '100%',
+          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center'
+        }}
+      >
+        <h1 style={{
+          fontFamily: '"Bitcount Grid Single", monospace',
+          fontSize: 'clamp(48px, 12vw, 96px)',
+          fontWeight: '900',
+          background: 'linear-gradient(135deg, #ff6b9d, #c44dff, #6b9dff, #4dffff)',
+          WebkitBackgroundClip: 'text',
+          WebkitTextFillColor: 'transparent',
+          backgroundClip: 'text',
+          textTransform: 'lowercase',
+          letterSpacing: '-0.02em'
+        }}>
+          foam
+        </h1>
+      </div>
+    )
+  }
 
   return (
     <div
