@@ -28,6 +28,15 @@ export const PROMOS = {
     description: 'KVR Audio giveaway',
     active: true,
     productId: 'midi-warp'
+  },
+  'FREEFOAM11': {
+    code: 'FREEFOAM11',
+    discount: 100, // 100% off (free)
+    type: 'percent',
+    maxUses: 11,
+    description: 'Free FOAM giveaway',
+    active: true,
+    productId: 'foam-sampler'
   }
 }
 
