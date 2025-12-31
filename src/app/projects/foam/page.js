@@ -343,7 +343,8 @@ export default function FoamPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                 {[
                   { id: 'macos', label: 'macOS', formats: 'VST3, AU' },
-                  { id: 'windows', label: 'Windows', formats: 'VST3' }
+                  { id: 'windows', label: 'Windows', formats: 'VST3' },
+                  { id: 'linux', label: 'Linux', formats: 'VST3' }
                 ].map((platform) => (
                   <label
                     key={platform.id}
