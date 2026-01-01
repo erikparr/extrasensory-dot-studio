@@ -20,14 +20,15 @@ export default function Header() {
             <img
               src="/logo.svg"
               alt="extrasensory logo"
-              className="w-10 h-10 md:w-[68px] md:h-[68px]"
+              className="w-8 h-8 md:w-[54px] md:h-[54px]"
               style={{ filter: 'drop-shadow(0 0 8px rgba(223, 255, 128, 0.6))' }}
             />
             <div style={{ marginLeft: 'clamp(0px, 2vw, 40px)' }}>
               <span
-                className="font-semibold leading-none mallanna-text"
+                className="leading-none mallanna-text"
                 style={{
-                  fontSize: 'clamp(1.5rem, 5vw, 4rem)',
+                  fontSize: 'clamp(1.2rem, 4vw, 3.2rem)',
+                  fontWeight: '300',
                   letterSpacing: '0.01em',
                   fontDisplay: 'swap',
                   transform: 'scaleX(1.1)',
