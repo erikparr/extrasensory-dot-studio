@@ -99,7 +99,7 @@ export default function FoamPage() {
           textTransform: 'uppercase',
           margin: '0 0 24px 0'
         }}>
-          generate synthetic hypervocals
+          synthetic hypervocal instrument
         </p>
         <p style={{
           fontSize: '16px',
@@ -292,6 +292,92 @@ export default function FoamPage() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
+          </div>
+        </div>
+      </div>
+
+      {/* Guides Section */}
+      <div id="guides" className="max-w-4xl mx-auto px-6 py-16">
+        <div style={{ textAlign: 'center', marginBottom: '32px' }}>
+          <h3 style={{
+            fontSize: '20px',
+            fontWeight: '600',
+            color: '#ffffff',
+            marginBottom: '8px'
+          }}>
+            Quick Start
+          </h3>
+          <p style={{
+            fontSize: '14px',
+            color: '#666666'
+          }}>
+            Get up and running in minutes
+          </p>
+        </div>
+
+        <div style={{
+          backgroundColor: '#1a1a1a',
+          border: '1px solid #2a2a2a',
+          borderRadius: '8px',
+          overflow: 'hidden'
+        }}>
+          <div style={{
+            position: 'relative',
+            paddingBottom: '56.25%',
+            height: 0,
+            overflow: 'hidden'
+          }}>
+            <iframe
+              src="https://www.youtube.com/embed/uf-g1Escxug"
+              title="FOAM Tutorial - Creating Rhythmic Loops in Ableton"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: 'none'
+              }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+          <div style={{ padding: '20px' }}>
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              marginBottom: '8px'
+            }}>
+              <span style={{
+                fontSize: '11px',
+                fontWeight: '600',
+                color: 'rgb(51, 0, 255)',
+                textTransform: 'uppercase',
+                letterSpacing: '0.05em',
+                padding: '4px 8px',
+                backgroundColor: 'rgba(51, 0, 255, 0.1)',
+                borderRadius: '4px'
+              }}>
+                Ableton Live
+              </span>
+            </div>
+            <h4 style={{
+              fontSize: '16px',
+              fontWeight: '600',
+              color: '#ffffff',
+              marginBottom: '8px'
+            }}>
+              Creating Rhythmic Loops with FOAM
+            </h4>
+            <p style={{
+              fontSize: '14px',
+              color: '#888888',
+              lineHeight: '1.5',
+              margin: 0
+            }}>
+              Learn how to quickly generate and sequence phonemes into rhythmic patterns using FOAM's step sequencer in Ableton Live.
+            </p>
           </div>
         </div>
       </div>
