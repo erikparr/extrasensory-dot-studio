@@ -21,7 +21,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    const { subject, testEmail } = await request.json()
+    const { subject, testEmail, emailList } = await request.json()
 
     // Read the HTML template
     const templatePath = path.join(process.cwd(), 'emails', 'foam-launch.html')
@@ -52,11 +52,11 @@ export async function POST(request) {
       })
     }
 
-    // Otherwise, send to all subscribers
-    const emails = await kv.get('newsletter:emails') || []
+    // Use provided emailList or fetch all subscribers
+    const emails = emailList || await kv.get('newsletter:emails') || []
 
     if (emails.length === 0) {
-      return NextResponse.json({ error: 'No subscribers found' }, { status: 400 })
+      return NextResponse.json({ error: 'No emails to send to' }, { status: 400 })
     }
 
     const results = {
@@ -83,8 +83,8 @@ export async function POST(request) {
           results.sent.push({ email, id: data?.id })
         }
 
-        // Rate limit: 100ms between emails
-        await new Promise(resolve => setTimeout(resolve, 100))
+        // Rate limit: 600ms between emails (Resend allows 2/sec)
+        await new Promise(resolve => setTimeout(resolve, 600))
       } catch (err) {
         console.error(`Error sending to ${email}:`, err)
         results.failed.push({ email, error: err.message })
