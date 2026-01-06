@@ -3,7 +3,7 @@ import { kv } from '@vercel/kv'
 
 export async function POST(request) {
   try {
-    const { email } = await request.json()
+    const { email, action } = await request.json()
 
     if (!email || !email.includes('@')) {
       return NextResponse.json({ error: 'Valid email required' }, { status: 400 })
@@ -15,7 +15,18 @@ export async function POST(request) {
     // Get existing emails
     const emails = await kv.get(key) || []
 
-    // Check for duplicate
+    // Handle unsubscribe
+    if (action === 'unsubscribe') {
+      const index = emails.indexOf(normalizedEmail)
+      if (index > -1) {
+        emails.splice(index, 1)
+        await kv.set(key, emails)
+        return NextResponse.json({ success: true, message: "You've been unsubscribed." })
+      }
+      return NextResponse.json({ success: true, message: "Email not found in list." })
+    }
+
+    // Check for duplicate (subscribe flow)
     if (emails.includes(normalizedEmail)) {
       return NextResponse.json({ success: true, message: "You're already on the list!" })
     }
