@@ -58,6 +58,15 @@ export const PROMOS = {
     description: 'KVR Audio FOAM $20 promo',
     active: true,
     productId: 'foam-sampler'
+  },
+  'FOAMSUB20': {
+    code: 'FOAMSUB20',
+    discount: 20, // 20% off ($25 -> $20)
+    type: 'percent',
+    maxUses: 10000,
+    description: 'Newsletter subscriber $20 promo',
+    active: true,
+    productId: 'foam-sampler'
   }
 }
 
