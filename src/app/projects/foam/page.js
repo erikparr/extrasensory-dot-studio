@@ -579,7 +579,7 @@ export default function FoamPage() {
                   'Lifetime plugin license',
                   'All platforms included',
                   '250 generation credits included',
-                  '1 credit = 1 full generation'
+                  'AI speech at cost—zero markup'
                 ].map((benefit, index) => (
                   <li key={index} style={{
                     display: 'flex',
@@ -617,6 +617,54 @@ export default function FoamPage() {
               Buy FOAM
             </button>
           </div>
+        </div>
+
+        {/* How Credits Work */}
+        <div style={{
+          marginTop: '48px',
+          padding: '24px',
+          backgroundColor: '#0a0a0a',
+          border: '1px solid #2a2a2a',
+          borderRadius: '8px',
+          textAlign: 'center'
+        }}>
+          <h4 style={{
+            fontSize: '14px',
+            fontWeight: '600',
+            color: '#888888',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+            marginBottom: '16px'
+          }}>
+            How Credits Work
+          </h4>
+          <p style={{
+            fontSize: '15px',
+            color: '#aaaaaa',
+            marginBottom: '8px'
+          }}>
+            1 credit = 1 speech bundle generation = 1 audio file
+          </p>
+          <p style={{
+            fontSize: '14px',
+            color: '#666666',
+            marginBottom: '8px'
+          }}>
+            Speech is synthesized by third-party AI providers.
+          </p>
+          <p style={{
+            fontSize: '14px',
+            color: '#666666',
+            marginBottom: '8px'
+          }}>
+            AI speech will always be provided at cost.
+          </p>
+          <p style={{
+            fontSize: '14px',
+            color: '#888888'
+          }}>
+            Your 250 credits = 250 audio files at our cost.
+          </p>
         </div>
 
         {/* Final CTA */}
