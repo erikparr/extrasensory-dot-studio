@@ -67,6 +67,18 @@ export const PROMOS = {
     description: 'Newsletter subscriber $20 promo',
     active: true,
     productId: 'foam-sampler'
+  },
+  'FOAMLAUNCH20': {
+    code: 'FOAMLAUNCH20',
+    discount: 100, // 100% off (free)
+    type: 'percent',
+    maxUses: 20,
+    description: 'FOAM launch giveaway - 20 free licenses',
+    active: true,
+    productId: 'foam-sampler',
+    timedRelease: true,
+    releaseDurationHours: 8,
+    immediateReleases: 5
   }
 }
 
