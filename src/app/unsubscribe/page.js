@@ -1,8 +1,8 @@
 'use client'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-export default function UnsubscribePage() {
+function UnsubscribeContent() {
   const searchParams = useSearchParams()
   const [status, setStatus] = useState('loading')
   const [message, setMessage] = useState('')
@@ -84,5 +84,23 @@ export default function UnsubscribePage() {
         </a>
       </div>
     </div>
+  )
+}
+
+export default function UnsubscribePage() {
+  return (
+    <Suspense fallback={
+      <div style={{
+        minHeight: '100vh',
+        backgroundColor: '#000000',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <p style={{ color: '#888888' }}>Loading...</p>
+      </div>
+    }>
+      <UnsubscribeContent />
+    </Suspense>
   )
 }
