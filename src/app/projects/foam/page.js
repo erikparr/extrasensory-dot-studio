@@ -39,10 +39,16 @@ export default function FoamPage() {
         }),
       })
 
-      const { url } = await response.json()
+      const data = await response.json()
 
-      if (url) {
-        window.location.href = url
+      if (!response.ok) {
+        console.error('Checkout error:', data.error)
+        alert(data.error || 'Something went wrong. Please try again.')
+        return
+      }
+
+      if (data.url) {
+        window.location.href = data.url
       }
     } catch (error) {
       console.error('Error:', error)
