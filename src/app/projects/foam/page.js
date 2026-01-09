@@ -183,7 +183,7 @@ export default function FoamPage() {
               fontSize: '15px'
             }}
           >
-            Buy FOAM – $25
+            Buy FOAM – $20
           </a>
         </div>
       </div>
@@ -563,14 +563,11 @@ export default function FoamPage() {
           }}>
             <div style={{ marginBottom: '24px', textAlign: 'center' }}>
               <div style={{ fontSize: '14px', color: 'rgb(51, 0, 255)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
-                Release Sale
+                Full License
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
                 <div style={{ fontSize: '48px', fontWeight: '700', color: 'rgb(51, 0, 255)' }}>
-                  $25
-                </div>
-                <div style={{ fontSize: '24px', color: '#666666', textDecoration: 'line-through' }}>
-                  $30
+                  $20
                 </div>
               </div>
               <div style={{ fontSize: '14px', color: '#888888' }}>

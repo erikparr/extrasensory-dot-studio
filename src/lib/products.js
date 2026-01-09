@@ -16,7 +16,7 @@ export const PRODUCTS = {
 • Cross-platform support (macOS & Windows)
 
 **Pricing Model:**
-• One-time purchase: $25 for the plugin
+• One-time purchase: $20 for the plugin
 • Credits purchased separately for AI generation
 • Buy credits in-app or at foam.extrasensory.studio`,
 
