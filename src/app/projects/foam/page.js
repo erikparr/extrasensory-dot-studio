@@ -301,6 +301,34 @@ export default function FoamPage() {
               allowFullScreen
             />
           </div>
+
+          {/* Second Promo Video */}
+          <div style={{
+            position: 'relative',
+            paddingBottom: '56.25%',
+            height: 0,
+            overflow: 'hidden',
+            backgroundColor: '#1a1a1a',
+            border: '1px solid #2a2a2a',
+            borderRadius: '8px',
+            marginTop: '24px'
+          }}>
+            <iframe
+              src="https://www.youtube.com/embed/Vj3b3qqbN68"
+              title="FOAM Promo Video"
+              style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                border: 'none',
+                borderRadius: '8px'
+              }}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
         </div>
       </div>
 
