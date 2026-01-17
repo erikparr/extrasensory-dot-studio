@@ -67,16 +67,6 @@ export default function SecretStashPage() {
           />
         </div>
 
-        <p style={{
-          fontSize: '14px',
-          color: '#666666',
-          textTransform: 'uppercase',
-          letterSpacing: '0.1em',
-          marginBottom: '32px'
-        }}>
-          Friends & Family
-        </p>
-
         <div style={{
           backgroundColor: '#0a0a0a',
           border: '1px solid #333',
