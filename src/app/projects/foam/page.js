@@ -12,12 +12,17 @@ const FoamLogo3D = dynamic(() => import('@/components/FoamLogo3D'), {
   )
 })
 
+const FoamTabs = dynamic(() => import('@/components/FoamTabs'), {
+  ssr: false,
+  loading: () => (
+    <div style={{ width: '100%', maxWidth: '800px', height: '500px', backgroundColor: '#0a0a0a', margin: '0 auto' }} />
+  )
+})
+
 export default function FoamPage() {
   const product = getProduct('foam-sampler')
   const [trialPlatform, setTrialPlatform] = useState('macos')
   const [geoPrice, setGeoPrice] = useState(null)
-  const [guidesExpanded, setGuidesExpanded] = useState(false)
-  const [guidesHovered, setGuidesHovered] = useState(false)
 
   useEffect(() => {
     fetch('/api/geo')
@@ -256,30 +261,9 @@ export default function FoamPage() {
         </div>
       </div>
 
-      {/* How It Works Section */}
-      <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <h3 style={{
-          fontSize: '20px',
-          fontWeight: '600',
-          color: '#ffffff',
-          marginBottom: '32px'
-        }}>
-          How it works
-        </h3>
-        <div className="flex flex-col md:flex-row justify-center gap-8 md:gap-16">
-          <div>
-            <div style={{ fontSize: '32px', color: 'rgb(51, 0, 255)', marginBottom: '8px' }}>1</div>
-            <p style={{ fontSize: '14px', color: '#aaaaaa' }}>Type some text</p>
-          </div>
-          <div>
-            <div style={{ fontSize: '32px', color: 'rgb(51, 0, 255)', marginBottom: '8px' }}>2</div>
-            <p style={{ fontSize: '14px', color: '#aaaaaa' }}>Generate a phoneme bundle<br /><span style={{ color: '#666666' }}>(1 credit = 1 bundle)</span></p>
-          </div>
-          <div>
-            <div style={{ fontSize: '32px', color: 'rgb(51, 0, 255)', marginBottom: '8px' }}>3</div>
-            <p style={{ fontSize: '14px', color: '#aaaaaa' }}>Play it via MIDI<br /><span style={{ color: '#666666' }}>inside your DAW</span></p>
-          </div>
-        </div>
+      {/* Tabbed Section: How It Works, FOAM Studio, FOAM Player, Quickstart */}
+      <div id="studio" className="max-w-4xl mx-auto px-6 py-16">
+        <FoamTabs />
       </div>
 
       {/* Demo Video Section */}
@@ -349,117 +333,6 @@ export default function FoamPage() {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
-          </div>
-        </div>
-      </div>
-
-      {/* Guides Section - Collapsible */}
-      <div id="guides" className="max-w-4xl mx-auto px-6 py-16">
-        <div
-          onClick={() => setGuidesExpanded(!guidesExpanded)}
-          onMouseOver={() => setGuidesHovered(true)}
-          onMouseOut={() => setGuidesHovered(false)}
-          style={{
-            textAlign: 'center',
-            padding: '16px 24px',
-            margin: '0 -24px',
-            cursor: 'pointer',
-            borderRadius: '8px',
-            border: '1px solid #2a2a2a',
-            backgroundColor: guidesHovered ? '#1a1a1a' : 'transparent',
-            transition: 'background-color 0.2s ease, border-color 0.2s ease'
-          }}
-        >
-          <h3 style={{
-            fontSize: '20px',
-            fontWeight: '600',
-            color: guidesHovered ? 'rgb(51, 0, 255)' : '#888888',
-            marginBottom: '8px',
-            transition: 'color 0.2s ease'
-          }}>
-            Quick Start
-          </h3>
-          <p style={{
-            fontSize: '14px',
-            color: guidesHovered ? '#888888' : '#555555',
-            margin: 0,
-            transition: 'color 0.2s ease'
-          }}>
-            Get up and running in minutes
-          </p>
-        </div>
-
-        <div style={{
-          maxHeight: guidesExpanded ? '800px' : '0',
-          overflow: 'hidden',
-          transition: 'max-height 0.4s ease'
-        }}>
-          {/* Ableton Section */}
-          <div style={{ paddingTop: '32px' }}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-              marginBottom: '20px'
-            }}>
-              <span style={{
-                fontSize: '16px',
-                fontWeight: '600',
-                color: 'rgb(51, 0, 255)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.05em',
-                padding: '8px 16px',
-                backgroundColor: 'rgba(51, 0, 255, 0.1)',
-                borderRadius: '4px'
-              }}>
-                Ableton Live
-              </span>
-              <div style={{
-                flex: 1,
-                height: '1px',
-                backgroundColor: '#2a2a2a'
-              }} />
-            </div>
-
-            <div style={{
-              maxWidth: '640px',
-              margin: '0 auto'
-            }}>
-              <div style={{
-                position: 'relative',
-                paddingBottom: '56.25%',
-                height: 0,
-                overflow: 'hidden',
-                backgroundColor: '#1a1a1a',
-                border: '1px solid #2a2a2a',
-                borderRadius: '8px'
-              }}>
-                {guidesExpanded && (
-                  <iframe
-                    src="https://www.youtube.com/embed/uf-g1Escxug"
-                    title="FOAM Tutorial - Creating Rhythmic Loops in Ableton"
-                    style={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      width: '100%',
-                      height: '100%',
-                      border: 'none',
-                      borderRadius: '8px'
-                    }}
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                )}
-              </div>
-              <p style={{
-                fontSize: '16px',
-                color: '#666666',
-                marginTop: '16px'
-              }}>
-                Creating rhythmic loops with FOAM's step sequencer
-              </p>
-            </div>
           </div>
         </div>
       </div>
