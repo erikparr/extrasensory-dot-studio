@@ -10,6 +10,13 @@ const FoamStudioDemo = dynamic(() => import('@/components/FoamStudioDemo'), {
   )
 })
 
+const FoamPlayerDemo = dynamic(() => import('@/components/FoamPlayerDemo'), {
+  ssr: false,
+  loading: () => (
+    <div style={{ width: '100%', maxWidth: '600px', height: '400px', backgroundColor: '#0a0a0a', margin: '0 auto' }} />
+  )
+})
+
 const TABS = [
   { id: 'how-it-works', label: 'How It Works' },
   { id: 'foam-studio', label: 'FOAM Studio' },
@@ -206,43 +213,24 @@ export default function FoamTabs() {
 
         {/* FOAM Player */}
         {activeTab === 'foam-player' && (
-          <div style={{ textAlign: 'center', padding: '48px 24px' }}>
-            <div style={{
-              width: '80px',
-              height: '80px',
-              margin: '0 auto 24px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '36px',
-              border: '1px solid #2a2a2a',
-              backgroundColor: '#1a1a1a',
-              color: '#666666'
-            }}>
-              ▶
-            </div>
-            <h4 style={{ fontSize: '18px', color: '#ffffff', marginBottom: '12px' }}>
-              FOAM Player
-            </h4>
+          <div>
             <p style={{
               fontSize: '15px',
               color: '#888888',
-              maxWidth: '400px',
-              margin: '0 auto 24px',
-              lineHeight: '1.5'
+              textAlign: 'center',
+              marginBottom: '24px'
             }}>
-              The VST/AU plugin that plays your phoneme bundles inside your DAW
+              Play phoneme bundles in your DAW with the VST/AU plugin
             </p>
-            <div style={{
-              padding: '16px 24px',
-              backgroundColor: '#1a1a1a',
-              border: '1px solid #2a2a2a',
-              display: 'inline-block'
+            <FoamPlayerDemo />
+            <p style={{
+              fontSize: '13px',
+              color: '#666666',
+              textAlign: 'center',
+              marginTop: '24px'
             }}>
-              <p style={{ fontSize: '13px', color: '#666666', margin: 0 }}>
-                Interactive demo coming soon
-              </p>
-            </div>
+              Sequencer, Granular, MIDI, and Interactive playback modes
+            </p>
           </div>
         )}
 
