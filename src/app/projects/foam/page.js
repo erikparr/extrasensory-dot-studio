@@ -233,6 +233,27 @@ export default function FoamPage() {
             From clean vocal fragments to stutters, glitch consonants, vowel pads, and impossible mouth-noise textures.
           </p>
         </div>
+
+        <div style={{
+          padding: '32px',
+          backgroundColor: '#1a1a1a',
+          border: '1px solid #2a2a2a',
+          marginTop: '24px'
+        }}>
+          <h3 style={{
+            fontSize: '16px',
+            fontWeight: '600',
+            color: '#D9D9D9',
+            marginBottom: '12px',
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em'
+          }}>
+            macOS • Windows • Linux
+          </h3>
+          <p style={{ fontSize: '15px', color: '#999999', lineHeight: '1.6' }}>
+            VST3 and AU plugin formats. Works with Ableton Live, Logic Pro, FL Studio, Bitwig, REAPER, and other major DAWs.
+          </p>
+        </div>
       </div>
 
       {/* How It Works Section */}
