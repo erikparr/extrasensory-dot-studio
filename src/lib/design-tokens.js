@@ -29,11 +29,11 @@ export const palette = {
   gray50: '#e5e5e5',
   white: '#ffffff',
 
-  // Neutrals - Light mode
-  lightGray50: '#fafafa',
-  lightGray100: '#f5f5f5',
-  lightGray200: '#e5e5e5',
-  lightGray300: '#d4d4d4',
+  // Neutrals - Light mode (cool grey tones)
+  lightGray50: '#f1f3f5',
+  lightGray100: '#e8eaed',
+  lightGray200: '#dde1e6',
+  lightGray300: '#d0d5db',
   lightGray400: '#a3a3a3',
   lightGray500: '#737373',
   lightGray600: '#525252',
@@ -94,13 +94,13 @@ export const themes = {
   },
 
   light: {
-    // Backgrounds
-    bgBase: palette.white,
-    bgElevated: palette.lightGray50,
-    bgCard: palette.lightGray100,
-    bgCardHover: palette.lightGray200,
-    bgInput: palette.white,
-    bgOverlay: 'rgba(255, 255, 255, 0.9)',
+    // Backgrounds - cool grey tones
+    bgBase: palette.lightGray100,        // #e8eaed
+    bgElevated: palette.lightGray50,     // #f1f3f5
+    bgCard: palette.lightGray200,        // #dde1e6
+    bgCardHover: palette.lightGray300,   // #d0d5db
+    bgInput: palette.lightGray50,        // #f1f3f5
+    bgOverlay: 'rgba(232, 234, 237, 0.95)',
 
     // Text - All pass WCAG AA on light backgrounds
     textPrimary: palette.lightGray900,    // 15.5:1 on white

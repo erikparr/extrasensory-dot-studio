@@ -44,10 +44,10 @@ Components           → Use classes or CSS variables
 
 | Token | CSS Variable | Dark Mode | Light Mode | Usage |
 |-------|--------------|-----------|------------|-------|
-| `surface-base` | `--color-bg-base` | `#000000` | `#ffffff` | Page background |
-| `surface-elevated` | `--color-bg-elevated` | `#0a0a0a` | `#fafafa` | Raised sections |
-| `surface-card` | `--color-bg-card` | `#1a1a1a` | `#f5f5f5` | Cards, panels |
-| `surface-card-hover` | `--color-bg-card-hover` | `#222222` | `#e5e5e5` | Card hover state |
+| `surface-base` | `--color-bg-base` | `#000000` | `#e8eaed` | Page background |
+| `surface-elevated` | `--color-bg-elevated` | `#0a0a0a` | `#f1f3f5` | Raised sections |
+| `surface-card` | `--color-bg-card` | `#1a1a1a` | `#dde1e6` | Cards, panels |
+| `surface-card-hover` | `--color-bg-card-hover` | `#222222` | `#d0d5db` | Card hover state |
 
 ### Text Colors
 

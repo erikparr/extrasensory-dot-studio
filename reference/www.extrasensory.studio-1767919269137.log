@@ -1,0 +1,4 @@
+api/checkout:1  Failed to load resource: the server responded with a status of 500 ()
+6b78f31d95b36c10.js?dpl=dpl_Cb1U9dPAuRjG9BpX9Cjdxj17Htc6:33 Checkout error: Failed to create checkout session
+m @ 6b78f31d95b36c10.js?dpl=dpl_Cb1U9dPAuRjG9BpX9Cjdxj17Htc6:33
+foam#purchase:1 The resource https://www.extrasensory.studio/logo-y1.svg was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally.

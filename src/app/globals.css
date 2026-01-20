@@ -89,13 +89,13 @@
   /* Light theme - activated via .light class or prefers-color-scheme */
   .light,
   [data-theme="light"] {
-    /* Backgrounds */
-    --color-bg-base: #ffffff;
-    --color-bg-elevated: #fafafa;
-    --color-bg-card: #f5f5f5;
-    --color-bg-card-hover: #e5e5e5;
-    --color-bg-input: #ffffff;
-    --color-bg-overlay: rgba(255, 255, 255, 0.9);
+    /* Backgrounds - cool grey tones */
+    --color-bg-base: #e8eaed;
+    --color-bg-elevated: #f1f3f5;
+    --color-bg-card: #dde1e6;
+    --color-bg-card-hover: #d0d5db;
+    --color-bg-input: #f1f3f5;
+    --color-bg-overlay: rgba(232, 234, 237, 0.95);
 
     /* Text - WCAG AA compliant on light backgrounds */
     --color-text-primary: #171717;       /* 15.5:1 on white */

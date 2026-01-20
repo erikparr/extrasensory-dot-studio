@@ -1,0 +1,116 @@
+VEX MIDI EXPRESSION - Changelog
+================================
+
+Version 1.0.19 - 2025-11-29
+---------------------------
+
+USER EXPERIENCE IMPROVEMENTS
+
+New Features:
+- Added interactive Quickstart Guide with visual step cards for new users
+- Added comprehensive DAW setup guides for Ableton Live, Logic Pro, and REAPER
+
+UI Improvements:
+- Removed default mappings for cleaner starting state
+- Prevented text selection in UI for better interaction
+- Redesigned Quickstart Guide with visual step-by-step cards
+
+---
+
+Version 1.0.17 - 2025-11-28
+---------------------------
+
+BUG FIXES & IMPROVEMENTS
+
+Bug Fixes:
+- Fixed velocity not respecting fixed velocity slider in trigger mode
+- Fixed CMake build missing NoteManager and TriggerDetector source files
+
+Trigger Mode Improvements:
+- Added base note learn mode - click Learn then play a MIDI note to set base note
+- Moved Learn button below value indicators for better UX
+- Improved state sync between React UI and C++ backend
+
+Performance:
+- Removed file I/O logging from audio thread to eliminate potential glitches
+
+---
+
+Version 1.0.14 - 2025-11-07
+---------------------------
+
+CROSS-PLATFORM RELEASE
+
+New Features:
+- Windows VST3 support with WebView2 integration
+- Linux VST3 support with WebKit2GTK integration
+- Automated CI/CD build pipeline via GitHub Actions
+- Cross-platform CMake build system for Windows and Linux
+- Identical UI/UX experience across all platforms
+
+Technical Improvements:
+- Fixed WebView2 SDK path configuration for Windows builds
+- Added proper GitHub Actions permissions for release creation
+- Automated distribution packaging for all platforms
+- SHA256 checksums for build verification
+
+Compatibility:
+- Windows 10+ (64-bit) - VST3
+- Linux Ubuntu 20.04+ or equivalent - VST3
+- macOS 10.13+ (Intel x86_64 + Apple Silicon ARM64) - VST3, AU, Standalone
+
+---
+
+Version 1.0.0 - 2025-11-06
+--------------------------
+
+INITIAL RELEASE (macOS Only)
+
+Features:
+- Real-time physics-based MIDI CC transformation
+- Bouncy physics engine with charge accumulation system
+- Spring physics engine with damped oscillation
+- Warp transform (exponential/logarithmic curves)
+- Jitter transform (random modulation)
+- Support for 8+ simultaneous CC mappings
+- Real-time visual feedback with dual meters (input/output)
+- Advanced physics controls (bounciness, gravity, orientation)
+- Comprehensive theming system with 8 pre-built themes
+- Universal Binary support (Intel x86_64 + Apple Silicon ARM64)
+- Sub-10ms processing latency
+- 60fps physics simulation
+- Three plugin formats: VST3, AU, Standalone
+
+Technical:
+- JUCE 8 framework for cross-platform compatibility
+- React-based UI with WebView integration
+- Pull-based JavaScript-C++ communication architecture
+- Sample-accurate MIDI timing
+- Background processing when plugin window is minimized
+
+Compatibility:
+- macOS 10.13 or later
+- Logic Pro, Ableton Live, Cubase, Pro Tools, FL Studio, Bitwig, Studio One, Reaper
+- All DAWs supporting VST3 or Audio Unit MIDI effects
+
+Known Issues:
+- Windows and Linux versions not yet available (planned for future release)
+- Maximum 8 simultaneous mappings recommended for optimal performance
+
+---
+
+Future Roadmap:
+- Windows and Linux support
+- Preset management system
+- MIDI Learn functionality
+- Additional physics engines
+- Parameter automation recording
+- Custom waveform designer
+- Extended mapping limit
+- VST2 support (if needed)
+
+---
+
+For support and feature requests:
+Email: contact@extrasensory.com
+Website: https://extrasensory.com
