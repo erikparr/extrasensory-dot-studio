@@ -10,7 +10,8 @@ export default function Header() {
   var [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   var navItems = [
-    { name: 'Shop', path: '/shop' },
+    { name: 'FOAM', path: '/foam' },
+    { name: 'VEX', path: '/vex' },
     { name: 'About', path: '/about' }
   ]
 
