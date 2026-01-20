@@ -8,21 +8,21 @@ import { getProduct } from '@/lib/products'
 const FoamLogo3D = dynamic(() => import('@/components/FoamLogo3D'), {
   ssr: false,
   loading: () => (
-    <div style={{ width: '100%', height: '50vh', backgroundColor: '#0a0a0a' }} />
+    <div style={{ width: '100%', height: '50vh', backgroundColor: 'var(--color-bg-elevated)' }} />
   )
 })
 
 const FoamTabs = dynamic(() => import('@/components/FoamTabs'), {
   ssr: false,
   loading: () => (
-    <div style={{ width: '100%', maxWidth: '800px', height: '500px', backgroundColor: '#0a0a0a', margin: '0 auto' }} />
+    <div style={{ width: '100%', maxWidth: '800px', height: '500px', backgroundColor: 'var(--color-bg-elevated)', margin: '0 auto' }} />
   )
 })
 
 export default function FoamPage() {
-  const product = getProduct('foam-sampler')
-  const [trialPlatform, setTrialPlatform] = useState('macos')
-  const [geoPrice, setGeoPrice] = useState(null)
+  var product = getProduct('foam-sampler')
+  var [trialPlatform, setTrialPlatform] = useState('macos')
+  var [geoPrice, setGeoPrice] = useState(null)
 
   useEffect(() => {
     fetch('/api/geo')
@@ -31,9 +31,9 @@ export default function FoamPage() {
       .catch(() => setGeoPrice(null))
   }, [])
 
-  const handlePurchase = async () => {
+  var handlePurchase = async () => {
     try {
-      const response = await fetch('/api/checkout', {
+      var response = await fetch('/api/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ export default function FoamPage() {
         }),
       })
 
-      const data = await response.json()
+      var data = await response.json()
 
       if (!response.ok) {
         console.error('Checkout error:', data.error)
@@ -61,22 +61,13 @@ export default function FoamPage() {
     }
   }
 
-  const handleTrialDownload = () => {
+  var handleTrialDownload = () => {
     track('trial_download', { platform: trialPlatform, product: product.id })
     window.location.href = `/api/trial-download?product_id=${product.id}&platform=${trialPlatform}`
   }
 
   return (
-    <div className="min-h-screen" style={{
-      backgroundColor: '#000000',
-      '--bg-primary': '#000000',
-      '--bg-secondary': '#0a0a0a',
-      '--bg-tertiary': '#1a1a1a',
-      '--border-color': '#2a2a2a',
-      '--text-primary': '#ffffff',
-      '--text-secondary': '#aaaaaa',
-      '--text-tertiary': '#666666'
-    }}>
+    <div className="min-h-screen bg-surface-base">
       {/* FoamLogo3D Header */}
       <div className="relative" style={{ height: '50vh' }}>
         <FoamLogo3D
@@ -87,56 +78,33 @@ export default function FoamPage() {
         <div
           className="absolute bottom-0 left-0 right-0 h-32"
           style={{
-            background: 'linear-gradient(to bottom, transparent, #000000)'
+            background: 'linear-gradient(to bottom, transparent, var(--color-bg-base))'
           }}
         />
       </div>
 
       {/* FOAM Title Section */}
       <div className="pt-8 pb-16 text-center px-6">
-        <h1 style={{
-          fontFamily: '"Bitcount Grid Single", monospace',
-          fontSize: 'clamp(36px, 8vw, 48px)',
-          fontWeight: '900',
-          letterSpacing: '-0.02em',
-          color: '#e0e0e0',
-          textTransform: 'lowercase',
-          margin: '0 0 8px 0'
-        }}>
+        <h1
+          className="font-display text-content-primary lowercase"
+          style={{
+            fontSize: 'clamp(36px, 8vw, 48px)',
+            fontWeight: '900',
+            letterSpacing: '-0.02em',
+            margin: '0 0 8px 0'
+          }}
+        >
           foam
         </h1>
-        <p style={{
-          fontSize: '20px',
-          color: '#666666',
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-          margin: '0 0 24px 0'
-        }}>
+        <p className="text-content-tertiary text-xl uppercase tracking-wider mb-6">
           synthetic hypervocal instrument
         </p>
-        <p style={{
-          fontSize: '16px',
-          color: '#aaaaaa',
-          maxWidth: '500px',
-          margin: '0 auto 24px auto',
-          lineHeight: '1.5'
-        }}>
+        <p className="text-content-secondary text-md max-w-lg mx-auto mb-6 leading-relaxed">
           FOAM is a new kind of vocal instrument that deconstructs synthetic AI speech into high-velocity phonemes.
         </p>
         <a
           href="#purchase"
-          style={{
-            display: 'inline-block',
-            padding: '14px 32px',
-            backgroundColor: 'rgb(51, 0, 255)',
-            color: '#000000',
-            fontWeight: '600',
-            fontSize: '15px',
-            borderRadius: '4px',
-            textDecoration: 'none',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
-          }}
+          className="btn-primary inline-block px-8 py-3.5 uppercase tracking-wider"
         >
           Get Started
         </a>
@@ -144,49 +112,25 @@ export default function FoamPage() {
 
       {/* Hero Section */}
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <p style={{
-          fontSize: '18px',
-          color: '#aaaaaa',
-          lineHeight: '1.6',
-          marginBottom: '24px'
-        }}>
+        <p className="text-content-secondary text-lg leading-relaxed mb-6">
           FOAM generates speech using AI voice models allowing expressive range of voices and affects.
         </p>
-        <div style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '8px',
-          marginBottom: '32px'
-        }}>
-          <p style={{ fontSize: '15px', color: '#888888' }}>Over 10 distinct voices</p>
-          <p style={{ fontSize: '15px', color: '#888888' }}>Control voice emotion, speed, tone, intensity and more</p>
-          <p style={{ fontSize: '15px', color: 'rgb(51, 0, 255)' }}>Includes 250 generation credits upon purchase</p>
+        <div className="flex flex-col gap-2 mb-8">
+          <p className="text-content-tertiary text-base">Over 10 distinct voices</p>
+          <p className="text-content-tertiary text-base">Control voice emotion, speed, tone, intensity and more</p>
+          <p className="text-content-accent text-base">Includes 250 generation credits upon purchase</p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="#purchase"
-            className="btn-secondary"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '14px 28px',
-              fontSize: '15px'
-            }}
+            className="btn-secondary px-7 py-3.5"
           >
             Download Trial
           </a>
           <a
             href="#purchase"
-            className="btn-primary"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '14px 28px',
-              fontSize: '15px'
-            }}
+            className="btn-primary px-7 py-3.5"
           >
             Buy FOAM – $20
           </a>
@@ -195,67 +139,32 @@ export default function FoamPage() {
 
       {/* Features Section */}
       <div id="features" className="max-w-4xl mx-auto px-6 py-16">
-        <div style={{
-          padding: '32px',
-          backgroundColor: '#1a1a1a',
-          border: '1px solid #2a2a2a',
-          marginBottom: '24px'
-        }}>
-          <h3 style={{
-            fontSize: '16px',
-            fontWeight: '600',
-            color: '#D9D9D9',
-            marginBottom: '12px',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em'
-          }}>
+        <div className="card mb-6 p-8">
+          <h3 className="text-content-primary text-md font-semibold uppercase tracking-widest mb-3">
             Granular / Sequencer / MIDI Triggering
           </h3>
-          <p style={{ fontSize: '15px', color: '#999999', lineHeight: '1.6', marginBottom: '16px' }}>
+          <p className="text-content-secondary text-base leading-relaxed mb-4">
             Full control for sonic expression: from hyper-rhythms to granulated masses of shifting vocal fragments.
           </p>
-          <p style={{ fontSize: '14px', color: '#888888', lineHeight: '1.6' }}>
+          <p className="text-content-tertiary text-sm leading-relaxed">
             Trigger phonemes from pads/keys, or lock them into rhythmic patterns with the built-in step sequencer (4 / 8 / 16 steps).
           </p>
         </div>
 
-        <div style={{
-          padding: '32px',
-          backgroundColor: '#1a1a1a',
-          border: '1px solid rgb(51, 0, 255)'
-        }}>
-          <h3 style={{
-            fontSize: '16px',
-            fontWeight: '600',
-            color: 'rgb(51, 0, 255)',
-            marginBottom: '12px',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em'
-          }}>
+        <div className="card-featured p-8">
+          <h3 className="text-content-accent text-md font-semibold uppercase tracking-widest mb-3">
             Designed for Sound Design
           </h3>
-          <p style={{ fontSize: '15px', color: '#999999', lineHeight: '1.6' }}>
+          <p className="text-content-secondary text-base leading-relaxed">
             From clean vocal fragments to stutters, glitch consonants, vowel pads, and impossible mouth-noise textures.
           </p>
         </div>
 
-        <div style={{
-          padding: '32px',
-          backgroundColor: '#1a1a1a',
-          border: '1px solid #2a2a2a',
-          marginTop: '24px'
-        }}>
-          <h3 style={{
-            fontSize: '16px',
-            fontWeight: '600',
-            color: '#D9D9D9',
-            marginBottom: '12px',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em'
-          }}>
+        <div className="card mt-6 p-8">
+          <h3 className="text-content-primary text-md font-semibold uppercase tracking-widest mb-3">
             macOS • Windows • Linux
           </h3>
-          <p style={{ fontSize: '15px', color: '#999999', lineHeight: '1.6' }}>
+          <p className="text-content-secondary text-base leading-relaxed">
             VST3 and AU plugin formats. Works with Ableton Live, Logic Pro, FL Studio, Bitwig, REAPER, and other major DAWs.
           </p>
         </div>
@@ -268,68 +177,32 @@ export default function FoamPage() {
 
       {/* Demo Video Section */}
       <div className="max-w-4xl mx-auto px-6 py-16">
-        <div style={{
-          maxWidth: '640px',
-          margin: '0 auto',
-          textAlign: 'center'
-        }}>
-          <h3 style={{
-            fontSize: '20px',
-            fontWeight: '600',
-            color: '#ffffff',
-            marginBottom: '24px'
-          }}>
+        <div className="max-w-xl mx-auto text-center">
+          <h3 className="text-content-primary text-xl font-semibold mb-6">
             See FOAM in Action
           </h3>
-          <div style={{
-            position: 'relative',
-            paddingBottom: '56.25%',
-            height: 0,
-            overflow: 'hidden',
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '8px'
-          }}>
+          <div
+            className="relative overflow-hidden bg-surface-card border border-border-subtle rounded-lg"
+            style={{ paddingBottom: '56.25%', height: 0 }}
+          >
             <iframe
               src="https://www.youtube.com/embed/iebzvL85_fo"
               title="FOAM Demo Video"
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                borderRadius: '8px'
-              }}
+              className="absolute top-0 left-0 w-full h-full border-none rounded-lg"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
           </div>
 
           {/* Second Promo Video */}
-          <div style={{
-            position: 'relative',
-            paddingBottom: '56.25%',
-            height: 0,
-            overflow: 'hidden',
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '8px',
-            marginTop: '24px'
-          }}>
+          <div
+            className="relative overflow-hidden bg-surface-card border border-border-subtle rounded-lg mt-6"
+            style={{ paddingBottom: '56.25%', height: 0 }}
+          >
             <iframe
               src="https://www.youtube.com/embed/Vj3b3qqbN68"
               title="FOAM Promo Video"
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                borderRadius: '8px'
-              }}
+              className="absolute top-0 left-0 w-full h-full border-none rounded-lg"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
@@ -338,50 +211,32 @@ export default function FoamPage() {
       </div>
 
       {/* Purchase Section */}
-      <div id="purchase" className="max-w-4xl mx-auto px-6 py-24 border-t" style={{ borderColor: '#2a2a2a' }}>
-        <h2 style={{
-          fontSize: '32px',
-          fontWeight: '700',
-          color: '#ffffff',
-          marginBottom: '16px',
-          textAlign: 'center'
-        }}>
+      <div id="purchase" className="max-w-4xl mx-auto px-6 py-24 border-t border-border-subtle">
+        <h2 className="text-content-primary text-3xl font-bold mb-4 text-center">
           Get FOAM
         </h2>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '24px',
-          marginTop: '32px'
-        }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {/* Demo Card */}
-          <div style={{
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '8px',
-            padding: '32px',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <div style={{ marginBottom: '24px', textAlign: 'center' }}>
-              <div style={{ fontSize: '14px', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+          <div className="card flex flex-col p-8">
+            <div className="mb-6 text-center">
+              <div className="text-content-tertiary text-sm uppercase tracking-widest mb-2">
                 Try Free
               </div>
-              <div style={{ fontSize: '32px', fontWeight: '700', color: '#ffffff', marginBottom: '8px' }}>
+              <div className="text-content-primary text-3xl font-bold mb-2">
                 Demo Mode
               </div>
-              <div style={{ fontSize: '14px', color: '#888888' }}>
+              <div className="text-content-tertiary text-sm">
                 Full plugin, no credits included
               </div>
             </div>
 
             {/* Platform Selection */}
-            <div style={{ marginBottom: '24px' }}>
-              <div style={{ fontSize: '12px', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
+            <div className="mb-6">
+              <div className="text-content-tertiary text-xs uppercase tracking-wider mb-3">
                 Select Platform
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div className="flex flex-col gap-2">
                 {[
                   { id: 'macos', label: 'macOS', formats: 'VST3, AU' },
                   { id: 'windows', label: 'Windows', formats: 'VST3' },
@@ -389,16 +244,10 @@ export default function FoamPage() {
                 ].map((platform) => (
                   <label
                     key={platform.id}
+                    className="flex items-center gap-3 p-3 rounded cursor-pointer transition-all"
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      padding: '12px',
-                      backgroundColor: trialPlatform === platform.id ? '#2a2a2a' : 'transparent',
-                      border: `1px solid ${trialPlatform === platform.id ? 'rgb(51, 0, 255)' : '#333333'}`,
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s'
+                      backgroundColor: trialPlatform === platform.id ? 'var(--color-bg-card-hover)' : 'transparent',
+                      border: `1px solid ${trialPlatform === platform.id ? 'var(--color-accent)' : 'var(--color-border-default)'}`,
                     }}
                   >
                     <input
@@ -407,13 +256,13 @@ export default function FoamPage() {
                       value={platform.id}
                       checked={trialPlatform === platform.id}
                       onChange={(e) => setTrialPlatform(e.target.value)}
-                      style={{ accentColor: 'rgb(51, 0, 255)' }}
+                      style={{ accentColor: 'var(--color-accent)' }}
                     />
                     <div>
-                      <div style={{ fontSize: '14px', color: '#ffffff', fontWeight: '500' }}>
+                      <div className="text-content-primary text-sm font-medium">
                         {platform.label}
                       </div>
-                      <div style={{ fontSize: '12px', color: '#666666' }}>
+                      <div className="text-content-tertiary text-xs">
                         {platform.formats}
                       </div>
                     </div>
@@ -423,13 +272,13 @@ export default function FoamPage() {
 
               {/* Windows 10 WebView2 note */}
               {trialPlatform === 'windows' && (
-                <div style={{
-                  marginTop: '12px',
-                  padding: '10px 12px',
-                  backgroundColor: 'rgba(251, 191, 36, 0.1)',
-                  border: '1px solid rgba(251, 191, 36, 0.3)',
-                  borderRadius: '4px'
-                }}>
+                <div
+                  className="mt-3 p-2.5 rounded"
+                  style={{
+                    backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                    border: '1px solid rgba(251, 191, 36, 0.3)',
+                  }}
+                >
                   <p style={{ fontSize: '12px', color: '#d97706', margin: 0, lineHeight: '1.4' }}>
                     Windows 10 may require{' '}
                     <a
@@ -448,76 +297,45 @@ export default function FoamPage() {
 
             <button
               onClick={handleTrialDownload}
-              style={{
-                width: '100%',
-                padding: '16px',
-                fontSize: '16px',
-                fontWeight: '600',
-                color: '#ffffff',
-                backgroundColor: 'transparent',
-                border: '2px solid rgb(51, 0, 255)',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                marginTop: 'auto'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = 'rgb(51, 0, 255)'
-                e.target.style.color = '#000000'
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = 'transparent'
-                e.target.style.color = '#ffffff'
-              }}
+              className="btn-secondary w-full py-4 mt-auto"
             >
               Download Demo
             </button>
           </div>
 
           {/* Purchase Card */}
-          <div style={{
-            backgroundColor: '#1a1a1a',
-            border: '2px solid rgb(51, 0, 255)',
-            borderRadius: '8px',
-            padding: '32px',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <div style={{ marginBottom: '24px', textAlign: 'center' }}>
-              <div style={{ fontSize: '14px', color: 'rgb(51, 0, 255)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+          <div className="card-featured flex flex-col p-8">
+            <div className="mb-6 text-center">
+              <div className="text-content-accent text-sm uppercase tracking-widest mb-2">
                 Release Sale
               </div>
-              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
-                <div style={{ fontSize: '48px', fontWeight: '700', color: 'rgb(51, 0, 255)' }}>
+              <div className="flex items-baseline justify-center gap-3 mb-2">
+                <div className="text-content-accent text-5xl font-bold">
                   $20
                 </div>
-                <div style={{ fontSize: '24px', color: '#666666', textDecoration: 'line-through' }}>
+                <div className="text-content-muted text-2xl line-through">
                   $25
                 </div>
               </div>
-              <div style={{ fontSize: '14px', color: '#888888' }}>
+              <div className="text-content-tertiary text-sm">
                 Includes 250 credits
               </div>
             </div>
 
             {/* Benefits */}
-            <div style={{ marginBottom: '24px', flex: 1 }}>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            <div className="mb-6 flex-1">
+              <ul className="list-none p-0 m-0">
                 {[
                   'Lifetime plugin license',
                   'All platforms included',
                   '250 generation credits included',
                   'AI speech at cost—zero markup'
                 ].map((benefit, index) => (
-                  <li key={index} style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '8px 0',
-                    fontSize: '14px',
-                    color: '#aaaaaa'
-                  }}>
-                    <span style={{ color: 'rgb(51, 0, 255)' }}>✓</span>
+                  <li
+                    key={index}
+                    className="flex items-center gap-3 py-2 text-content-secondary text-sm"
+                  >
+                    <span className="text-content-accent">✓</span>
                     {benefit}
                   </li>
                 ))}
@@ -526,21 +344,7 @@ export default function FoamPage() {
 
             <button
               onClick={handlePurchase}
-              style={{
-                width: '100%',
-                padding: '16px',
-                fontSize: '16px',
-                fontWeight: '600',
-                color: '#000000',
-                backgroundColor: 'rgb(51, 0, 255)',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                marginTop: 'auto'
-              }}
-              onMouseOver={(e) => e.target.style.backgroundColor = 'rgb(40, 0, 200)'}
-              onMouseOut={(e) => e.target.style.backgroundColor = 'rgb(51, 0, 255)'}
+              className="btn-primary w-full py-4 mt-auto"
             >
               Buy FOAM
             </button>
@@ -548,69 +352,30 @@ export default function FoamPage() {
         </div>
 
         {/* How Credits Work */}
-        <div style={{
-          marginTop: '48px',
-          padding: '24px',
-          backgroundColor: '#0a0a0a',
-          border: '1px solid #2a2a2a',
-          borderRadius: '8px',
-          textAlign: 'center'
-        }}>
-          <h4 style={{
-            fontSize: '14px',
-            fontWeight: '600',
-            color: '#888888',
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-            marginBottom: '16px'
-          }}>
+        <div className="mt-12 p-6 bg-surface-elevated border border-border-subtle rounded-lg text-center">
+          <h4 className="text-content-tertiary text-sm font-semibold uppercase tracking-widest mb-4">
             How Credits Work
           </h4>
-          <p style={{
-            fontSize: '15px',
-            color: '#aaaaaa',
-            marginBottom: '8px'
-          }}>
+          <p className="text-content-secondary text-base mb-2">
             1 credit = 1 speech bundle generation = 1 audio file
           </p>
-          <p style={{
-            fontSize: '14px',
-            color: '#666666',
-            marginBottom: '8px'
-          }}>
+          <p className="text-content-tertiary text-sm mb-2">
             Speech is synthesized by third-party AI providers.
           </p>
-          <p style={{
-            fontSize: '14px',
-            color: '#666666',
-            marginBottom: '8px'
-          }}>
+          <p className="text-content-tertiary text-sm mb-2">
             AI speech will always be provided at cost.
           </p>
-          <p style={{
-            fontSize: '14px',
-            color: '#888888'
-          }}>
+          <p className="text-content-tertiary text-sm">
             Your 250 credits = 250 audio files at our cost.
           </p>
         </div>
 
         {/* Final CTA */}
-        <div style={{
-          marginTop: '48px',
-          textAlign: 'center'
-        }}>
-          <p style={{
-            fontSize: '18px',
-            color: '#aaaaaa',
-            marginBottom: '8px'
-          }}>
+        <div className="mt-12 text-center">
+          <p className="text-content-secondary text-lg mb-2">
             Make speech playable
           </p>
-          <p style={{
-            fontSize: '14px',
-            color: '#666666'
-          }}>
+          <p className="text-content-tertiary text-sm">
             FOAM is a weirdly serious instrument for anyone who treats voice as raw material.
           </p>
         </div>
