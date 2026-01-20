@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import ThemeToggle from './ThemeToggle'
+import Logo from './Logo'
 
 export default function Header() {
   var pathname = usePathname()
@@ -24,11 +25,9 @@ export default function Header() {
       <div className="max-w-9xl mx-auto px-6 py-4">
         <nav className="flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 md:gap-6">
-            <img
-              src="/logo.svg"
-              alt="extrasensory logo"
+            <Logo
               className="w-8 h-8 md:w-[54px] md:h-[54px]"
-              style={{ filter: 'drop-shadow(0 0 8px rgba(223, 255, 128, 0.6))' }}
+              style={{ filter: 'drop-shadow(0 0 8px var(--color-logo-glow))' }}
             />
             <div style={{ marginLeft: 'clamp(0px, 2vw, 40px)' }}>
               <span
@@ -40,7 +39,7 @@ export default function Header() {
                   fontDisplay: 'swap',
                   transform: 'scaleX(1.1)',
                   display: 'block',
-                  color: '#dfff80'
+                  color: 'var(--color-text-brand)'
                 }}
               >
                 extrasensory

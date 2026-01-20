@@ -25,6 +25,7 @@
 
     /* Text - WCAG AA compliant on dark backgrounds */
     --color-text-primary: #ffffff;       /* 21:1 on black */
+    --color-text-brand: #dfff80;         /* Lime green for brand/logo */
     --color-text-secondary: #b3b3b3;     /* 9.5:1 on black, 7.4:1 on card */
     --color-text-tertiary: #8c8c8c;      /* 5.5:1 on black, 4.3:1 on card */
     --color-text-muted: #737373;         /* 4.6:1 on black (use 16px+ for body) */
@@ -45,6 +46,10 @@
 
     /* Focus */
     --color-focus-ring: #a58aff;
+
+    /* Logo */
+    --color-logo-bg: #000000;
+    --color-logo-glow: rgba(223, 255, 128, 0.6);
 
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -89,16 +94,17 @@
   /* Light theme - activated via .light class or prefers-color-scheme */
   .light,
   [data-theme="light"] {
-    /* Backgrounds - cool grey tones */
-    --color-bg-base: #e8eaed;
-    --color-bg-elevated: #f1f3f5;
-    --color-bg-card: #dde1e6;
-    --color-bg-card-hover: #d0d5db;
-    --color-bg-input: #f1f3f5;
-    --color-bg-overlay: rgba(232, 234, 237, 0.95);
+    /* Backgrounds - cool grey tones (darker) */
+    --color-bg-base: #c8ccd1;
+    --color-bg-elevated: #d4d8dd;
+    --color-bg-card: #b8bdc4;
+    --color-bg-card-hover: #a8aeb6;
+    --color-bg-input: #d4d8dd;
+    --color-bg-overlay: rgba(200, 204, 209, 0.95);
 
     /* Text - WCAG AA compliant on light backgrounds */
     --color-text-primary: #171717;       /* 15.5:1 on white */
+    --color-text-brand: rgb(51, 0, 255); /* Accent blue for brand/logo in light mode */
     --color-text-secondary: #404040;     /* 10:1 on white */
     --color-text-tertiary: #525252;      /* 7:1 on white */
     --color-text-muted: #737373;         /* 4.6:1 on white */
@@ -119,6 +125,10 @@
 
     /* Focus */
     --color-focus-ring: rgb(51, 0, 255);
+
+    /* Logo */
+    --color-logo-bg: transparent;
+    --color-logo-glow: rgba(51, 0, 255, 0.4);
 
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
