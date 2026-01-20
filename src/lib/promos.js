@@ -79,6 +79,15 @@ export const PROMOS = {
     timedRelease: true,
     releaseDurationHours: 8,
     immediateReleases: 5
+  },
+  'FOAMSECRETSTASH': {
+    code: 'FOAMSECRETSTASH',
+    discount: 100, // 100% off (free)
+    type: 'percent',
+    maxUses: 10,
+    description: 'Friends & family giveaway',
+    active: true,
+    productId: 'foam-sampler'
   }
 }
 
