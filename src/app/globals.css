@@ -51,6 +51,9 @@
     --color-logo-bg: #000000;
     --color-logo-glow: rgba(223, 255, 128, 0.6);
 
+    /* 3D Canvas */
+    --color-canvas-bg: #0a0a0a;
+
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
     --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.5);
@@ -129,6 +132,9 @@
     /* Logo */
     --color-logo-bg: transparent;
     --color-logo-glow: rgba(51, 0, 255, 0.4);
+
+    /* 3D Canvas - 25% darker than page bg */
+    --color-canvas-bg: #96999d;
 
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);

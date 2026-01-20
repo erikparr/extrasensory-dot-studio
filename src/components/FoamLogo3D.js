@@ -608,7 +608,7 @@ export default function FoamLogo3D({
         style={{
           width: '100%',
           height: '100%',
-          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%)',
+          background: 'var(--color-canvas-bg, #0a0a0a)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center'
@@ -618,10 +618,7 @@ export default function FoamLogo3D({
           fontFamily: '"Bitcount Grid Single", monospace',
           fontSize: 'clamp(48px, 12vw, 96px)',
           fontWeight: '900',
-          background: 'linear-gradient(135deg, #ff6b9d, #c44dff, #6b9dff, #4dffff)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
+          color: 'var(--color-text-brand)',
           textTransform: 'lowercase',
           letterSpacing: '-0.02em'
         }}>
@@ -635,7 +632,7 @@ export default function FoamLogo3D({
     <div
       ref={containerRef}
       className={`foam-logo-3d ${className}`}
-      style={{ width: '100%', height: '100%', background: 'var(--bg-secondary, #0a0a0a)' }}
+      style={{ width: '100%', height: '100%', background: 'var(--color-canvas-bg, #0a0a0a)' }}
     >
       {showStats && (
         <div className="foam-logo-stats">
