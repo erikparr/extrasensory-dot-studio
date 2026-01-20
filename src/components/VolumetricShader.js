@@ -21,6 +21,10 @@ uniform float uDistortion;
 uniform float uFbmScale;
 uniform float uDensityThreshold;
 uniform vec3 uSpatialFreq;
+
+// Theme colors
+uniform vec3 uAccentColor;
+uniform vec3 uBackgroundColor;
 `
 
 // Common code from the shader
@@ -69,9 +73,8 @@ float hash13(vec3 p3) {
 }
 
 vec3 colormap(float t) {
-    vec3 accent = vec3(0.8, 1.0, 0.2);  // #ccff33
     float grey = 0.5 + 0.5*cos(TWOPI * t);
-    return mix(vec3(grey), accent, smoothstep(0.3, 0.7, t));
+    return mix(vec3(grey), uAccentColor, smoothstep(0.3, 0.7, t));
 }
 
 vec4 blendOnto(vec4 cFront, vec4 cBehind) {
@@ -213,7 +216,7 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     vec3 nvCamDir = nvCamDirFromClip(nvCamFw, uv*2. - 1.);
 
     vec4 fgColor = march(camPos, nvCamDir, fragCoord);
-    vec3 finalColor = blendOnto(fgColor, vec4(0.0, 0.0, 0.0, 1.0)).rgb;
+    vec3 finalColor = blendOnto(fgColor, vec4(uBackgroundColor, 1.0)).rgb;
 
     vec2 radv = vec2(0.5, 0.5) - uv;
     float dCorner = length(radv) / INV_SQRT_2;
@@ -283,6 +286,49 @@ const PRESETS = [
   { timeSpeed: 2.0, freqX: 0.9, freqY: 0.25, freqZ: 0.05, distortion: 1.2, fbmScale: 1.6, densityThreshold: 3.0 },
 ]
 
+// Default colors matching original shader
+var DEFAULT_ACCENT = [0.8, 1.0, 0.2]      // #ccff33
+var DEFAULT_BACKGROUND = [0.039, 0.039, 0.039]  // #0a0a0a
+
+// Parse CSS color string to normalized RGB array [0-1]
+function parseColorToVec3(cssColor, fallback) {
+  if (!cssColor) return fallback || [0, 0, 0]
+
+  // Handle rgb(r, g, b) format
+  var rgbMatch = cssColor.match(/rgb\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)\s*\)/)
+  if (rgbMatch) {
+    return [
+      parseInt(rgbMatch[1]) / 255,
+      parseInt(rgbMatch[2]) / 255,
+      parseInt(rgbMatch[3]) / 255
+    ]
+  }
+
+  // Handle #rrggbb hex format
+  var hexMatch = cssColor.match(/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i)
+  if (hexMatch) {
+    return [
+      parseInt(hexMatch[1], 16) / 255,
+      parseInt(hexMatch[2], 16) / 255,
+      parseInt(hexMatch[3], 16) / 255
+    ]
+  }
+
+  // Fallback
+  return fallback || [0, 0, 0]
+}
+
+// Get theme colors from CSS variables
+function getThemeColors() {
+  var style = getComputedStyle(document.documentElement)
+  var accent = style.getPropertyValue('--color-shader-accent').trim()
+  var canvasBg = style.getPropertyValue('--color-canvas-bg').trim()
+  return {
+    accent: parseColorToVec3(accent, DEFAULT_ACCENT),
+    background: parseColorToVec3(canvasBg, DEFAULT_BACKGROUND)
+  }
+}
+
 export default function VolumetricShader({ className = '', style = {} }) {
   const canvasRef = useRef(null)
   const paramsRef = useRef(PRESETS[Math.floor(Math.random() * PRESETS.length)])
@@ -338,6 +384,8 @@ export default function VolumetricShader({ className = '', style = {} }) {
       uDistortion: gl.getUniformLocation(program, 'uDistortion'),
       uFbmScale: gl.getUniformLocation(program, 'uFbmScale'),
       uDensityThreshold: gl.getUniformLocation(program, 'uDensityThreshold'),
+      uAccentColor: gl.getUniformLocation(program, 'uAccentColor'),
+      uBackgroundColor: gl.getUniformLocation(program, 'uBackgroundColor'),
     }
 
     const noiseTexture = createNoiseTexture(gl)
@@ -399,6 +447,11 @@ export default function VolumetricShader({ className = '', style = {} }) {
       gl.uniform1f(uniforms.uDistortion, paramsRef.current.distortion)
       gl.uniform1f(uniforms.uFbmScale, paramsRef.current.fbmScale)
       gl.uniform1f(uniforms.uDensityThreshold, paramsRef.current.densityThreshold)
+
+      // Theme colors - read fresh each frame to support live theme switching
+      var colors = getThemeColors()
+      gl.uniform3f(uniforms.uAccentColor, colors.accent[0], colors.accent[1], colors.accent[2])
+      gl.uniform3f(uniforms.uBackgroundColor, colors.background[0], colors.background[1], colors.background[2])
 
       gl.activeTexture(gl.TEXTURE1)
       gl.bindTexture(gl.TEXTURE_2D, noiseTexture)

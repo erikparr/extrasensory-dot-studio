@@ -53,6 +53,7 @@
 
     /* 3D Canvas */
     --color-canvas-bg: #0a0a0a;
+    --color-shader-accent: #ccff33;
 
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
@@ -135,6 +136,7 @@
 
     /* 3D Canvas - 25% darker than page bg */
     --color-canvas-bg: #96999d;
+    --color-shader-accent: rgb(51, 0, 255);
 
     /* Shadows */
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);

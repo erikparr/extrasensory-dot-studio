@@ -75,75 +75,43 @@ export default function VexPage() {
   ]
 
   return (
-    <div className="min-h-screen" style={{
-      backgroundColor: '#000000',
-      '--bg-primary': '#000000',
-      '--bg-secondary': '#0a0a0a',
-      '--bg-tertiary': '#1a1a1a',
-      '--border-color': '#2a2a2a',
-      '--text-primary': '#ffffff',
-      '--text-secondary': '#aaaaaa',
-      '--text-tertiary': '#666666'
-    }}>
+    <div className="min-h-screen bg-surface-base">
       {/* Volumetric Shader Header */}
       <div className="relative" style={{ height: '50vh' }}>
         <VolumetricShader
           className="absolute inset-0 w-full h-full"
         />
-        {/* Gradient fade to black at bottom */}
+        {/* Gradient fade to background at bottom */}
         <div
           className="absolute bottom-0 left-0 right-0 h-32"
           style={{
-            background: 'linear-gradient(to bottom, transparent, #000000)'
+            background: 'linear-gradient(to bottom, transparent, var(--color-bg-base))'
           }}
         />
       </div>
 
       {/* VEX Title Section */}
       <div className="pt-8 pb-16 text-center px-6">
-        <h1 style={{
-          fontFamily: '"Bitcount Grid Single", monospace',
-          fontSize: 'clamp(36px, 8vw, 48px)',
-          fontWeight: '900',
-          letterSpacing: '-0.02em',
-          color: '#ccff33',
-          textTransform: 'lowercase',
-          margin: '0 0 8px 0'
-        }}>
+        <h1
+          className="font-display text-content-accent lowercase"
+          style={{
+            fontSize: 'clamp(36px, 8vw, 48px)',
+            fontWeight: '900',
+            letterSpacing: '-0.02em',
+            margin: '0 0 8px 0'
+          }}
+        >
           vex
         </h1>
-        <p style={{
-          fontSize: '18px',
-          color: '#666666',
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-          margin: '0 0 24px 0'
-        }}>
+        <p className="text-content-tertiary text-lg uppercase tracking-wider mb-6">
           Expressive MIDI
         </p>
-        <p style={{
-          fontSize: '16px',
-          color: '#aaaaaa',
-          maxWidth: '400px',
-          margin: '0 auto 24px auto',
-          lineHeight: '1.5'
-        }}>
+        <p className="text-content-secondary text-md max-w-md mx-auto mb-6 leading-relaxed">
           Turn any MIDI controller into a physics-based performance instrument.
         </p>
         <a
           href="#purchase"
-          style={{
-            display: 'inline-block',
-            padding: '14px 32px',
-            backgroundColor: '#ccff33',
-            color: '#000000',
-            fontWeight: '600',
-            fontSize: '15px',
-            borderRadius: '4px',
-            textDecoration: 'none',
-            textTransform: 'uppercase',
-            letterSpacing: '0.05em'
-          }}
+          className="btn-primary inline-block px-8 py-3.5 uppercase tracking-wider"
         >
           Free Download
         </a>
@@ -171,41 +139,28 @@ export default function VexPage() {
 
       {/* Hero Section */}
       <div className="max-w-3xl mx-auto px-6 py-16 text-center">
-        <h2 style={{
-          fontSize: 'clamp(24px, 4vw, 32px)',
-          fontWeight: '400',
-          lineHeight: '1.4',
-          letterSpacing: '-0.01em',
-          color: '#ffffff',
-          marginBottom: '32px'
-        }}>
+        <h2
+          className="text-content-primary mb-8"
+          style={{
+            fontSize: 'clamp(24px, 4vw, 32px)',
+            fontWeight: '400',
+            lineHeight: '1.4',
+            letterSpacing: '-0.01em'
+          }}
+        >
           Turn any MIDI controller into a physics-based performance instrument.
         </h2>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a
             href="#purchase"
-            className="btn-secondary"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '14px 28px',
-              fontSize: '15px'
-            }}
+            className="btn-secondary px-7 py-3.5"
           >
             Free Trial
           </a>
           <a
             href="#purchase"
-            className="btn-primary"
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '14px 28px',
-              fontSize: '15px'
-            }}
+            className="btn-primary px-7 py-3.5"
           >
             Buy VEX – ${geoPrice?.adjustedPrice ? (geoPrice.adjustedPrice / 100).toFixed(0) : '25'}
           </a>
@@ -214,87 +169,39 @@ export default function VexPage() {
 
       {/* Features Section */}
       <div id="features" className="max-w-4xl mx-auto px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <div style={{
-            padding: '24px',
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '0'
-          }}>
-            <h3 style={{
-              fontSize: '16px',
-              fontWeight: '600',
-              color: '#D9D9D9',
-              marginBottom: '12px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em'
-            }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="card p-6">
+            <h3 className="text-content-primary text-md font-semibold uppercase tracking-widest mb-3">
               Physics-Based Transform
             </h3>
-            <p style={{ fontSize: '14px', color: '#999999', lineHeight: '1.6' }}>
-              Five physics modes—<strong style={{ color: '#D9D9D9' }}>gravity, springs, curves, jitter, and note-triggers</strong>—transform static CC into dynamic expression.
+            <p className="text-content-tertiary text-sm leading-relaxed">
+              Five physics modes—<strong className="text-content-primary">gravity, springs, curves, jitter, and note-triggers</strong>—transform static CC into dynamic expression.
             </p>
           </div>
 
-          <div style={{
-            padding: '24px',
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '0'
-          }}>
-            <h3 style={{
-              fontSize: '16px',
-              fontWeight: '600',
-              color: '#ccff33',
-              marginBottom: '12px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em'
-            }}>
+          <div className="card-featured p-6">
+            <h3 className="text-content-accent text-md font-semibold uppercase tracking-widest mb-3">
               8 Simultaneous Mappings
             </h3>
-            <p style={{ fontSize: '14px', color: '#999999', lineHeight: '1.6' }}>
+            <p className="text-content-tertiary text-sm leading-relaxed">
               Control up to 8 different parameters at once with independent physics simulations.
             </p>
           </div>
 
-          <div style={{
-            padding: '24px',
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '0'
-          }}>
-            <h3 style={{
-              fontSize: '16px',
-              fontWeight: '600',
-              color: '#D9D9D9',
-              marginBottom: '12px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em'
-            }}>
+          <div className="card p-6">
+            <h3 className="text-content-primary text-md font-semibold uppercase tracking-widest mb-3">
               Ultra-Low Latency
             </h3>
-            <p style={{ fontSize: '14px', color: '#999999', lineHeight: '1.6' }}>
+            <p className="text-content-tertiary text-sm leading-relaxed">
               Sub-10ms processing time with minimal CPU usage ensures responsive, real-time performance.
             </p>
           </div>
 
-          <div style={{
-            padding: '24px',
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '0'
-          }}>
-            <h3 style={{
-              fontSize: '16px',
-              fontWeight: '600',
-              color: '#ccff33',
-              marginBottom: '12px',
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em'
-            }}>
+          <div className="card-featured p-6">
+            <h3 className="text-content-accent text-md font-semibold uppercase tracking-widest mb-3">
               macOS • Windows • Linux
             </h3>
-            <p style={{ fontSize: '14px', color: '#999999', lineHeight: '1.6' }}>
+            <p className="text-content-tertiary text-sm leading-relaxed">
               VST3 and AU formats work seamlessly on macOS and Windows with all major DAWs.
             </p>
           </div>
@@ -303,40 +210,18 @@ export default function VexPage() {
 
       {/* Demo Video Section */}
       <div className="max-w-4xl mx-auto px-6 py-16">
-        <div style={{
-          maxWidth: '640px',
-          margin: '0 auto',
-          textAlign: 'center'
-        }}>
-          <h3 style={{
-            fontSize: '20px',
-            fontWeight: '600',
-            color: '#ffffff',
-            marginBottom: '24px'
-          }}>
+        <div className="max-w-xl mx-auto text-center">
+          <h3 className="text-content-primary text-xl font-semibold mb-6">
             See VEX in Action
           </h3>
-          <div style={{
-            position: 'relative',
-            paddingBottom: '56.25%',
-            height: 0,
-            overflow: 'hidden',
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '8px'
-          }}>
+          <div
+            className="relative overflow-hidden bg-surface-card border border-border-subtle rounded-lg"
+            style={{ paddingBottom: '56.25%', height: 0 }}
+          >
             <iframe
               src="https://www.youtube.com/embed/WPRROqgEx1U"
               title="VEX Demo Video"
-              style={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: '100%',
-                border: 'none',
-                borderRadius: '8px'
-              }}
+              className="absolute top-0 left-0 w-full h-full border-none rounded-lg"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
             />
@@ -346,45 +231,16 @@ export default function VexPage() {
 
       {/* Setup Guides Section */}
       <div className="max-w-4xl mx-auto px-6 py-16">
-        <div style={{
-          backgroundColor: '#1a1a1a',
-          border: '1px solid #2a2a2a',
-          borderRadius: '8px',
-          padding: '32px',
-          textAlign: 'center'
-        }}>
-          <h3 style={{
-            fontSize: '20px',
-            fontWeight: '600',
-            color: '#ffffff',
-            marginBottom: '12px'
-          }}>
+        <div className="card p-8 text-center">
+          <h3 className="text-content-primary text-xl font-semibold mb-3">
             DAW Setup Guides
           </h3>
-          <p style={{
-            fontSize: '14px',
-            color: '#888888',
-            marginBottom: '24px',
-            maxWidth: '500px',
-            marginLeft: 'auto',
-            marginRight: 'auto'
-          }}>
+          <p className="text-content-tertiary text-sm mb-6 max-w-md mx-auto">
             Step-by-step instructions for setting up VEX in Ableton Live, Logic Pro, REAPER, and other DAWs.
           </p>
           <Link
             href="/projects/vex/guides"
-            style={{
-              display: 'inline-block',
-              padding: '12px 24px',
-              fontSize: '14px',
-              fontWeight: '500',
-              color: '#ccff33',
-              backgroundColor: 'transparent',
-              border: '1px solid #ccff33',
-              borderRadius: '4px',
-              textDecoration: 'none',
-              transition: 'all 0.2s'
-            }}
+            className="btn-secondary inline-block px-6 py-3"
           >
             View Setup Guides
           </Link>
@@ -392,50 +248,32 @@ export default function VexPage() {
       </div>
 
       {/* Purchase Section */}
-      <div id="purchase" className="max-w-4xl mx-auto px-6 py-24 border-t" style={{ borderColor: '#2a2a2a' }}>
-        <h2 style={{
-          fontSize: '32px',
-          fontWeight: '700',
-          color: '#ffffff',
-          marginBottom: '16px',
-          textAlign: 'center'
-        }}>
+      <div id="purchase" className="max-w-4xl mx-auto px-6 py-24 border-t border-border-subtle">
+        <h2 className="text-content-primary text-3xl font-bold mb-4 text-center">
           Get VEX
         </h2>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '24px',
-          marginTop: '32px'
-        }}>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
           {/* Trial Card */}
-          <div style={{
-            backgroundColor: '#1a1a1a',
-            border: '1px solid #2a2a2a',
-            borderRadius: '8px',
-            padding: '32px',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <div style={{ marginBottom: '24px', textAlign: 'center' }}>
-              <div style={{ fontSize: '14px', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+          <div className="card flex flex-col p-8">
+            <div className="mb-6 text-center">
+              <div className="text-content-tertiary text-sm uppercase tracking-widest mb-2">
                 Try Free
               </div>
-              <div style={{ fontSize: '32px', fontWeight: '700', color: '#ffffff', marginBottom: '8px' }}>
+              <div className="text-content-primary text-3xl font-bold mb-2">
                 14-Day Trial
               </div>
-              <div style={{ fontSize: '14px', color: '#888888' }}>
+              <div className="text-content-tertiary text-sm">
                 Full features included
               </div>
             </div>
 
             {/* Platform Selection */}
-            <div style={{ marginBottom: '24px' }}>
-              <div style={{ fontSize: '12px', color: '#666666', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '12px' }}>
+            <div className="mb-6">
+              <div className="text-content-tertiary text-xs uppercase tracking-wider mb-3">
                 Select Platform
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+              <div className="flex flex-col gap-2">
                 {[
                   { id: 'macos', label: 'macOS', formats: 'VST3, AU' },
                   { id: 'windows', label: 'Windows', formats: 'VST3' },
@@ -443,16 +281,10 @@ export default function VexPage() {
                 ].map((platform) => (
                   <label
                     key={platform.id}
+                    className="flex items-center gap-3 p-3 rounded cursor-pointer transition-all"
                     style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '12px',
-                      padding: '12px',
-                      backgroundColor: trialPlatform === platform.id ? '#2a2a2a' : 'transparent',
-                      border: `1px solid ${trialPlatform === platform.id ? '#ccff33' : '#333333'}`,
-                      borderRadius: '4px',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s'
+                      backgroundColor: trialPlatform === platform.id ? 'var(--color-bg-card-hover)' : 'transparent',
+                      border: `1px solid ${trialPlatform === platform.id ? 'var(--color-accent)' : 'var(--color-border-default)'}`,
                     }}
                   >
                     <input
@@ -461,13 +293,13 @@ export default function VexPage() {
                       value={platform.id}
                       checked={trialPlatform === platform.id}
                       onChange={(e) => setTrialPlatform(e.target.value)}
-                      style={{ accentColor: '#ccff33' }}
+                      style={{ accentColor: 'var(--color-accent)' }}
                     />
                     <div>
-                      <div style={{ fontSize: '14px', color: '#ffffff', fontWeight: '500' }}>
+                      <div className="text-content-primary text-sm font-medium">
                         {platform.label}
                       </div>
-                      <div style={{ fontSize: '12px', color: '#666666' }}>
+                      <div className="text-content-tertiary text-xs">
                         {platform.formats}
                       </div>
                     </div>
@@ -477,15 +309,14 @@ export default function VexPage() {
 
               {/* Windows 10 WebView2 note */}
               {trialPlatform === 'windows' && (
-                <div style={{
-                  marginTop: '12px',
-                  padding: '10px 12px',
-                  backgroundColor: 'rgba(251, 191, 36, 0.1)',
-                  border: '1px solid rgba(251, 191, 36, 0.3)',
-                  borderRadius: '4px'
-                }}>
+                <div
+                  className="mt-3 p-2.5 rounded"
+                  style={{
+                    backgroundColor: 'rgba(251, 191, 36, 0.1)',
+                    border: '1px solid rgba(251, 191, 36, 0.3)',
+                  }}
+                >
                   <p style={{ fontSize: '12px', color: '#d97706', margin: 0, lineHeight: '1.4' }}>
-                    <span style={{ marginRight: '6px' }}>ℹ️</span>
                     Windows 10 may require{' '}
                     <a
                       href="https://developer.microsoft.com/en-us/microsoft-edge/webview2/"
@@ -503,87 +334,56 @@ export default function VexPage() {
 
             <button
               onClick={handleTrialDownload}
-              style={{
-                width: '100%',
-                padding: '16px',
-                fontSize: '16px',
-                fontWeight: '600',
-                color: '#ffffff',
-                backgroundColor: 'transparent',
-                border: '2px solid #ccff33',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                marginTop: 'auto'
-              }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = '#ccff33'
-                e.target.style.color = '#000000'
-              }}
-              onMouseOut={(e) => {
-                e.target.style.backgroundColor = 'transparent'
-                e.target.style.color = '#ffffff'
-              }}
+              className="btn-secondary w-full py-4 mt-auto"
             >
               Download Trial
             </button>
           </div>
 
           {/* Purchase Card */}
-          <div style={{
-            backgroundColor: '#1a1a1a',
-            border: '2px solid #ccff33',
-            borderRadius: '8px',
-            padding: '32px',
-            display: 'flex',
-            flexDirection: 'column'
-          }}>
-            <div style={{ marginBottom: '24px', textAlign: 'center' }}>
-              <div style={{ fontSize: '14px', color: '#ccff33', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>
+          <div className="card-featured flex flex-col p-8">
+            <div className="mb-6 text-center">
+              <div className="text-content-accent text-sm uppercase tracking-widest mb-2">
                 Full License
               </div>
-              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: '12px', marginBottom: '8px' }}>
-                <div style={{ fontSize: '48px', fontWeight: '700', color: '#ccff33' }}>
+              <div className="flex items-baseline justify-center gap-3 mb-2">
+                <div className="text-content-accent text-5xl font-bold">
                   ${geoPrice?.adjustedPrice ? (geoPrice.adjustedPrice / 100).toFixed(0) : '25'}
                 </div>
                 {geoPrice?.discount > 0 ? (
-                  <div style={{ fontSize: '20px', color: '#666666', textDecoration: 'line-through' }}>
+                  <div className="text-content-muted text-2xl line-through">
                     $25
                   </div>
                 ) : (
-                  <div style={{ fontSize: '20px', color: '#666666', textDecoration: 'line-through' }}>
+                  <div className="text-content-muted text-2xl line-through">
                     $30
                   </div>
                 )}
               </div>
               {geoPrice?.discount > 0 && (
-                <div style={{ fontSize: '13px', color: '#ccff33', marginBottom: '4px' }}>
+                <div className="text-content-accent text-sm mb-1">
                   {geoPrice.discount}% off for {geoPrice.countryName || geoPrice.countryCode}
                 </div>
               )}
-              <div style={{ fontSize: '14px', color: '#888888' }}>
+              <div className="text-content-tertiary text-sm">
                 One-time payment
               </div>
             </div>
 
             {/* Benefits */}
-            <div style={{ marginBottom: '24px', flex: 1 }}>
-              <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
+            <div className="mb-6 flex-1">
+              <ul className="list-none p-0 m-0">
                 {[
                   'Lifetime license',
                   'All platforms included',
                   'No subscription',
                   'Support development'
                 ].map((benefit, index) => (
-                  <li key={index} style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px',
-                    padding: '8px 0',
-                    fontSize: '14px',
-                    color: '#aaaaaa'
-                  }}>
-                    <span style={{ color: '#ccff33' }}>✓</span>
+                  <li
+                    key={index}
+                    className="flex items-center gap-3 py-2 text-content-secondary text-sm"
+                  >
+                    <span className="text-content-accent">✓</span>
                     {benefit}
                   </li>
                 ))}
@@ -592,21 +392,7 @@ export default function VexPage() {
 
             <button
               onClick={handlePurchase}
-              style={{
-                width: '100%',
-                padding: '16px',
-                fontSize: '16px',
-                fontWeight: '600',
-                color: '#000000',
-                backgroundColor: '#ccff33',
-                border: 'none',
-                borderRadius: '4px',
-                cursor: 'pointer',
-                transition: 'all 0.2s',
-                marginTop: 'auto'
-              }}
-              onMouseOver={(e) => e.target.style.backgroundColor = '#b8e600'}
-              onMouseOut={(e) => e.target.style.backgroundColor = '#ccff33'}
+              className="btn-primary w-full py-4 mt-auto"
             >
               Purchase
             </button>
