@@ -35,18 +35,18 @@ export const PRODUCTS = {
     // Platform-specific downloads
     downloads: {
       macos: {
-        file: 'FOAM-1.1.1.pkg',
-        size: '20.7 MB',
+        file: 'FOAM-1.1.2.pkg',
+        size: '23.1 MB',
         formats: ['VST3', 'AU']
       },
       windows: {
-        file: 'FOAM_v1.1.1_Windows.zip',
-        size: '4.3 MB',
+        file: 'FOAM_v1.1.2_Windows.zip',
+        size: '4.1 MB',
         formats: ['VST3']
       },
       linux: {
-        file: 'FOAM_v1.1.1_Linux.zip',
-        size: '7.2 MB',
+        file: 'FOAM_v1.1.2_Linux.zip',
+        size: '6.9 MB',
         formats: ['VST3']
       }
     },
