@@ -42,7 +42,6 @@ export default function ThemeToggle() {
         className="p-2 rounded-md transition-colors"
         style={{
           backgroundColor: 'transparent',
-          border: '1px solid var(--color-border-subtle)',
         }}
         aria-label="Toggle theme"
       >
@@ -57,16 +56,13 @@ export default function ThemeToggle() {
       className="p-2 rounded-md transition-colors"
       style={{
         backgroundColor: 'transparent',
-        border: '1px solid var(--color-border-subtle)',
         color: 'var(--color-text-secondary)',
       }}
       onMouseOver={(e) => {
         e.currentTarget.style.backgroundColor = 'var(--color-bg-card)'
-        e.currentTarget.style.borderColor = 'var(--color-border-default)'
       }}
       onMouseOut={(e) => {
         e.currentTarget.style.backgroundColor = 'transparent'
-        e.currentTarget.style.borderColor = 'var(--color-border-subtle)'
       }}
       aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
       title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
