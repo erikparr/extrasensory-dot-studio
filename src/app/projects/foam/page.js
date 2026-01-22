@@ -23,6 +23,7 @@ export default function FoamPage() {
   var product = getProduct('foam-sampler')
   var [trialPlatform, setTrialPlatform] = useState('macos')
   var [geoPrice, setGeoPrice] = useState(null)
+  var [hoveredMode, setHoveredMode] = useState('voice')
 
   useEffect(() => {
     fetch('/api/geo')
@@ -134,6 +135,64 @@ export default function FoamPage() {
           >
             Buy FOAM – $20
           </a>
+        </div>
+      </div>
+
+      {/* Vocal Content Creation Section */}
+      <div className="max-w-xl mx-auto px-6 py-16">
+        <p className="text-content-tertiary text-lg uppercase tracking-widest text-center mb-6">
+          Two ways of creating vocal content:
+        </p>
+        <div className="flex">
+          <div
+            className="flex-1 p-4 text-center cursor-pointer transition-all"
+            style={{
+              backgroundColor: hoveredMode === 'voice' ? 'var(--color-accent)' : 'var(--color-bg-card)',
+              border: '1px solid var(--color-border-subtle)',
+              borderRight: 'none'
+            }}
+            onMouseEnter={() => setHoveredMode('voice')}
+          >
+            <div
+              className="font-mono text-sm uppercase tracking-wide mb-1 transition-colors"
+              style={{ color: hoveredMode === 'voice' ? 'var(--color-accent-text)' : 'var(--color-text-tertiary)' }}
+            >
+              AI Voice Generation
+            </div>
+            <p
+              className="text-xs transition-colors"
+              style={{
+                color: hoveredMode === 'voice' ? 'var(--color-accent-text)' : 'var(--color-text-muted)',
+                opacity: hoveredMode === 'voice' ? 0.8 : 1
+              }}
+            >
+              AI generated vocals
+            </p>
+          </div>
+          <div
+            className="flex-1 p-4 text-center cursor-pointer transition-all"
+            style={{
+              backgroundColor: hoveredMode === 'audio' ? 'var(--color-accent)' : 'var(--color-bg-card)',
+              border: '1px solid var(--color-border-subtle)'
+            }}
+            onMouseEnter={() => setHoveredMode('audio')}
+          >
+            <div
+              className="font-mono text-sm uppercase tracking-wide mb-1 transition-colors"
+              style={{ color: hoveredMode === 'audio' ? 'var(--color-accent-text)' : 'var(--color-text-tertiary)' }}
+            >
+              Audio Upload
+            </div>
+            <p
+              className="text-xs transition-colors"
+              style={{
+                color: hoveredMode === 'audio' ? 'var(--color-accent-text)' : 'var(--color-text-muted)',
+                opacity: hoveredMode === 'audio' ? 0.8 : 1
+              }}
+            >
+              Upload your own voice recordings
+            </p>
+          </div>
         </div>
       </div>
 
