@@ -180,7 +180,7 @@ export default function FoamLaunchPage() {
             maxWidth: '450px',
             margin: '0 auto'
           }}>
-            20 free licenses releasing over 8 hours. Claim yours when available!
+            20 free licenses releasing over 5 hours. Claim yours when available!
           </p>
         </div>
 
@@ -372,7 +372,7 @@ export default function FoamLaunchPage() {
                   color: '#666',
                   marginTop: '12px'
                 }}>
-                  Refresh the page or wait - licenses appear throughout the next 8 hours
+                  Refresh the page or wait - licenses appear throughout the next 5 hours
                 </p>
               </div>
             )}

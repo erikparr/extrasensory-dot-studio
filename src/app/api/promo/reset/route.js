@@ -27,14 +27,18 @@ export async function POST(request) {
     return NextResponse.json({ error: 'Not a timed release promo' }, { status: 400 })
   }
 
-  // Delete existing schedule and count
+  // Delete existing schedule, count, emails, and redemptions
   const scheduleKey = `promo:${code.toUpperCase()}:schedule`
   const startKey = `promo:${code.toUpperCase()}:start`
   const countKey = `promo:${code.toUpperCase()}:count`
+  const emailKey = `promo:${code.toUpperCase()}:emails`
+  const redemptionKey = `promo:${code.toUpperCase()}:redemptions`
 
   await kv.del(scheduleKey)
   await kv.del(startKey)
   await kv.del(countKey)
+  await kv.del(emailKey)
+  await kv.del(redemptionKey)
 
   // Reinitialize
   const result = await initializeTimedRelease(code)

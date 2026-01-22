@@ -77,7 +77,7 @@ export const PROMOS = {
     active: true,
     productId: 'foam-sampler',
     timedRelease: true,
-    releaseDurationHours: 8,
+    releaseDurationHours: 5,
     immediateReleases: 5
   },
   'FOAMSECRETSTASH': {
