@@ -119,7 +119,7 @@ export default function FoamPage() {
         <div className="flex flex-col gap-2 mb-8">
           <p className="text-content-tertiary text-base">Over 10 distinct voices</p>
           <p className="text-content-tertiary text-base">Control voice emotion, speed, tone, intensity and more</p>
-          <p className="text-content-accent text-base">Includes 250 generation credits upon purchase</p>
+          <p className="text-content-accent text-base">Includes 250 generations upon purchase</p>
         </div>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -286,7 +286,7 @@ export default function FoamPage() {
                 Demo Mode
               </div>
               <div className="text-content-tertiary text-sm">
-                Full plugin, no credits included
+                Full plugin, no generations included
               </div>
             </div>
 
@@ -377,7 +377,7 @@ export default function FoamPage() {
                 </div>
               </div>
               <div className="text-content-tertiary text-sm">
-                Includes 250 credits
+                Includes 250 generations
               </div>
             </div>
 
@@ -387,7 +387,7 @@ export default function FoamPage() {
                 {[
                   'Lifetime plugin license',
                   'All platforms included',
-                  '250 generation credits included',
+                  '250 generations included',
                   'AI speech at cost—zero markup'
                 ].map((benefit, index) => (
                   <li
@@ -410,13 +410,13 @@ export default function FoamPage() {
           </div>
         </div>
 
-        {/* How Credits Work */}
+        {/* How Generations Work */}
         <div className="mt-12 p-6 bg-surface-elevated border border-border-subtle rounded-lg text-center">
           <h4 className="text-content-tertiary text-sm font-semibold uppercase tracking-widest mb-4">
-            How Credits Work
+            How Generations Work
           </h4>
           <p className="text-content-secondary text-base mb-2">
-            1 credit = 1 speech bundle generation = 1 audio file
+            1 generation = 1 speech bundle = 1 audio file
           </p>
           <p className="text-content-tertiary text-sm mb-2">
             Speech is synthesized by third-party AI providers.
@@ -425,7 +425,7 @@ export default function FoamPage() {
             AI speech will always be provided at cost.
           </p>
           <p className="text-content-tertiary text-sm">
-            Your 250 credits = 250 audio files at our cost.
+            Your 250 generations = 250 audio files at our cost.
           </p>
         </div>
 

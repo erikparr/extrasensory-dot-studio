@@ -12,13 +12,13 @@ export const PRODUCTS = {
 • AI-powered phoneme generation via text-to-speech
 • Real-time phoneme sampling and playback
 • DAW integration (VST3/AU formats)
-• Credit-based content generation system
+• Generation-based content system
 • Cross-platform support (macOS & Windows)
 
 **Pricing Model:**
 • One-time purchase: $20 for the plugin
-• Credits purchased separately for AI generation
-• Buy credits in-app or at foam.extrasensory.studio`,
+• Generations purchased separately for AI content
+• Buy generations in-app or at foam.extrasensory.studio`,
 
     features: [
       'AI-powered phoneme sampling',
@@ -26,8 +26,8 @@ export const PRODUCTS = {
       'Real-time sample playback',
       'VST3 and AU plugin formats',
       'Cross-platform: macOS & Windows',
-      'Credit-based AI generation',
-      'In-app credit purchases'
+      'Generation-based AI content',
+      'In-app generation purchases'
     ],
 
     image: '/foam-screen.png',

@@ -179,7 +179,7 @@ export default function FoamKvrPage() {
               color: '#666666',
               margin: 0
             }}>
-              Includes 250 AI generation credits
+              Includes 250 AI generations
             </p>
           </div>
 
@@ -192,7 +192,7 @@ export default function FoamKvrPage() {
             {[
               'Full plugin license (VST3, AU)',
               'All platforms: macOS, Windows, Linux',
-              '250 credits for AI phoneme generation',
+              '250 generations for AI phonemes',
               'Lifetime updates'
             ].map((benefit, i) => (
               <div key={i} style={{

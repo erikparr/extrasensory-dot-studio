@@ -33,7 +33,7 @@ export default function FoamStudioDemo() {
         border: '1px solid #2a2a2a',
         padding: '24px'
       }}>
-        {/* Credits Badge */}
+        {/* Generations Badge */}
         <div style={{
           display: 'flex',
           justifyContent: 'flex-end',
@@ -51,7 +51,7 @@ export default function FoamStudioDemo() {
             color: '#00ff88'
           }}>
             <span style={{ fontSize: '8px' }}>●</span>
-            <span>250 credits</span>
+            <span>250 generations</span>
           </div>
         </div>
 

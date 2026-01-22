@@ -87,7 +87,7 @@ export default function SecretStashPage() {
             color: '#888888',
             marginBottom: '24px'
           }}>
-            Full FOAM license + 250 AI credits
+            Full FOAM license + 250 AI generations
           </p>
 
           {error && (

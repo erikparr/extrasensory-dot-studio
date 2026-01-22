@@ -142,7 +142,7 @@ export default function FoamAdmin() {
               <div style={styles.value}>{overview?.recent_errors_24h || 0}</div>
             </div>
             <div style={styles.statCard}>
-              <div style={styles.label}>Month Credits</div>
+              <div style={styles.label}>Month Generations</div>
               <div style={styles.value}>{month.credits_used || 0}</div>
               <div style={styles.sub}>of {month.credits_purchased || 0} purchased</div>
             </div>
@@ -237,7 +237,7 @@ export default function FoamAdmin() {
                     <th style={styles.th}>Time</th>
                     <th style={styles.th}>Job ID</th>
                     <th style={styles.th}>Status</th>
-                    <th style={styles.th}>Credits</th>
+                    <th style={styles.th}>Generations</th>
                     <th style={styles.th}>Chars</th>
                     <th style={styles.th}>Text Preview</th>
                   </tr>
