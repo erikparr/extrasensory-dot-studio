@@ -245,7 +245,7 @@ export default function FoamPage() {
             style={{ paddingBottom: '56.25%', height: 0 }}
           >
             <iframe
-              src="https://www.youtube.com/embed/iebzvL85_fo"
+              src="https://www.youtube.com/embed/V0OO1mATkkw"
               title="FOAM Demo Video"
               className="absolute top-0 left-0 w-full h-full border-none rounded-lg"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
