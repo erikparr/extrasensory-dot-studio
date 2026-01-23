@@ -72,7 +72,7 @@ export const PROMOS = {
     code: 'FOAMLAUNCH20',
     discount: 100, // 100% off (free)
     type: 'percent',
-    maxUses: 20,
+    maxUses: 21,
     description: 'FOAM launch giveaway - 20 free licenses',
     active: true,
     productId: 'foam-sampler',
