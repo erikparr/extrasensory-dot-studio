@@ -165,7 +165,7 @@ function SuccessContent() {
             <strong>Activation Steps:</strong>
             <ol className="list-decimal list-inside mt-2 space-y-1">
               <li>Download and install the plugin below</li>
-              <li>Open VEX MIDI EXPRESSION in your DAW</li>
+              <li>Open {product.title} in your DAW</li>
               <li>Click &quot;Activate License&quot; in the trial banner</li>
               <li>Paste your license key and click &quot;Activate&quot;</li>
             </ol>
@@ -245,7 +245,7 @@ function SuccessContent() {
                   <div>
                     <h4 className="font-medium text-amber-800 mb-1">Windows 10 Users</h4>
                     <p className="text-amber-700 text-sm mb-2">
-                      VEX uses Microsoft WebView2 for its interface. This is pre-installed on Windows 11,
+                      {product.title} uses Microsoft WebView2 for its interface. This is pre-installed on Windows 11,
                       but may need to be installed manually on Windows 10.
                     </p>
                     <p className="text-amber-700 text-sm">
@@ -275,44 +275,46 @@ function SuccessContent() {
             </>
           )}
 
-          <p>{selectedPlatform === 'macos' ? '4' : '4'}. Restart your DAW and look for VEX MIDI EXPRESSION in your MIDI effects</p>
+          <p>{selectedPlatform === 'macos' ? '4' : '4'}. Restart your DAW and look for {product.title} in your plugins</p>
           <p>{selectedPlatform === 'macos' ? '5' : '5'}. Refer to the included User Manual for detailed usage instructions</p>
         </div>
       </div>
 
-      {/* DAW Setup Guides */}
-      <div className="bg-studio-gray-100 border border-studio-gray-300 rounded-lg p-6 mb-8">
-        <h3 className="font-medium mb-3 text-studio-black">DAW Setup Guides</h3>
-        <p className="text-sm text-studio-gray-700 mb-4">
-          Need help setting up VEX in your DAW? Check out our step-by-step guides:
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <Link
-            href="/projects/vex/guides/ableton"
-            className="px-4 py-2 bg-studio-gray-200 hover:bg-studio-gray-300 rounded text-sm font-medium text-studio-black transition-colors"
-          >
-            Ableton Live
-          </Link>
-          <Link
-            href="/projects/vex/guides/logic-pro"
-            className="px-4 py-2 bg-studio-gray-200 hover:bg-studio-gray-300 rounded text-sm font-medium text-studio-black transition-colors"
-          >
-            Logic Pro
-          </Link>
-          <Link
-            href="/projects/vex/guides/reaper"
-            className="px-4 py-2 bg-studio-gray-200 hover:bg-studio-gray-300 rounded text-sm font-medium text-studio-black transition-colors"
-          >
-            REAPER
-          </Link>
-          <Link
-            href="/projects/vex/guides"
-            className="px-4 py-2 bg-transparent border border-studio-gray-400 hover:border-studio-gray-500 rounded text-sm font-medium text-studio-gray-600 transition-colors"
-          >
-            All Guides
-          </Link>
+      {/* DAW Setup Guides - VEX only */}
+      {productId === 'midi-warp' && (
+        <div className="bg-studio-gray-100 border border-studio-gray-300 rounded-lg p-6 mb-8">
+          <h3 className="font-medium mb-3 text-studio-black">DAW Setup Guides</h3>
+          <p className="text-sm text-studio-gray-700 mb-4">
+            Need help setting up VEX in your DAW? Check out our step-by-step guides:
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/projects/vex/guides/ableton"
+              className="px-4 py-2 bg-studio-gray-200 hover:bg-studio-gray-300 rounded text-sm font-medium text-studio-black transition-colors"
+            >
+              Ableton Live
+            </Link>
+            <Link
+              href="/projects/vex/guides/logic-pro"
+              className="px-4 py-2 bg-studio-gray-200 hover:bg-studio-gray-300 rounded text-sm font-medium text-studio-black transition-colors"
+            >
+              Logic Pro
+            </Link>
+            <Link
+              href="/projects/vex/guides/reaper"
+              className="px-4 py-2 bg-studio-gray-200 hover:bg-studio-gray-300 rounded text-sm font-medium text-studio-black transition-colors"
+            >
+              REAPER
+            </Link>
+            <Link
+              href="/projects/vex/guides"
+              className="px-4 py-2 bg-transparent border border-studio-gray-400 hover:border-studio-gray-500 rounded text-sm font-medium text-studio-gray-600 transition-colors"
+            >
+              All Guides
+            </Link>
+          </div>
         </div>
-      </div>
+      )}
 
       <div className="text-center">
         <p className="text-studio-gray-600 mb-4">
