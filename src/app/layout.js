@@ -17,6 +17,16 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
+        <script dangerouslySetInnerHTML={{__html: `
+          (function () {
+            try {
+              var saved = localStorage.getItem('theme');
+              var theme = saved === 'dark' ? 'dark' : 'light';
+              document.documentElement.setAttribute('data-theme', theme);
+              if (theme === 'light') document.documentElement.classList.add('light');
+            } catch (e) {}
+          })();
+        `}} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

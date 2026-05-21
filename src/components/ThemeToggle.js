@@ -2,24 +2,21 @@
 import { useState, useEffect } from 'react'
 
 export default function ThemeToggle() {
-  var [theme, setTheme] = useState('dark')
+  var [theme, setTheme] = useState('light')
   var [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
     var savedTheme = localStorage.getItem('theme')
-    var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
 
-    if (savedTheme) {
-      setTheme(savedTheme)
-      document.documentElement.setAttribute('data-theme', savedTheme)
-      if (savedTheme === 'light') {
-        document.documentElement.classList.add('light')
-      }
-    } else if (!prefersDark) {
-      setTheme('light')
-      document.documentElement.setAttribute('data-theme', 'light')
+    // Light is the default; only switch to dark if explicitly saved.
+    var activeTheme = savedTheme === 'dark' ? 'dark' : 'light'
+    setTheme(activeTheme)
+    document.documentElement.setAttribute('data-theme', activeTheme)
+    if (activeTheme === 'light') {
       document.documentElement.classList.add('light')
+    } else {
+      document.documentElement.classList.remove('light')
     }
   }, [])
 
