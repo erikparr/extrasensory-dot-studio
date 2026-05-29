@@ -134,8 +134,8 @@
     --color-logo-bg: transparent;
     --color-logo-glow: rgba(51, 0, 255, 0.4);
 
-    /* 3D Canvas - 25% darker than page bg */
-    --color-canvas-bg: #96999d;
+    /* 3D Canvas - matches page bg in light mode */
+    --color-canvas-bg: #c8ccd1;
     --color-shader-accent: rgb(51, 0, 255);
 
     /* Shadows */
